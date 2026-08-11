@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "mhero-opens-flagship-showroom",
+    "title": "MHERO Opens New Flagship Showroom",
+    "excerpt": "Our newest flagship showroom brings the full MHERO experience to life with an immersive digital configurator and dedicated test-drive circuit.",
+    "body": [
+      "MHERO has unveiled its newest flagship showroom, designed to give visitors an immersive first-hand look at the full model range.",
+      "The space features an interactive digital configurator, a dedicated after-sales lounge, and an on-site test-drive circuit for both Model 1 and Model 2.",
+      "Visitors can now book private viewing appointments or walk in during extended weekend hours."
+    ],
+    "date": "2026-07-12",
+    "imageLabel": "Flagship Showroom Opening"
+  },
+  {
+    "slug": "mhero-model-1-wins-design-award",
+    "title": "MHERO I Wins International Design Award",
+    "excerpt": "MHERO I has been recognized for its exterior design language at this year's International Automotive Design Awards.",
+    "body": [
+      "MHERO I has received top honors at this year's International Automotive Design Awards, recognized for its distinctive exterior silhouette and signature lighting architecture.",
+      "The award panel highlighted the model's balance of rugged capability with refined surfacing, calling it 'a new benchmark for full-size SUV design.'",
+      "This marks MHERO's second major design recognition since launch."
+    ],
+    "date": "2026-06-03",
+    "imageLabel": "Design Award Recognition"
+  },
+  {
+    "slug": "mhero-expands-service-network",
+    "title": "MHERO Expands Regional Service Network",
+    "excerpt": "Five new authorized service centers are now open, extending genuine parts and warranty support across the region.",
+    "body": [
+      "MHERO has expanded its after-sales network with five new authorized service centers, ensuring owners have convenient access to genuine parts, scheduled maintenance, and warranty support.",
+      "Each new center is staffed by factory-trained technicians and equipped with the latest diagnostic technology.",
+      "The expansion is part of MHERO's broader commitment to a best-in-class ownership experience."
+    ],
+    "date": "2026-05-20",
+    "imageLabel": "Service Network Expansion"
+  }
+]

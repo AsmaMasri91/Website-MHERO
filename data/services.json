@@ -1,0 +1,26 @@
+[
+  {
+    "id": "scheduled-maintenance",
+    "title": "Scheduled Maintenance",
+    "description": "Keep your MHERO performing at its best with manufacturer-recommended maintenance carried out by factory-trained technicians.",
+    "imageLabel": "Scheduled Maintenance"
+  },
+  {
+    "id": "genuine-spare-parts",
+    "title": "Genuine Spare Parts",
+    "description": "Every repair uses 100% genuine MHERO parts, engineered and tested to the same standard as your vehicle.",
+    "imageLabel": "Genuine Spare Parts"
+  },
+  {
+    "id": "warranty-care",
+    "title": "Warranty Care",
+    "description": "Comprehensive warranty coverage backed by our nationwide network of authorized service centers.",
+    "imageLabel": "Warranty Care"
+  },
+  {
+    "id": "software-updates",
+    "title": "Software Updates",
+    "description": "Over-the-air and in-center software updates that keep your MHERO's technology, safety, and performance features current.",
+    "imageLabel": "Software Updates"
+  }
+]

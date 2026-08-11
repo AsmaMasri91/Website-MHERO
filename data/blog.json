@@ -1,0 +1,41 @@
+[
+  {
+    "slug": "life-with-mhero-model-1",
+    "title": "Life With MHERO I: 6 Months In",
+    "excerpt": "One owner shares their experience living day-to-day with the Model 1, from desert weekends to daily commutes.",
+    "body": [
+      "Six months and over 12,000 kilometers later, our Model 1 has proven itself equally capable on desert dunes and in daily city traffic.",
+      "The adaptive suspension makes the switch between terrain modes seamless, while the cabin remains a quiet, comfortable place to spend long drives.",
+      "Charging has become second nature, with most top-ups happening overnight at home."
+    ],
+    "date": "2026-07-01",
+    "author": "MHERO Editorial Team",
+    "imageLabel": "Life With Model 1"
+  },
+  {
+    "slug": "understanding-battery-care",
+    "title": "A Guide to Battery Care and Longevity",
+    "excerpt": "Simple habits that help maximize the lifespan and performance of your MHERO's battery pack.",
+    "body": [
+      "Battery longevity starts with charging habits. Keeping your daily charge between 20% and 80% helps preserve long-term battery health.",
+      "MHERO's thermal management system automatically regulates battery temperature, but parking in shade during extreme heat still helps.",
+      "Scheduled software updates also continue to refine charging efficiency over time."
+    ],
+    "date": "2026-06-15",
+    "author": "MHERO Technical Team",
+    "imageLabel": "Battery Care Guide"
+  },
+  {
+    "slug": "design-philosophy-behind-mhero",
+    "title": "The Design Philosophy Behind MHERO",
+    "excerpt": "A conversation with MHERO's design team on the inspiration behind the brand's distinctive visual language.",
+    "body": [
+      "Every MHERO model begins with a single question: how does form communicate capability?",
+      "Our design language draws from monolithic architecture and natural terrain, translated into surfacing that feels both solid and dynamic.",
+      "The result is a design identity that owners say they can recognize from a single glance, even at a distance."
+    ],
+    "date": "2026-05-28",
+    "author": "MHERO Design Studio",
+    "imageLabel": "Design Philosophy"
+  }
+]

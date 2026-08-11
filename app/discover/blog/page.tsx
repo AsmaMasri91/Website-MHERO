@@ -1,0 +1,53 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import PlaceholderImage from "@/components/ui/PlaceholderImage";
+import PageHero from "@/components/ui/PageHero";
+import Section from "@/components/ui/Section";
+import Card from "@/components/ui/Card";
+import { getServerDictionary } from "@/lib/i18n/server";
+import { getBlog } from "@/lib/i18n/data";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description: "Stories, guides, and insights from the MHERO team.",
+};
+
+export default function BlogListPage() {
+  const { locale, dict } = getServerDictionary();
+  const posts = getBlog(locale);
+
+  return (
+    <>
+      <PageHero
+        eyebrow={dict.discover.blogEyebrow}
+        title={dict.discover.blogTitle}
+        imageLabel="MHERO blog"
+      />
+      <Section>
+        <div className="grid gap-8 md:grid-cols-3">
+          {posts.map((post) => (
+            <Card key={post.slug}>
+              <PlaceholderImage label={post.imageLabel} aspect="aspect-[4/3]" showLabel={false} />
+              <div className="p-6">
+                <p className="text-xs font-medium uppercase tracking-widest2 text-mhero-steel">
+                  {new Date(post.date).toLocaleDateString(
+                    locale === "ar" ? "ar-u-nu-latn" : "en-US",
+                    { year: "numeric", month: "long", day: "numeric" }
+                  )}
+                </p>
+                <h3 className="mt-3 text-lg font-bold text-mhero-black">{post.title}</h3>
+                <p className="mt-2 text-sm text-mhero-steel">{post.excerpt}</p>
+                <Link
+                  href={`/discover/blog/${post.slug}`}
+                  className="link-underline mt-5 inline-block text-xs font-semibold uppercase tracking-widest2 text-mhero-black"
+                >
+                  {dict.common.readMore} ›
+                </Link>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </Section>
+    </>
+  );
+}

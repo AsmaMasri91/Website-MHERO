@@ -1,0 +1,23 @@
+[
+  {
+    "id": "amal-al-khatib",
+    "quote": "The MHERO I is the perfect blend of off-road capability and daily comfort. It's a game-changer.",
+    "name": "Amal Al-Khatib",
+    "role": "MHERO I Owner",
+    "rating": 5
+  },
+  {
+    "id": "omar-al-farsi",
+    "quote": "Effortless power delivery and a cabin that feels premium in every detail. It's my go-to for every drive.",
+    "name": "Omar Al-Farsi",
+    "role": "MHERO II Owner",
+    "rating": 5
+  },
+  {
+    "id": "sarah-al-mansouri",
+    "quote": "The service experience is seamless. From booking to delivery, it feels like a true partnership.",
+    "name": "Sarah Al-Mansouri",
+    "role": "MHERO I Owner",
+    "rating": 5
+  }
+]

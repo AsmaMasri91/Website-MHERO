@@ -1,0 +1,528 @@
+[
+  {
+    "slug": "mhero-1",
+    "name": "MHERO I",
+    "tagline": "Command Every Terrain",
+    "shortDescription": "A flagship off-road SUV built for uncompromising power, presence, and precision engineering.",
+    "startingPrice": 289000,
+    "currency": "AED",
+    "heroImageLabel": "MHERO I — Hero",
+    "gallery": [
+      "Front three-quarter view",
+      "Rear profile in motion",
+      "Cabin dashboard detail",
+      "Wheel and brake caliper close-up",
+      "Night exterior lighting signature",
+      "Off-road desert action shot"
+    ],
+    "overview": "MHERO I redefines the full-size SUV, pairing a monocoque-reinforced body with a dual-motor architecture engineered for extreme terrain and everyday refinement alike. Every surface is designed to signal capability without sacrificing comfort.",
+    "specs": [
+      {
+        "label": "Performance",
+        "items": [
+          { "label": "0–100 km/h", "value": "3.8s" },
+          { "label": "Top Speed", "value": "230 km/h" },
+          { "label": "Power Output", "value": "650 hp" },
+          { "label": "Torque", "value": "980 Nm" }
+        ]
+      },
+      {
+        "label": "Range & Charging",
+        "items": [
+          { "label": "Range (WLTP)", "value": "530 km" },
+          { "label": "Fast Charging", "value": "10–80% in 24 min" },
+          { "label": "Battery Capacity", "value": "108 kWh" }
+        ]
+      },
+      {
+        "label": "Dimensions",
+        "items": [
+          { "label": "Length", "value": "5,210 mm" },
+          { "label": "Width", "value": "2,050 mm" },
+          { "label": "Wheelbase", "value": "3,110 mm" },
+          { "label": "Ground Clearance", "value": "310 mm (adjustable)" }
+        ]
+      }
+    ],
+    "features": [
+      "Adaptive air suspension with 5 terrain modes",
+      "Panoramic smart glass roof",
+      "22-speaker immersive sound system",
+      "Dual 6.9L cooler-box rear console",
+      "Automatic running boards"
+    ],
+    "technology": [
+      "15.6\" central OLED infotainment display",
+      "Over-the-air software updates",
+      "AI-assisted voice command system",
+      "360° surround camera with underbody view",
+      "Wireless device mirroring"
+    ],
+    "safety": [
+      "Level 2+ advanced driver assistance",
+      "Active lane centering and blind-spot monitoring",
+      "9 airbags including front-center airbag",
+      "Reinforced battery underbody shielding",
+      "Automatic emergency braking with pedestrian detection"
+    ],
+    "exterior": [
+      "Signature LED matrix headlight bar",
+      "Aerodynamic active grille shutters",
+      "22\" forged alloy wheels",
+      "Available in 6 premium exterior finishes"
+    ],
+    "interior": [
+      "Nappa leather and open-pore wood trim",
+      "Heated, ventilated, and massaging front seats",
+      "Three-zone climate control",
+      "Ambient lighting with 64 colour presets"
+    ],
+    "colours": [
+      { "name": "Matte Green", "hex": "#3c4a3a", "image": "/images/mhero-1-colour-racing-green.webp" },
+      { "name": "Matte Black", "hex": "#1c1c1e", "image": "/images/mhero-1-colour-obsidian-black.webp" },
+      { "name": "Matte Grey", "hex": "#8a8d8f", "image": "/images/mhero-1-colour-matte-grey.webp" }
+    ],
+    "variants": [
+      {
+        "id": "standard",
+        "name": "Standard AWD",
+        "priceDelta": 0,
+        "powerHp": "650 hp",
+        "rangeKm": "530 km"
+      },
+      {
+        "id": "performance",
+        "name": "Performance AWD",
+        "priceDelta": 35000,
+        "powerHp": "720 hp",
+        "rangeKm": "495 km"
+      }
+    ],
+    "detailPage": {
+      "heroHeadline": "MHERO I: Never Back Down",
+      "heroSubcopy": "Experience the era of a new icon. MHERO I merges the whispers of electric power with the roars of unparalleled all-terrain performance.",
+      "statsEyebrow": "Dual Power",
+      "stats": [
+        { "label": "Power", "value": "805 HP" },
+        { "label": "Torque", "value": "1,050 Nm" },
+        { "label": "0–100 km/h", "value": "6.0 sec" },
+        { "label": "Range", "value": "834 km" },
+        { "label": "Battery Capacity", "value": "65 kWh" }
+      ],
+      "exteriorImageLabel": "MHERO I parked in front of modern architecture",
+      "designEyebrow": "Design",
+      "designTitle": "The Ultimate Design Statement",
+      "designGallery": [
+        {
+          "imageLabel": "MHERO I front three-quarter on the road",
+          "heading": "Making a Bold Entrance",
+          "body": "The commanding vehicle front is complemented by numerous edges and corners, as well as prominent air intakes on the hood. Striking LED headlights, adorned with a band of light, amplify the bold presence."
+        },
+        {
+          "imageLabel": "MHERO I rear three-quarter off-road",
+          "heading": "A Departure With Presence",
+          "body": "Edgy and functional, the MHERO I's rear design captivates with its prominent vertically stacked taillights and rearward-extending trunk extension, adding an additional 20 litres of cargo space."
+        }
+      ],
+      "highlightsEyebrow": "Explore Every Detail",
+      "highlightsTitle": "Tap To Discover",
+      "highlights": [
+        {
+          "x": 60,
+          "y": 30,
+          "imageLabel": "MHERO I front sunroof detail",
+          "title": "Front & Rear Sunroof",
+          "body": "Two sunroofs flood the cabin with natural light, and close on demand to cut glare and keep the cabin cool in every season."
+        },
+        {
+          "x": 33,
+          "y": 50,
+          "imageLabel": "MHERO I headlight detail",
+          "title": "Signature Light Bar",
+          "body": "Striking LED headlights, adorned with a band of light, amplify the bold presence and make MHERO I unmistakable after dark."
+        },
+        {
+          "x": 41,
+          "y": 62,
+          "imageLabel": "MHERO I grille detail",
+          "title": "Adaptive Grille Shutters",
+          "body": "Aerodynamic active grille shutters open and close automatically to balance cooling and efficiency across every terrain."
+        },
+        {
+          "x": 53,
+          "y": 80,
+          "imageLabel": "MHERO I forged alloy wheel detail",
+          "title": "22\" Forged Alloy Wheels",
+          "body": "Forged for strength and finished for presence, the 22-inch alloy wheels are built to handle everything from tarmac to trail."
+        }
+      ],
+      "terrainEyebrow": "All-Terrain Performance",
+      "terrainItems": [
+        {
+          "title": "Tougher Than Granite",
+          "body": "The MHERO I excels beyond paved roads, setting new standards in off-road performance. Its rugged design ensures exceptional capability even in the toughest terrains, making every adventure an exhilarating experience.",
+          "imageLabel": "MHERO I climbing rocky terrain"
+        },
+        {
+          "title": "Unstoppable Traction",
+          "body": "The MHERO I is equipped with three differential locks. In challenging terrain, these locks ensure continuous traction for each wheel, guaranteeing the relentless progress of the MHERO I.",
+          "imageLabel": "MHERO I differential lock traction"
+        },
+        {
+          "title": "Rear Wheel Intelligent Driving",
+          "body": "With a minimum turning radius of 5.1 meters, the Rear Wheel Steering Assistance offers exceptional agility, making the MHERO I maneuverable in tight spaces and urban environments, despite its size.",
+          "imageLabel": "MHERO I rear wheel steering"
+        },
+        {
+          "title": "Crab Moving Mode",
+          "body": "Crab Moving Mode synchronizes the rear wheels with the front ones, allowing diagonal movement at low speeds, up to 10.6°. This feature enables the MHERO I to effortlessly navigate off-road trails or maneuver with ease in parking situations.",
+          "imageLabel": "MHERO I crab moving mode"
+        }
+      ],
+      "cabinEyebrow": "Interior",
+      "cabinTitle": "Your Private Jet Cabin",
+      "cabinIntro": "The interior of the MHERO I ensures that all passengers have their needs met. The thoughtfully designed cockpit, equipped with unique design highlights and full connectivity, empowers the driver to navigate safely across diverse routes and terrains.",
+      "cabinTabs": [
+        {
+          "label": "Premium Cockpit",
+          "heading": "Premium Cockpit",
+          "body": "Experience the epitome of luxury in the MHERO I's premium cockpit. Crafted with fine wood, satin-finished steel, and sumptuous leather, every detail exudes sophistication. The intelligent interactive cockpit features a multifunctional gear and driving mode selector, reminiscent of a private jet.",
+          "imageLabel": "MHERO I premium cockpit interior"
+        },
+        {
+          "label": "Multimedia",
+          "heading": "Multimedia",
+          "body": "A central infotainment display keeps the driver connected with navigation, media, and vehicle settings at a glance, paired with an immersive sound system tuned for the cabin.",
+          "imageLabel": "MHERO I multimedia display"
+        },
+        {
+          "label": "Driving Assistance",
+          "heading": "Driving Assistance",
+          "body": "An array of driving assistance systems supports the driver across diverse routes and terrains, from lane monitoring to surround-view cameras.",
+          "imageLabel": "MHERO I driving assistance display"
+        },
+        {
+          "label": "Comfort & Climate",
+          "heading": "Comfort & Climate",
+          "body": "Intelligent climate control and active noise cancellation keep passengers comfortable throughout the journey, whatever the terrain outside.",
+          "imageLabel": "MHERO I climate controls"
+        },
+        {
+          "label": "Rear Seat Amenities",
+          "heading": "Rear Seat Amenities",
+          "body": "Rear passengers enjoy generous space, dedicated climate zones, and a front and rear sunroof that floods the cabin with natural light.",
+          "imageLabel": "MHERO I rear seats"
+        },
+        {
+          "label": "40-20-40 Split",
+          "heading": "40-20-40 Split",
+          "body": "A versatile 40-20-40 split rear bench folds to suit passengers, cargo, or both — adapting the cabin to whatever the journey demands.",
+          "imageLabel": "MHERO I folded rear seats"
+        }
+      ],
+      "utilityTitle": "Limitless Utility",
+      "utilityIntro": "The MHERO I embodies versatility and utility as a dependable 5-seater, offering impressive payload and roof load capacity, towing capability, and generous luggage volume.",
+      "utilitySpecs": [
+        { "label": "Roof Load", "value": "Up to 100 kg" },
+        { "label": "Trunk Volume", "value": "452 L (1,137 L)" },
+        { "label": "Payload", "value": "Up to 585 kg" },
+        { "label": "Towing Capacity", "value": "Up to 2,500 kg" }
+      ],
+      "accessoriesTitle": "MHERO I Accessories",
+      "accessories": [
+        "Electric Side Step Running Boards",
+        "Electronic Winches",
+        "Expansion Roof Platform",
+        "Alloy Wheels",
+        "Side Door Oil Drum Holder",
+        "Modified Roof Platform Ladder Kit",
+        "Multifunctional Integrated Tailgate Platform",
+        "MHERO x YAKIMA Roof Tent"
+      ],
+      "chargingLabel": "Charging",
+      "chargingBody": "The MHERO I Hybrid model can use both fuel and electricity, with a comprehensive range of 834 km. There's no range anxiety for long-distance driving — maximum grade ability reaches 100%, making off-road climbing easier. Maximum torque of 1,050 Nm surpasses other models in its class, making it easier to get out of a trap. The extended-range model uses CATL battery cells, with a pure electric range of 176 km.",
+      "chargingImageLabel": "MHERO I charging at a public station",
+      "dimensionsTitle": "Dimensions",
+      "dimensions": [
+        { "label": "Maximum Height", "value": "1,935 mm" },
+        { "label": "Length", "value": "4,987 mm" },
+        { "label": "Length with Storage Box", "value": "5,096 mm" },
+        { "label": "Wheel Base", "value": "2,950 mm" },
+        { "label": "Width", "value": "2,080 mm" }
+      ],
+      "dimensionsImageLabel": "MHERO I dimension line drawing"
+    }
+  },
+  {
+    "slug": "mhero-2",
+    "name": "MHERO II",
+    "tagline": "Precision, Redefined",
+    "shortDescription": "A performance-luxury sedan engineered for effortless power delivery and everyday sophistication.",
+    "startingPrice": 219000,
+    "currency": "AED",
+    "heroImageLabel": "MHERO II — Hero",
+    "gallery": [
+      "Front three-quarter studio shot",
+      "Side profile silhouette",
+      "Interior cockpit view",
+      "Alloy wheel detail",
+      "Rear light signature at dusk",
+      "Coastal highway driving shot"
+    ],
+    "overview": "MHERO II blends aerodynamic elegance with a high-density battery platform, delivering effortless acceleration and a serene, tech-forward cabin built for the modern executive.",
+    "specs": [
+      {
+        "label": "Performance",
+        "items": [
+          { "label": "0–100 km/h", "value": "4.6s" },
+          { "label": "Top Speed", "value": "210 km/h" },
+          { "label": "Power Output", "value": "480 hp" },
+          { "label": "Torque", "value": "700 Nm" }
+        ]
+      },
+      {
+        "label": "Range & Charging",
+        "items": [
+          { "label": "Range (WLTP)", "value": "610 km" },
+          { "label": "Fast Charging", "value": "10–80% in 21 min" },
+          { "label": "Battery Capacity", "value": "94 kWh" }
+        ]
+      },
+      {
+        "label": "Dimensions",
+        "items": [
+          { "label": "Length", "value": "4,980 mm" },
+          { "label": "Width", "value": "1,960 mm" },
+          { "label": "Wheelbase", "value": "2,980 mm" },
+          { "label": "Drag Coefficient", "value": "0.21 Cd" }
+        ]
+      }
+    ],
+    "features": [
+      "Adaptive two-chamber air suspension",
+      "Executive rear seating with recline function",
+      "Fragrance and ionizing cabin system",
+      "Power-close doors and trunk",
+      "Retractable digital door handles"
+    ],
+    "technology": [
+      "34\" curved dashboard display",
+      "Augmented reality head-up display",
+      "Over-the-air software updates",
+      "AI co-pilot voice assistant",
+      "5G connected navigation"
+    ],
+    "safety": [
+      "Level 2+ advanced driver assistance",
+      "360° surround camera with 3D view",
+      "8 airbags",
+      "Active noise cancellation",
+      "Automatic emergency braking with cyclist detection"
+    ],
+    "exterior": [
+      "Frameless flush door handles",
+      "Full-width LED light signature",
+      "20\" aerodynamic alloy wheels",
+      "Available in 6 premium exterior finishes"
+    ],
+    "interior": [
+      "Vegan leather and brushed aluminium trim",
+      "Heated and ventilated front and rear seats",
+      "Four-zone climate control",
+      "31-speaker premium audio system"
+    ],
+    "colours": [
+      { "name": "Obsidian Black", "hex": "#0a0a0a" },
+      { "name": "Glacier White", "hex": "#f2f2f0" },
+      { "name": "Titanium Grey", "hex": "#5b5b5b" },
+      { "name": "Ember Red", "hex": "#a6231f" },
+      { "name": "Champagne Gold", "hex": "#a68a5b" },
+      { "name": "Racing Green", "hex": "#1f3a2e" }
+    ],
+    "variants": [
+      {
+        "id": "standard",
+        "name": "Standard RWD",
+        "priceDelta": 0,
+        "powerHp": "480 hp",
+        "rangeKm": "610 km"
+      },
+      {
+        "id": "performance",
+        "name": "Performance AWD",
+        "priceDelta": 28000,
+        "powerHp": "560 hp",
+        "rangeKm": "560 km"
+      }
+    ],
+    "detailPage": {
+      "heroHeadline": "Make The City Play By Your Rules",
+      "heroSubcopy": "MHERO II brings untamed power into the city, with intelligent capability that adapts on demand, bold design that makes its presence known, and a drive not limited to any road.",
+      "statsEyebrow": "Power With Presence",
+      "stats": [
+        { "label": "Power", "value": "677 HP" },
+        { "label": "Torque", "value": "848 Nm" },
+        { "label": "0–100 km/h", "value": "5.2 sec" },
+        { "label": "Combined Range", "value": "1,300 km" },
+        { "label": "Battery Capacity", "value": "31.7 kWh" }
+      ],
+      "exteriorImageLabel": "MHERO II driving through the city at night",
+      "designEyebrow": "Design",
+      "designTitle": "Built To Get You Noticed",
+      "designGallery": [
+        {
+          "imageLabel": "MHERO II front detail with LED headlamps",
+          "heading": "A Sharper Light Signature",
+          "body": "LED front headlamps, rear combination taillights, and a high-mounted brake light give MHERO II a distinctive presence on the road."
+        },
+        {
+          "imageLabel": "MHERO II panoramic roof detail",
+          "heading": "Panoramic Roof",
+          "body": "A panoramic sunroof with a powered sunshade brings more light into the cabin and enhances the feeling of space."
+        }
+      ],
+      "highlightsEyebrow": "Explore Every Detail",
+      "highlightsTitle": "Tap To Discover",
+      "highlights": [
+        {
+          "x": 60,
+          "y": 30,
+          "imageLabel": "MHERO II panoramic roof detail",
+          "title": "Panoramic Roof",
+          "body": "A panoramic sunroof with a powered sunshade brings more light into the cabin and enhances the feeling of space."
+        },
+        {
+          "x": 33,
+          "y": 50,
+          "imageLabel": "MHERO II headlight detail",
+          "title": "A Sharper Light Signature",
+          "body": "LED front headlamps, rear combination taillights, and a high-mounted brake light give MHERO II a distinctive presence on the road."
+        },
+        {
+          "x": 41,
+          "y": 62,
+          "imageLabel": "MHERO II grille and mirror detail",
+          "title": "Details With Distinction",
+          "body": "An illuminated grille and frameless exterior mirrors add refinement to a design that already stands apart."
+        },
+        {
+          "x": 53,
+          "y": 80,
+          "imageLabel": "MHERO II aerodynamic alloy wheel detail",
+          "title": "20\" Aerodynamic Alloy Wheels",
+          "body": "Aerodynamically profiled alloy wheels cut drag without cutting presence, tuned for both city streets and open road."
+        }
+      ],
+      "exteriorEyebrow": "Exterior",
+      "exteriorItems": [
+        {
+          "title": "A Sharper Light Signature",
+          "body": "LED front headlamps, rear combination taillights, and a high-mounted brake light give MHERO II a distinctive presence on the road.",
+          "imageLabel": "MHERO II LED headlamp and taillight signature"
+        },
+        {
+          "title": "Details With Distinction",
+          "body": "An illuminated grille and frameless exterior mirrors add refinement to a design that already stands apart.",
+          "imageLabel": "MHERO II illuminated grille and frameless mirrors"
+        },
+        {
+          "title": "Panoramic Roof",
+          "body": "A panoramic sunroof with a powered sunshade brings more light into the cabin and enhances the feeling of space.",
+          "imageLabel": "MHERO II panoramic sunroof"
+        },
+        {
+          "title": "Utility, Redefined",
+          "body": "From a power-retractable side step to a roof rack, every detail is ready for what the day brings.",
+          "imageLabel": "MHERO II power-retractable side step and roof rack"
+        }
+      ],
+      "interiorEyebrow": "Interior",
+      "interiorItems": [
+        {
+          "title": "Cabin Layout",
+          "body": "The MHERO II interior feels open, quiet, and well organised. A panoramic sunroof, soft-close doors, and full-cabin sound insulation add to the sense of comfort and control.",
+          "imageLabel": "MHERO II open cabin layout"
+        },
+        {
+          "title": "Seating Design",
+          "body": "Power-adjustable front seats, memory, heating, ventilation, and massage functions make every drive more comfortable for both driver and passenger.",
+          "imageLabel": "MHERO II power-adjustable front seats"
+        },
+        {
+          "title": "Materials & Finishes",
+          "body": "With 91.2% soft-touch coverage and available Nappa leather, the interior feels refined from the first touch.",
+          "imageLabel": "MHERO II Nappa leather and soft-touch finishes"
+        },
+        {
+          "title": "Driver Cockpit & Displays",
+          "body": "The 10.25-inch digital instrument cluster and 15.6-inch central touchscreen give the driver clear access to key information, controls, and connectivity in a setup that feels modern and easy to use.",
+          "imageLabel": "MHERO II digital instrument cluster and touchscreen"
+        }
+      ],
+      "cabinEyebrow": "Interior",
+      "cabinTitle": "Your Personal Command Centre",
+      "cabinIntro": "The moment you step inside the MHERO II, the focus shifts to the driver's interface. The cabin is defined by a high-tactility layout that features customisable flight buttons and a gear selector inspired by dive-watch aesthetics.",
+      "cabinTabs": [
+        {
+          "label": "Cabin Layout",
+          "heading": "Cabin Layout",
+          "body": "The MHERO II interior feels open, quiet, and well organised. A panoramic sunroof, soft-close doors, and full-cabin sound insulation add to the sense of comfort and control.",
+          "imageLabel": "MHERO II cabin layout"
+        },
+        {
+          "label": "Seating Design",
+          "heading": "Seating Design",
+          "body": "Sculpted front seats and a spacious five-seat layout keep every passenger supported and comfortable, whether commuting or covering longer distances.",
+          "imageLabel": "MHERO II seating"
+        },
+        {
+          "label": "Materials & Finishes",
+          "heading": "Materials & Finishes",
+          "body": "Premium finishes and satin-textured surfaces run throughout the cabin, giving MHERO II an interior that feels every bit as considered as its exterior.",
+          "imageLabel": "MHERO II interior materials"
+        },
+        {
+          "label": "Driver Cockpit & Displays",
+          "heading": "Driver Cockpit & Displays",
+          "body": "A digital cockpit with customisable flight buttons and a dive-watch-inspired gear selector puts total command of the drive at the driver's fingertips.",
+          "imageLabel": "MHERO II driver cockpit"
+        }
+      ],
+      "utilityTitle": "Uncontained, By Every Measure",
+      "utilityIntro": "MHERO II brings together performance, capability, and everyday usability in one place, with ground clearance and wading depth that keep pace wherever the road leads.",
+      "utilitySpecs": [
+        { "label": "Ground Clearance", "value": "Up to 333 mm" },
+        { "label": "Wading Depth", "value": "Up to 900 mm" },
+        { "label": "Kerb Weight", "value": "3,005 kg" },
+        { "label": "WLTC Range", "value": "Up to 1,113 km" }
+      ],
+      "accessoriesTitle": "MHERO II Accessories",
+      "accessories": [
+        "Roof-Mount Expedition Rack",
+        "2.5t Towing System",
+        "Expansion Roof Platform*",
+        "Side-Mounted Cargo Net"
+      ],
+      "factoryOptionalEquipmentTitle": "Factory Optional Equipment",
+      "factoryOptionalEquipment": [
+        "Roof Platform",
+        "Roof-Mounted Auxiliary High-Beam Lights",
+        "High-Voltage Winch with Optional PDU",
+        "Towing Package",
+        "Spare Tire Kit"
+      ],
+      "chargingLabel": "Charging",
+      "chargingBody": "Whether it's a quick stop or time to recharge fully, the process fits naturally into the journey. From 20% to 80% in just 15 minutes, or a full charge in 4.3 hours, the 31.7 kWh battery uses an EU CCS2 compatible charging port to keep every drive moving without interruption.",
+      "chargingImageLabel": "MHERO II charging in the city",
+      "dimensionsTitle": "Dimensions",
+      "dimensions": [
+        { "label": "Length", "value": "5,100 mm" },
+        { "label": "Width", "value": "1,998 mm" },
+        { "label": "Height", "value": "1,899 mm" },
+        { "label": "Wheelbase (Prime)", "value": "2,909 mm" },
+        { "label": "Kerb Weight", "value": "3,005 kg" }
+      ],
+      "dimensionsImageLabel": "MHERO II dimension line drawing"
+    }
+  }
+]

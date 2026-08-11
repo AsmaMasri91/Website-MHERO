@@ -1,0 +1,45 @@
+[
+  {
+    "slug": "0-percent-finance",
+    "title": "0% Finance for 3 Years",
+    "shortDescription": "Drive away in a new MHERO with zero interest financing across a 36-month term.",
+    "description": "For a limited time, take delivery of any MHERO model with 0% interest financing over 36 months. Enjoy fixed monthly payments with no hidden fees, arranged through our approved finance partners.",
+    "imageLabel": "0% Finance Offer",
+    "validUntil": "2026-09-30",
+    "terms": [
+      "Offer valid on new MHERO I and Model 2 purchases only.",
+      "Subject to credit approval by participating finance partners.",
+      "Minimum down payment of 20% required.",
+      "Cannot be combined with other financing promotions.",
+      "Offer valid while stocks last and may be withdrawn at any time."
+    ]
+  },
+  {
+    "slug": "complimentary-service-package",
+    "title": "3 Years Complimentary Service",
+    "shortDescription": "Enjoy scheduled maintenance on us for the first three years of ownership.",
+    "description": "Every new MHERO purchased this quarter comes with a complimentary 3-year scheduled maintenance package, covering all manufacturer-recommended service intervals at authorized MHERO service centers.",
+    "imageLabel": "Complimentary Service Offer",
+    "validUntil": "2026-12-31",
+    "terms": [
+      "Applies to scheduled maintenance only; excludes wear-and-tear parts.",
+      "Valid at authorized MHERO service centers only.",
+      "Non-transferable and non-redeemable for cash.",
+      "Must be redeemed within the 3-year period from delivery date."
+    ]
+  },
+  {
+    "slug": "trade-in-bonus",
+    "title": "AED 15,000 Trade-In Bonus",
+    "shortDescription": "Get an extra AED 15,000 towards your new MHERO when you trade in your current vehicle.",
+    "description": "Trade in any vehicle, regardless of make or model, and receive an additional AED 15,000 bonus on top of the market valuation towards the purchase of a new MHERO.",
+    "imageLabel": "Trade-In Bonus Offer",
+    "validUntil": "2026-10-15",
+    "terms": [
+      "Trade-in vehicle must be owned by the purchaser for a minimum of 6 months.",
+      "Final valuation subject to physical inspection at an MHERO showroom.",
+      "Bonus applied as a deduction on the new vehicle invoice only.",
+      "Not valid in conjunction with the 0% finance offer."
+    ]
+  }
+]
