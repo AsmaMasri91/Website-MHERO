@@ -3,21 +3,60 @@
 import { useState } from "react";
 import { ModelColour } from "@/lib/types";
 import Spin360Viewer from "@/components/models/Spin360Viewer";
+import { useLocale } from "@/components/i18n/LocaleProvider";
 
 export default function ColourSwatches({
-  colours,
+  exteriorColours,
+  interiorColours,
   modelName,
 }: {
-  colours: ModelColour[];
+  exteriorColours: ModelColour[];
+  interiorColours: ModelColour[];
   modelName: string;
 }) {
+  const { dict } = useLocale();
+  const [tab, setTab] = useState<"exterior" | "interior">("exterior");
   const [active, setActive] = useState(0);
+
+  const colours = tab === "exterior" ? exteriorColours : interiorColours;
   const colour = colours[active];
+
+  const selectTab = (next: "exterior" | "interior") => {
+    setTab(next);
+    setActive(0);
+  };
 
   return (
     <div>
+      <div className="mb-8 flex gap-8 border-b border-mhero-fog">
+        <button
+          type="button"
+          onClick={() => selectTab("exterior")}
+          aria-current={tab === "exterior"}
+          className={`-mb-px border-b-2 pb-3 text-sm font-medium transition-colors ${
+            tab === "exterior"
+              ? "border-mhero-black text-mhero-black"
+              : "border-transparent text-mhero-steel hover:text-mhero-black"
+          }`}
+        >
+          {dict.models.exterior}
+        </button>
+        <button
+          type="button"
+          onClick={() => selectTab("interior")}
+          aria-current={tab === "interior"}
+          className={`-mb-px border-b-2 pb-3 text-sm font-medium transition-colors ${
+            tab === "interior"
+              ? "border-mhero-black text-mhero-black"
+              : "border-transparent text-mhero-steel hover:text-mhero-black"
+          }`}
+        >
+          {dict.models.interior}
+        </button>
+      </div>
+
       <Spin360Viewer
-        key={colour.name}
+        key={`${tab}-${colour.name}`}
         frames={colour.image ? [colour.image] : []}
         alt={`${modelName} in ${colour.name}`}
       />

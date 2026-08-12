@@ -8,6 +8,7 @@ import { getModels } from "@/lib/i18n/data";
 const modelImages: Record<string, string> = {
   "mhero-1": "/images/best-of-both-mhero-1.webp",
   "mhero-2": "/images/best-of-both-mhero-2.webp",
+  "mhero-2-terrain": "/images/best-of-both-mhero-2.webp",
 };
 
 export default function ModelsMegaMenu({
@@ -73,7 +74,7 @@ export default function ModelsMegaMenu({
           </div>
 
           {/* Model cards */}
-          <div className="col-span-9 grid grid-cols-2 gap-6">
+          <div className="col-span-9 grid grid-cols-3 gap-6">
             {models.map((model) => (
               <Link
                 key={model.slug}

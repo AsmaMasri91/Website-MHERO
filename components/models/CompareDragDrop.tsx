@@ -11,6 +11,7 @@ import { getModels } from "@/lib/i18n/data";
 const modelImages: Record<string, string> = {
   "mhero-1": "/images/best-of-both-mhero-1.webp",
   "mhero-2": "/images/best-of-both-mhero-2.webp",
+  "mhero-2-terrain": "/images/best-of-both-mhero-2.webp",
 };
 
 type Slot = VehicleModel | null;

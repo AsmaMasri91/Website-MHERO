@@ -93,10 +93,10 @@ export default function HeroSlider() {
               {slide.description}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link href={slide.primaryCta.href} className="btn-primary">
+              <Link href={slide.primaryCta.href} className="btn-outline-light">
                 {slide.primaryCta.label}
               </Link>
-              <Link href={slide.secondaryCta.href} className="btn-outline-light">
+              <Link href={slide.secondaryCta.href} className="btn-primary">
                 {slide.secondaryCta.label}
               </Link>
             </div>

@@ -18,7 +18,8 @@ const ar: Dictionary = {
     calculateFinance: "احسب التمويل",
     modelsLinks: {
       model1: "MHERO I",
-      model2: "MHERO II",
+      model2: "MHERO II - Prime",
+      model2Terrain: "MHERO II - Terrain",
     },
     discoverLinks: {
       about: "من نحن",
@@ -87,7 +88,7 @@ const ar: Dictionary = {
       },
     ],
     rangeEyebrow: "الفئة",
-    rangeTitle: "موديلان. بلا تنازلات.",
+    rangeTitle: "الفئة الكاملة. بلا تنازلات.",
     rangeDescription: "كل سيارة MHERO مصممة من الصفر لتجمع بين القوة والدقة والحضور.",
     bestOfBothTitle: "أفضل ما في العالمين، بين يديك.",
     bestOfBoth: {

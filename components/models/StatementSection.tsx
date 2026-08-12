@@ -6,12 +6,10 @@ import PlaceholderImage from "@/components/ui/PlaceholderImage";
 const SLIDE_DURATION = 5000;
 
 export default function StatementSection({
-  eyebrow,
   headline,
   body,
   images,
 }: {
-  eyebrow: string;
   headline: string;
   body: string;
   images: string[];
@@ -37,9 +35,6 @@ export default function StatementSection({
   return (
     <section className="bg-white py-20 md:py-28">
       <div className="container-mhero">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest2 text-mhero-steel md:text-sm">
-          {eyebrow}
-        </p>
         <h2 className="max-w-3xl text-3xl font-bold tracking-tight text-mhero-black md:text-5xl">
           {headline}
         </h2>

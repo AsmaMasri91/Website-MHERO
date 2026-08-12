@@ -15,6 +15,7 @@ const TIME_SLOTS = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00
 const carImages: Record<string, string> = {
   "mhero-1": "/images/best-of-both-mhero-1.webp",
   "mhero-2": "/images/best-of-both-mhero-2.webp",
+  "mhero-2-terrain": "/images/best-of-both-mhero-2.webp",
 };
 
 const schema = z

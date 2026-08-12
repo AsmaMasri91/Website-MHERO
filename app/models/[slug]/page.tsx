@@ -26,6 +26,7 @@ const modelsEn = modelsData as VehicleModel[];
 const carImages: Record<string, string> = {
   "mhero-1": "/images/best-of-both-mhero-1.webp",
   "mhero-2": "/images/best-of-both-mhero-2.webp",
+  "mhero-2-terrain": "/images/best-of-both-mhero-2.webp",
 };
 
 export function generateStaticParams() {
@@ -61,6 +62,15 @@ export default function ModelDetailPage({
       {/* Hero */}
       <ModelHero model={model} dict={dict} />
 
+      {/* Colours */}
+      <Section eyebrow={dict.models.customize} title={dict.models.availableColours}>
+        <ColourSwatches
+          exteriorColours={model.colours}
+          interiorColours={model.interiorColours}
+          modelName={model.name}
+        />
+      </Section>
+
       {/* Stats */}
       <StatsBar eyebrow={d.statsEyebrow} stats={d.stats} />
 
@@ -91,7 +101,6 @@ export default function ModelDetailPage({
       {/* Brand statement */}
       {model.slug === "mhero-1" && (
         <StatementSection
-          eyebrow={locale === "ar" ? "الطريق ملكك، بيانك الخاص" : "Your Road, Your Statement"}
           headline={locale === "ar" ? "الطريق ملكك، بيانك الخاص" : "Your Road, Your Statement"}
           body={
             locale === "ar"
@@ -149,11 +158,6 @@ export default function ModelDetailPage({
         <SpecsTable groups={model.specs} />
       </Section>
 
-      {/* Colours */}
-      <Section eyebrow={dict.models.customize} title={dict.models.availableColours}>
-        <ColourSwatches colours={model.colours} modelName={model.name} />
-      </Section>
-
       {/* Accessories */}
       <Section eyebrow={dict.models.details} title={d.accessoriesTitle}>
         <AccessoriesGrid
@@ -171,11 +175,6 @@ export default function ModelDetailPage({
       {/* Dimensions */}
       <Section eyebrow={dict.models.overview} title={d.dimensionsTitle}>
         <DimensionsTable rows={d.dimensions} diagramLabel={d.dimensionsImageLabel} />
-        <div className="mt-8">
-          <a href="#specifications" className="btn-outline">
-            {dict.models.specifications}
-          </a>
-        </div>
       </Section>
 
       {/* Final CTA */}

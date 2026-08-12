@@ -16,7 +16,8 @@ const en = {
     calculateFinance: "Calculate Finance",
     modelsLinks: {
       model1: "MHERO I",
-      model2: "MHERO II",
+      model2: "MHERO II - Prime",
+      model2Terrain: "MHERO II - Terrain",
     },
     discoverLinks: {
       about: "About Us",
@@ -89,7 +90,7 @@ const en = {
       },
     ],
     rangeEyebrow: "The Range",
-    rangeTitle: "Two Models. Zero Compromise.",
+    rangeTitle: "The Full Range. Zero Compromise.",
     rangeDescription:
       "Every MHERO is engineered from the ground up for power, precision, and presence.",
     bestOfBothTitle: "The best of both worlds, delivered.",

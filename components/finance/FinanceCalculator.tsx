@@ -11,6 +11,7 @@ import { getModels } from "@/lib/i18n/data";
 const modelImages: Record<string, string> = {
   "mhero-1": "/images/best-of-both-mhero-1.webp",
   "mhero-2": "/images/best-of-both-mhero-2.webp",
+  "mhero-2-terrain": "/images/best-of-both-mhero-2.webp",
 };
 
 interface Selection {
@@ -27,21 +28,19 @@ export default function FinanceCalculator({
   const models = getModels(locale);
 
   const options: Selection[] = useMemo(
-    () => models.flatMap((model) => model.variants.map((variant) => ({ model, variant }))),
+    () => models.map((model) => ({ model, variant: model.variants[0] })),
     [models]
   );
 
   const initialOption =
     options.find((o) => o.model.slug === initialSlug) ?? options[0];
 
-  const [selectedKey, setSelectedKey] = useState(
-    `${initialOption.model.slug}-${initialOption.variant.id}`
-  );
+  const [selectedKey, setSelectedKey] = useState(initialOption.model.slug);
   const [downPaymentPct, setDownPaymentPct] = useState(20);
   const [durationMonths, setDurationMonths] = useState(60);
 
   const selected =
-    options.find((o) => `${o.model.slug}-${o.variant.id}` === selectedKey) ?? initialOption;
+    options.find((o) => o.model.slug === selectedKey) ?? initialOption;
 
   const vehiclePrice = selected.model.startingPrice + selected.variant.priceDelta;
   const downPayment = Math.round(vehiclePrice * (downPaymentPct / 100));
@@ -70,15 +69,14 @@ export default function FinanceCalculator({
           </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-4">
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
           {options.map((o) => {
-            const key = `${o.model.slug}-${o.variant.id}`;
             const price = o.model.startingPrice + o.variant.priceDelta;
-            const isActive = key === selectedKey;
+            const isActive = o.model.slug === selectedKey;
             return (
               <button
-                key={key}
-                onClick={() => setSelectedKey(key)}
+                key={o.model.slug}
+                onClick={() => setSelectedKey(o.model.slug)}
                 className={`overflow-hidden rounded-2xl border text-start transition-colors ${
                   isActive ? "border-mhero-black" : "border-mhero-fog hover:border-mhero-black/30"
                 }`}
@@ -97,7 +95,7 @@ export default function FinanceCalculator({
                   )}
                 </div>
                 <div className="p-4">
-                  <p className="text-sm font-bold text-mhero-black">{o.model.name} — {o.variant.name}</p>
+                  <p className="text-sm font-bold text-mhero-black">{o.model.name}</p>
                   <p className="mt-1 text-xs text-mhero-steel">
                     {dict.common.startingFrom} {formatCurrency(price, o.model.currency)}
                   </p>
@@ -118,7 +116,7 @@ export default function FinanceCalculator({
             />
           </div>
           <div className="relative bg-mhero-black p-6 text-white">
-            <p className="text-lg font-bold">{selected.model.name} — {selected.variant.name}</p>
+            <p className="text-lg font-bold">{selected.model.name}</p>
             <p className="mt-1 text-sm text-white/50">
               {dict.common.startingFrom} {formatCurrency(vehiclePrice, selected.model.currency)}
             </p>

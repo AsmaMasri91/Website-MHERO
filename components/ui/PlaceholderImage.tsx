@@ -29,7 +29,7 @@ export default function PlaceholderImage({
   aspect = "aspect-[4/3]",
   tone = "dark",
   fit = "cover",
-  showLabel = true,
+  showLabel = false,
 }: PlaceholderImageProps) {
   const index = hashToIndex(label, GALLERY_COUNT);
   const src = `/images/gallery/mhero-photo-${String(index).padStart(2, "0")}.webp`;

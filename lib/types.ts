@@ -108,6 +108,7 @@ export interface VehicleModel {
   exterior: string[];
   interior: string[];
   colours: ModelColour[];
+  interiorColours: ModelColour[];
   variants: ModelVariant[];
   detailPage: ModelDetailPage;
 }

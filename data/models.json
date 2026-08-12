@@ -82,6 +82,11 @@
       { "name": "Matte Black", "hex": "#1c1c1e", "image": "/images/mhero-1-colour-obsidian-black.webp" },
       { "name": "Matte Grey", "hex": "#8a8d8f", "image": "/images/mhero-1-colour-matte-grey.webp" }
     ],
+    "interiorColours": [
+      { "name": "Black Nappa Leather", "hex": "#1c1c1e" },
+      { "name": "Cognac Leather", "hex": "#7b4a2f" },
+      { "name": "Grey Alcantara", "hex": "#6e6e6e" }
+    ],
     "variants": [
       {
         "id": "standard",
@@ -255,7 +260,7 @@
   },
   {
     "slug": "mhero-2",
-    "name": "MHERO II",
+    "name": "MHERO II - Prime",
     "tagline": "Precision, Redefined",
     "shortDescription": "A performance-luxury sedan engineered for effortless power delivery and everyday sophistication.",
     "startingPrice": 219000,
@@ -338,6 +343,11 @@
       { "name": "Ember Red", "hex": "#a6231f" },
       { "name": "Champagne Gold", "hex": "#a68a5b" },
       { "name": "Racing Green", "hex": "#1f3a2e" }
+    ],
+    "interiorColours": [
+      { "name": "Black Nappa Leather", "hex": "#1c1c1e" },
+      { "name": "Ivory Leather", "hex": "#e8e2d5" },
+      { "name": "Grey Alcantara", "hex": "#6e6e6e" }
     ],
     "variants": [
       {
@@ -523,6 +533,283 @@
         { "label": "Kerb Weight", "value": "3,005 kg" }
       ],
       "dimensionsImageLabel": "MHERO II dimension line drawing"
+    }
+  },
+  {
+    "slug": "mhero-2-terrain",
+    "name": "MHERO II - Terrain",
+    "tagline": "Built For The Unbeaten Path",
+    "shortDescription": "A performance-luxury SUV tuned with terrain-ready capability, for drivers who need the city and the open road.",
+    "startingPrice": 239000,
+    "currency": "AED",
+    "heroImageLabel": "MHERO II Terrain — Hero",
+    "gallery": [
+      "Front three-quarter studio shot",
+      "Side profile silhouette",
+      "Interior cockpit view",
+      "Alloy wheel detail",
+      "Rear light signature at dusk",
+      "Off-road trail driving shot"
+    ],
+    "overview": "MHERO II - Terrain pairs the same aerodynamic elegance and high-density battery platform with terrain-ready capability, delivering effortless acceleration on the road and confidence off it.",
+    "specs": [
+      {
+        "label": "Performance",
+        "items": [
+          { "label": "0–100 km/h", "value": "4.6s" },
+          { "label": "Top Speed", "value": "210 km/h" },
+          { "label": "Power Output", "value": "480 hp" },
+          { "label": "Torque", "value": "700 Nm" }
+        ]
+      },
+      {
+        "label": "Range & Charging",
+        "items": [
+          { "label": "Range (WLTP)", "value": "610 km" },
+          { "label": "Fast Charging", "value": "10–80% in 21 min" },
+          { "label": "Battery Capacity", "value": "94 kWh" }
+        ]
+      },
+      {
+        "label": "Dimensions",
+        "items": [
+          { "label": "Length", "value": "4,980 mm" },
+          { "label": "Width", "value": "1,960 mm" },
+          { "label": "Wheelbase", "value": "2,980 mm" },
+          { "label": "Drag Coefficient", "value": "0.21 Cd" }
+        ]
+      }
+    ],
+    "features": [
+      "Adaptive two-chamber air suspension",
+      "Executive rear seating with recline function",
+      "Fragrance and ionizing cabin system",
+      "Power-close doors and trunk",
+      "Retractable digital door handles"
+    ],
+    "technology": [
+      "34\" curved dashboard display",
+      "Augmented reality head-up display",
+      "Over-the-air software updates",
+      "AI co-pilot voice assistant",
+      "5G connected navigation"
+    ],
+    "safety": [
+      "Level 2+ advanced driver assistance",
+      "360° surround camera with 3D view",
+      "8 airbags",
+      "Active noise cancellation",
+      "Automatic emergency braking with cyclist detection"
+    ],
+    "exterior": [
+      "Frameless flush door handles",
+      "Full-width LED light signature",
+      "20\" all-terrain alloy wheels",
+      "Available in 6 premium exterior finishes"
+    ],
+    "interior": [
+      "Vegan leather and brushed aluminium trim",
+      "Heated and ventilated front and rear seats",
+      "Four-zone climate control",
+      "31-speaker premium audio system"
+    ],
+    "colours": [
+      { "name": "Obsidian Black", "hex": "#0a0a0a" },
+      { "name": "Glacier White", "hex": "#f2f2f0" },
+      { "name": "Titanium Grey", "hex": "#5b5b5b" },
+      { "name": "Ember Red", "hex": "#a6231f" },
+      { "name": "Champagne Gold", "hex": "#a68a5b" },
+      { "name": "Racing Green", "hex": "#1f3a2e" }
+    ],
+    "interiorColours": [
+      { "name": "Black Nappa Leather", "hex": "#1c1c1e" },
+      { "name": "Ivory Leather", "hex": "#e8e2d5" },
+      { "name": "Grey Alcantara", "hex": "#6e6e6e" }
+    ],
+    "variants": [
+      {
+        "id": "standard",
+        "name": "Standard AWD",
+        "priceDelta": 0,
+        "powerHp": "480 hp",
+        "rangeKm": "610 km"
+      },
+      {
+        "id": "performance",
+        "name": "Performance AWD",
+        "priceDelta": 28000,
+        "powerHp": "560 hp",
+        "rangeKm": "560 km"
+      }
+    ],
+    "detailPage": {
+      "heroHeadline": "Command The City And The Trail",
+      "heroSubcopy": "MHERO II - Terrain brings the same untamed power into every environment, with intelligent all-wheel capability that adapts on demand, bold design that makes its presence known, and a drive not limited to any road.",
+      "statsEyebrow": "Power With Presence",
+      "stats": [
+        { "label": "Power", "value": "677 HP" },
+        { "label": "Torque", "value": "848 Nm" },
+        { "label": "0–100 km/h", "value": "5.2 sec" },
+        { "label": "Combined Range", "value": "1,300 km" },
+        { "label": "Battery Capacity", "value": "31.7 kWh" }
+      ],
+      "exteriorImageLabel": "MHERO II Terrain driving through mixed terrain",
+      "designEyebrow": "Design",
+      "designTitle": "Built To Get You Noticed",
+      "designGallery": [
+        {
+          "imageLabel": "MHERO II Terrain front detail with LED headlamps",
+          "heading": "A Sharper Light Signature",
+          "body": "LED front headlamps, rear combination taillights, and a high-mounted brake light give MHERO II - Terrain a distinctive presence on the road."
+        },
+        {
+          "imageLabel": "MHERO II Terrain panoramic roof detail",
+          "heading": "Panoramic Roof",
+          "body": "A panoramic sunroof with a powered sunshade brings more light into the cabin and enhances the feeling of space."
+        }
+      ],
+      "highlightsEyebrow": "Explore Every Detail",
+      "highlightsTitle": "Tap To Discover",
+      "highlights": [
+        {
+          "x": 60,
+          "y": 30,
+          "imageLabel": "MHERO II Terrain panoramic roof detail",
+          "title": "Panoramic Roof",
+          "body": "A panoramic sunroof with a powered sunshade brings more light into the cabin and enhances the feeling of space."
+        },
+        {
+          "x": 33,
+          "y": 50,
+          "imageLabel": "MHERO II Terrain headlight detail",
+          "title": "A Sharper Light Signature",
+          "body": "LED front headlamps, rear combination taillights, and a high-mounted brake light give MHERO II - Terrain a distinctive presence on the road."
+        },
+        {
+          "x": 41,
+          "y": 62,
+          "imageLabel": "MHERO II Terrain grille and mirror detail",
+          "title": "Details With Distinction",
+          "body": "An illuminated grille and frameless exterior mirrors add refinement to a design that already stands apart."
+        },
+        {
+          "x": 53,
+          "y": 80,
+          "imageLabel": "MHERO II Terrain all-terrain alloy wheel detail",
+          "title": "20\" All-Terrain Alloy Wheels",
+          "body": "All-terrain alloy wheels cut drag without cutting presence, tuned for both city streets and open road."
+        }
+      ],
+      "exteriorEyebrow": "Exterior",
+      "exteriorItems": [
+        {
+          "title": "A Sharper Light Signature",
+          "body": "LED front headlamps, rear combination taillights, and a high-mounted brake light give MHERO II - Terrain a distinctive presence on the road.",
+          "imageLabel": "MHERO II Terrain LED headlamp and taillight signature"
+        },
+        {
+          "title": "Details With Distinction",
+          "body": "An illuminated grille and frameless exterior mirrors add refinement to a design that already stands apart.",
+          "imageLabel": "MHERO II Terrain illuminated grille and frameless mirrors"
+        },
+        {
+          "title": "Panoramic Roof",
+          "body": "A panoramic sunroof with a powered sunshade brings more light into the cabin and enhances the feeling of space.",
+          "imageLabel": "MHERO II Terrain panoramic sunroof"
+        },
+        {
+          "title": "Utility, Redefined",
+          "body": "From a power-retractable side step to a roof rack, every detail is ready for what the day brings.",
+          "imageLabel": "MHERO II Terrain power-retractable side step and roof rack"
+        }
+      ],
+      "interiorEyebrow": "Interior",
+      "interiorItems": [
+        {
+          "title": "Cabin Layout",
+          "body": "The MHERO II - Terrain interior feels open, quiet, and well organised. A panoramic sunroof, soft-close doors, and full-cabin sound insulation add to the sense of comfort and control.",
+          "imageLabel": "MHERO II Terrain open cabin layout"
+        },
+        {
+          "title": "Seating Design",
+          "body": "Power-adjustable front seats, memory, heating, ventilation, and massage functions make every drive more comfortable for both driver and passenger.",
+          "imageLabel": "MHERO II Terrain power-adjustable front seats"
+        },
+        {
+          "title": "Materials & Finishes",
+          "body": "With 91.2% soft-touch coverage and available Nappa leather, the interior feels refined from the first touch.",
+          "imageLabel": "MHERO II Terrain Nappa leather and soft-touch finishes"
+        },
+        {
+          "title": "Driver Cockpit & Displays",
+          "body": "The 10.25-inch digital instrument cluster and 15.6-inch central touchscreen give the driver clear access to key information, controls, and connectivity in a setup that feels modern and easy to use.",
+          "imageLabel": "MHERO II Terrain digital instrument cluster and touchscreen"
+        }
+      ],
+      "cabinEyebrow": "Interior",
+      "cabinTitle": "Your Personal Command Centre",
+      "cabinIntro": "The moment you step inside the MHERO II - Terrain, the focus shifts to the driver's interface. The cabin is defined by a high-tactility layout that features customisable flight buttons and a gear selector inspired by dive-watch aesthetics.",
+      "cabinTabs": [
+        {
+          "label": "Cabin Layout",
+          "heading": "Cabin Layout",
+          "body": "The MHERO II - Terrain interior feels open, quiet, and well organised. A panoramic sunroof, soft-close doors, and full-cabin sound insulation add to the sense of comfort and control.",
+          "imageLabel": "MHERO II Terrain cabin layout"
+        },
+        {
+          "label": "Seating Design",
+          "heading": "Seating Design",
+          "body": "Sculpted front seats and a spacious five-seat layout keep every passenger supported and comfortable, whether commuting or covering longer distances.",
+          "imageLabel": "MHERO II Terrain seating"
+        },
+        {
+          "label": "Materials & Finishes",
+          "heading": "Materials & Finishes",
+          "body": "Premium finishes and satin-textured surfaces run throughout the cabin, giving MHERO II - Terrain an interior that feels every bit as considered as its exterior.",
+          "imageLabel": "MHERO II Terrain interior materials"
+        },
+        {
+          "label": "Driver Cockpit & Displays",
+          "heading": "Driver Cockpit & Displays",
+          "body": "A digital cockpit with customisable flight buttons and a dive-watch-inspired gear selector puts total command of the drive at the driver's fingertips.",
+          "imageLabel": "MHERO II Terrain driver cockpit"
+        }
+      ],
+      "utilityTitle": "Uncontained, By Every Measure",
+      "utilityIntro": "MHERO II - Terrain brings together performance, capability, and everyday usability in one place, with ground clearance and wading depth that keep pace wherever the road leads.",
+      "utilitySpecs": [
+        { "label": "Ground Clearance", "value": "Up to 333 mm" },
+        { "label": "Wading Depth", "value": "Up to 900 mm" },
+        { "label": "Kerb Weight", "value": "3,005 kg" },
+        { "label": "WLTC Range", "value": "Up to 1,113 km" }
+      ],
+      "accessoriesTitle": "MHERO II - Terrain Accessories",
+      "accessories": [
+        "Roof-Mount Expedition Rack",
+        "2.5t Towing System",
+        "Expansion Roof Platform*",
+        "Side-Mounted Cargo Net"
+      ],
+      "factoryOptionalEquipmentTitle": "Factory Optional Equipment",
+      "factoryOptionalEquipment": [
+        "Roof Platform",
+        "Roof-Mounted Auxiliary High-Beam Lights",
+        "High-Voltage Winch with Optional PDU",
+        "Towing Package",
+        "Spare Tire Kit"
+      ],
+      "chargingLabel": "Charging",
+      "chargingBody": "Whether it's a quick stop or time to recharge fully, the process fits naturally into the journey. From 20% to 80% in just 15 minutes, or a full charge in 4.3 hours, the 31.7 kWh battery uses an EU CCS2 compatible charging port to keep every drive moving without interruption.",
+      "chargingImageLabel": "MHERO II Terrain charging in the city",
+      "dimensionsTitle": "Dimensions",
+      "dimensions": [
+        { "label": "Length", "value": "5,100 mm" },
+        { "label": "Width", "value": "1,998 mm" },
+        { "label": "Height", "value": "1,899 mm" },
+        { "label": "Wheelbase (Terrain)", "value": "2,909 mm" },
+        { "label": "Kerb Weight", "value": "3,005 kg" }
+      ],
+      "dimensionsImageLabel": "MHERO II Terrain dimension line drawing"
     }
   }
 ]

@@ -23,6 +23,8 @@ const config: Config = {
           accent: "#f5f5f4",
           "accent-dark": "#c9c9c6",
           "accent-light": "#ffffff",
+          primary: "#8fb5a6",
+          "primary-dark": "#78a394",
         },
       },
       maxWidth: {
