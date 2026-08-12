@@ -77,7 +77,7 @@ export default function OffersSlider() {
               <Link href={`/offers/${offer.slug}`} className="btn-primary">
                 {dict.common.viewOffer}
               </Link>
-              <Link href="/models/test-drive" className="btn-outline-light">
+              <Link href="/models/test-drive" className="btn-primary">
                 {dict.common.bookTestDrive}
               </Link>
             </div>
