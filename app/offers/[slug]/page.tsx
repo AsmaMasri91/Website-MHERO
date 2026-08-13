@@ -40,7 +40,6 @@ export default function OfferDetailPage({
       <PageHero
         title={offer.title}
         imageLabel={offer.imageLabel}
-        image={offer.image}
         backHref="/offers"
         backLabel={dict.offers.backToOffers}
       />
@@ -48,7 +47,7 @@ export default function OfferDetailPage({
       <Section eyebrow={dict.offers.detailsEyebrow} title={dict.offers.aboutThisOffer}>
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start">
           <div>
-            <p className="text-lg text-mhero-steel">{offer.description}</p>
+          <p className="text-lg text-mhero-steel">{offer.description}</p>
 
             <div className="mt-10">
               <h3 className="text-lg font-bold text-mhero-black">{dict.offers.termsAndConditions}</h3>
@@ -108,20 +107,21 @@ export default function OfferDetailPage({
               </span>
             </p>
 
-            <div className="mt-6">
-              <Link href="/models/test-drive" className="btn-primary">
-                {dict.common.bookTestDrive}
-              </Link>
-            </div>
           </div>
 
-          {offer.image ? (
-            <div className="relative aspect-square w-full overflow-hidden">
-              <Image src={offer.image} alt={offer.imageLabel} fill className="object-cover" />
-            </div>
-          ) : (
-            <PlaceholderImage label={offer.imageLabel} aspect="aspect-square" showLabel={false} />
-          )}
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            {offer.image ? (
+              <div className="relative aspect-square w-full overflow-hidden">
+                <Image src={offer.image} alt={offer.imageLabel} fill className="object-cover" />
+              </div>
+            ) : (
+              <PlaceholderImage label={offer.imageLabel} aspect="aspect-square" showLabel={false} />
+            )}
+
+            <Link href="/models/test-drive" className="btn-primary mt-6 w-full">
+              {dict.common.bookTestDrive}
+            </Link>
+          </div>
         </div>
       </Section>
     </>

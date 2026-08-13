@@ -81,7 +81,7 @@ export default function OffersSlider() {
               {offer.shortDescription}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link href={`/offers/${offer.slug}`} className="btn-primary">
+              <Link href={`/offers/${offer.slug}`} className="btn-outline-light">
                 {dict.common.viewOffer}
               </Link>
               <Link href="/models/test-drive" className="btn-primary">

@@ -99,6 +99,7 @@ export interface VehicleModel {
   startingPrice: number;
   currency: string;
   heroImageLabel: string;
+  heroImage?: string;
   gallery: string[];
   overview: string;
   specs: ModelSpecGroup[];

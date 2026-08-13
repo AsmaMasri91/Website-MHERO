@@ -7,6 +7,7 @@
     "startingPrice": 289000,
     "currency": "AED",
     "heroImageLabel": "MHERO I — الصورة الرئيسية",
+    "heroImage": "/images/models/mhero-1-campaign.png",
     "gallery": [
       "منظر أمامي جانبي",
       "الملف الجانبي الخلفي أثناء الحركة",
@@ -269,6 +270,7 @@
     "startingPrice": 219000,
     "currency": "AED",
     "heroImageLabel": "MHERO II — الصورة الرئيسية",
+    "heroImage": "/images/models/mhero-2-campaign.png",
     "gallery": [
       "لقطة استوديو أمامية جانبية",
       "الملف الجانبي",
@@ -538,6 +540,7 @@
     "startingPrice": 239000,
     "currency": "AED",
     "heroImageLabel": "MHERO II Terrain — الصورة الرئيسية",
+    "heroImage": "/images/models/mhero-2-campaign.png",
     "gallery": [
       "لقطة استوديو أمامية جانبية",
       "الملف الجانبي",

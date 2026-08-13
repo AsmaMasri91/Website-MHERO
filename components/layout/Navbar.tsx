@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SearchBox from "@/components/layout/SearchBox";
 import LanguageToggle from "@/components/layout/LanguageToggle";
@@ -20,6 +20,24 @@ export default function Navbar() {
   const [mobileDiscoverOpen, setMobileDiscoverOpen] = useState(false);
   const [modelsMenuOpen, setModelsMenuOpen] = useState(false);
   const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearCloseTimeout = () => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  };
+
+  const openModelsMenu = () => {
+    clearCloseTimeout();
+    setModelsMenuOpen(true);
+  };
+
+  const scheduleCloseModelsMenu = () => {
+    clearCloseTimeout();
+    closeTimeoutRef.current = setTimeout(() => setModelsMenuOpen(false), 200);
+  };
 
   const modelsLinks = [
     { label: dict.nav.modelsLinks.model1, href: "/models/mhero-1" },
@@ -48,6 +66,8 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => clearCloseTimeout, []);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -94,11 +114,11 @@ export default function Navbar() {
           <div
             className="relative flex h-20 items-center"
             data-nav-dropdown
-            onMouseEnter={() => setModelsMenuOpen(true)}
-            onMouseLeave={() => setModelsMenuOpen(false)}
+            onMouseEnter={openModelsMenu}
+            onMouseLeave={scheduleCloseModelsMenu}
           >
             <button
-              onClick={() => setModelsMenuOpen(true)}
+              onClick={() => setModelsMenuOpen((v) => !v)}
               aria-expanded={modelsMenuOpen}
               aria-current={isActive("/models") ? "page" : undefined}
               className={`link-underline flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white ${
@@ -111,8 +131,8 @@ export default function Navbar() {
             <ModelsMegaMenu
               open={modelsMenuOpen}
               onNavigate={() => setModelsMenuOpen(false)}
-              onMouseEnter={() => setModelsMenuOpen(true)}
-              onMouseLeave={() => setModelsMenuOpen(false)}
+              onMouseEnter={openModelsMenu}
+              onMouseLeave={scheduleCloseModelsMenu}
             />
           </div>
 

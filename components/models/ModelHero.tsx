@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
@@ -24,11 +25,21 @@ export default function ModelHero({
         transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
         className="absolute inset-0 h-full w-full"
       >
-        <PlaceholderImage
-          label={model.heroImageLabel}
-          aspect="aspect-auto"
-          className="h-full w-full"
-        />
+        {model.heroImage ? (
+          <Image
+            src={model.heroImage}
+            alt={model.heroImageLabel}
+            fill
+            priority
+            className="object-cover"
+          />
+        ) : (
+          <PlaceholderImage
+            label={model.heroImageLabel}
+            aspect="aspect-auto"
+            className="h-full w-full"
+          />
+        )}
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-black/10" />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />

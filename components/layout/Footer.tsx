@@ -25,6 +25,7 @@ export default function Footer() {
       links: [
         { label: dict.nav.offers, href: "/offers" },
         { label: dict.nav.afterSales, href: "/after-sales" },
+        { label: dict.afterSales.bookService, href: "/after-sales/book-service" },
         { label: dict.nav.preOwned, href: "/pre-owned" },
       ],
     },
@@ -43,39 +44,37 @@ export default function Footer() {
         { label: dict.footer.faqs, href: "/faqs" },
       ],
     },
-    {
-      title: dict.legal.eyebrow,
-      links: [
-        { label: dict.footer.privacyPolicy, href: "/privacy-policy" },
-        { label: dict.footer.cookiesPolicy, href: "/cookies-policy" },
-        { label: dict.footer.terms, href: "/terms" },
-      ],
-    },
+  ];
+
+  const legalLinks = [
+    { label: dict.footer.privacyPolicy, href: "/privacy-policy" },
+    { label: dict.footer.cookiesPolicy, href: "/cookies-policy" },
+    { label: dict.footer.terms, href: "/terms" },
   ];
 
   return (
     <footer className="border-t border-white/10 bg-mhero-black text-white">
       <div className="container-mhero py-16 md:py-20">
-        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-[200px_repeat(5,1fr)]">
+        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-[1fr_repeat(4,auto)] lg:gap-x-24">
           <div className="col-span-2 md:col-span-1">
             <Image
               src="/images/mhero-logo.png"
               alt="MHERO"
               width={392}
               height={79}
-              className="h-9 w-auto"
+              className="h-14 w-auto"
             />
-            <p className="mt-4 max-w-[170px] text-sm text-white/50">
+            <p className="mt-4 max-w-[240px] text-base text-white/50">
               {dict.footer.tagline}
             </p>
           </div>
 
           {columns.map((col) => (
-            <div key={col.title}>
+            <div key={col.title} className="lg:w-max">
               <h3 className="text-sm font-semibold uppercase tracking-widest2 text-white/60">
                 {col.title}
               </h3>
-              <ul className="mt-5 space-y-3">
+              <ul className="mt-5 space-y-4">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -91,10 +90,24 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-white/10 pt-8 md:flex-row md:items-center">
+        <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 md:flex-row">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            {legalLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="link-underline text-xs text-white/60 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
           <p className="text-xs text-white/60">
             © {new Date().getFullYear()} MHERO. {dict.footer.rights}
           </p>
+
           <SocialIcons />
         </div>
       </div>

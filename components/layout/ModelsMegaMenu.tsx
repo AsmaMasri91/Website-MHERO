@@ -6,9 +6,9 @@ import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
 
 const modelImages: Record<string, string> = {
-  "mhero-1": "/images/best-of-both-mhero-1.webp",
-  "mhero-2": "/images/best-of-both-mhero-2.webp",
-  "mhero-2-terrain": "/images/best-of-both-mhero-2.webp",
+  "mhero-1": "/images/models/mhero-1-campaign.png",
+  "mhero-2": "/images/models/mhero-2-campaign.png",
+  "mhero-2-terrain": "/images/models/mhero-2-campaign.png",
 };
 
 export default function ModelsMegaMenu({

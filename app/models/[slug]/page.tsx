@@ -24,9 +24,9 @@ import { formatCurrency } from "@/lib/financeMath";
 const modelsEn = modelsData as VehicleModel[];
 
 const carImages: Record<string, string> = {
-  "mhero-1": "/images/best-of-both-mhero-1.webp",
-  "mhero-2": "/images/best-of-both-mhero-2.webp",
-  "mhero-2-terrain": "/images/best-of-both-mhero-2.webp",
+  "mhero-1": "/images/models/mhero-1-campaign.png",
+  "mhero-2": "/images/models/mhero-2-campaign.png",
+  "mhero-2-terrain": "/images/models/mhero-2-campaign.png",
 };
 
 export function generateStaticParams() {

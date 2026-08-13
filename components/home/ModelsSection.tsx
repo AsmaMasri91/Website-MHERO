@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/financeMath";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
@@ -52,13 +53,22 @@ export default function ModelsSection() {
               key={model.slug}
               href={`/models/${model.slug}`}
               data-card
-              className="group snap-item relative block w-[85%] shrink-0 overflow-hidden border border-white/10 sm:w-[60%] md:w-[45%] lg:w-[32%]"
+              className="group snap-item relative block aspect-square w-[90%] shrink-0 overflow-hidden border border-white/10 sm:w-[75%] md:w-[58%] lg:w-[42%]"
             >
-              <PlaceholderImage
-                label={model.heroImageLabel}
-                aspect="aspect-[3/4]"
-                className="transition-transform duration-700 ease-premium group-hover:scale-105"
-              />
+              {model.heroImage ? (
+                <Image
+                  src={model.heroImage}
+                  alt={model.heroImageLabel}
+                  fill
+                  className="object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
+                />
+              ) : (
+                <PlaceholderImage
+                  label={model.heroImageLabel}
+                  aspect="aspect-square"
+                  className="transition-transform duration-700 ease-premium group-hover:scale-105"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6">
                 <h3 className="text-xl font-bold text-white">{model.name}</h3>
