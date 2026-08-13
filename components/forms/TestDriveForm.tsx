@@ -51,7 +51,7 @@ function SectionHeader({ index, title }: { index: number; title: string }) {
   );
 }
 
-function Field({
+export function FormField({
   label,
   required,
   error,
@@ -193,16 +193,16 @@ export default function TestDriveForm() {
       <div className="mt-10">
         <SectionHeader index={2} title={dict.testDrive.whenAndWhere} />
         <div className="space-y-5">
-          <Field label={dict.testDrive.preferredShowroom}>
+          <FormField label={dict.testDrive.preferredShowroom}>
             <p className="input-field-light flex items-center text-mhero-black">
               {dict.contact.headOfficeAddress}
             </p>
-          </Field>
+          </FormField>
 
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field label={dict.forms.preferredDate} required error={errors.date?.message}>
+            <FormField label={dict.forms.preferredDate} required error={errors.date?.message}>
               <input className="input-field-light" type="date" {...register("date")} />
-            </Field>
+            </FormField>
             <div>
               <label className="mb-2 block text-xs font-medium uppercase tracking-widest2 text-mhero-ash">
                 {dict.forms.preferredTime} *
@@ -233,7 +233,7 @@ export default function TestDriveForm() {
         <SectionHeader index={3} title={dict.forms.personalInformation} />
         <div className="grid gap-5 sm:grid-cols-2">
           <div className="sm:col-span-2 sm:max-w-xs">
-            <Field label={dict.forms.title} required error={errors.title?.message}>
+            <FormField label={dict.forms.title} required error={errors.title?.message}>
               <select className="input-field-light" {...register("title")}>
                 <option value="">—</option>
                 <option value="mr">{dict.forms.titleMr}</option>
@@ -241,33 +241,33 @@ export default function TestDriveForm() {
                 <option value="ms">{dict.forms.titleMs}</option>
                 <option value="dr">{dict.forms.titleDr}</option>
               </select>
-            </Field>
+            </FormField>
           </div>
-          <Field label={dict.forms.firstName} required error={errors.firstName?.message}>
+          <FormField label={dict.forms.firstName} required error={errors.firstName?.message}>
             <input className="input-field-light" {...register("firstName")} />
-          </Field>
-          <Field label={dict.forms.lastName} required error={errors.lastName?.message}>
+          </FormField>
+          <FormField label={dict.forms.lastName} required error={errors.lastName?.message}>
             <input className="input-field-light" {...register("lastName")} />
-          </Field>
-          <Field label={dict.forms.emailAddress} required error={errors.email?.message}>
+          </FormField>
+          <FormField label={dict.forms.emailAddress} required error={errors.email?.message}>
             <input className="input-field-light" type="email" {...register("email")} />
-          </Field>
-          <Field label={dict.forms.phoneNumber}>
+          </FormField>
+          <FormField label={dict.forms.phoneNumber}>
             <div className="flex">
               <span className="flex items-center border border-e-0 border-mhero-fog bg-mhero-fog/40 px-3 text-sm text-mhero-steel">
                 🇦🇪 +971
               </span>
               <input className="input-field-light" type="tel" placeholder="50 123 4567" {...register("phone")} />
             </div>
-          </Field>
+          </FormField>
           <div className="sm:col-span-2">
-            <Field label={dict.testDrive.additionalNotes}>
+            <FormField label={dict.testDrive.additionalNotes}>
               <textarea
                 className="input-field-light min-h-[100px]"
                 placeholder={dict.testDrive.additionalNotesPlaceholder}
                 {...register("notes")}
               />
-            </Field>
+            </FormField>
           </div>
         </div>
       </div>

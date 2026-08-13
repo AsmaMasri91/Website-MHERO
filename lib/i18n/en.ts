@@ -534,4 +534,13 @@ const en = {
 } as const;
 
 export default en;
-export type Dictionary = typeof en;
+
+type DeepMutableString<T> = T extends string
+  ? string
+  : T extends readonly (infer U)[]
+  ? DeepMutableString<U>[]
+  : T extends object
+  ? { -readonly [K in keyof T]: DeepMutableString<T[K]> }
+  : T;
+
+export type Dictionary = DeepMutableString<typeof en>;

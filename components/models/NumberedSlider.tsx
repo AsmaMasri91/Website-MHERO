@@ -30,7 +30,7 @@ export default function NumberedSlider({
 }: {
   badge?: string;
   eyebrow: string;
-  items: SliderItem[];
+  items: readonly SliderItem[];
 }) {
   const [index, setIndex] = useState(0);
   const total = items.length;

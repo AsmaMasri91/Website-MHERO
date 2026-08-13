@@ -21,7 +21,7 @@ interface LinkButtonProps extends CommonProps {
 
 interface ActionButtonProps
   extends CommonProps,
-    ButtonHTMLAttributes<HTMLButtonElement> {
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   href?: undefined;
 }
 
