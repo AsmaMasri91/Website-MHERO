@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
@@ -8,6 +9,7 @@ export default function PageHero({
   title,
   description,
   imageLabel,
+  image,
   backHref,
   backLabel,
 }: {
@@ -15,6 +17,7 @@ export default function PageHero({
   title: string;
   description?: string;
   imageLabel: string;
+  image?: string;
   backHref?: string;
   backLabel?: string;
 }) {
@@ -26,7 +29,13 @@ export default function PageHero({
         transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
         className="absolute inset-0 h-full w-full"
       >
-        <PlaceholderImage label={imageLabel} aspect="aspect-auto" className="h-full w-full" />
+        {image ? (
+          <div className="relative h-full w-full bg-mhero-black">
+            <Image src={image} alt={imageLabel} fill className="object-contain" priority />
+          </div>
+        ) : (
+          <PlaceholderImage label={imageLabel} aspect="aspect-auto" className="h-full w-full" />
+        )}
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-black/10" />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import { useLocale } from "@/components/i18n/LocaleProvider";
@@ -47,12 +48,18 @@ export default function OffersSlider() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="absolute inset-0"
         >
-          <PlaceholderImage
-            label={offer.imageLabel}
-            aspect="aspect-auto h-full"
-            className="h-full"
-            tone="accent"
-          />
+          {offer.image ? (
+            <div className="relative h-full w-full bg-mhero-black">
+              <Image src={offer.image} alt={offer.imageLabel} fill className="object-contain" priority />
+            </div>
+          ) : (
+            <PlaceholderImage
+              label={offer.imageLabel}
+              aspect="aspect-auto h-full"
+              className="h-full"
+              tone="accent"
+            />
+          )}
         </motion.div>
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />

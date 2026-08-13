@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import PageHero from "@/components/ui/PageHero";
@@ -28,7 +29,13 @@ export default function OffersPage() {
         <div className="grid gap-8 md:grid-cols-3">
           {offers.map((offer) => (
             <Card key={offer.slug}>
-              <PlaceholderImage label={offer.imageLabel} aspect="aspect-[16/10]" tone="accent" />
+              {offer.image ? (
+                <div className="relative aspect-square w-full overflow-hidden">
+                  <Image src={offer.image} alt={offer.imageLabel} fill className="object-cover" />
+                </div>
+              ) : (
+                <PlaceholderImage label={offer.imageLabel} aspect="aspect-square" tone="accent" />
+              )}
               <div className="p-6">
                 <h3 className="text-lg font-bold text-mhero-black">{offer.title}</h3>
                 <p className="mt-2 text-sm text-mhero-steel">{offer.shortDescription}</p>

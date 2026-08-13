@@ -1,10 +1,11 @@
 [
   {
     "slug": "0-percent-finance",
-    "title": "0% Finance for 3 Years",
-    "shortDescription": "Drive away in a new MHERO with zero interest financing across a 36-month term.",
-    "description": "For a limited time, take delivery of any MHERO model with 0% interest financing over 36 months. Enjoy fixed monthly payments with no hidden fees, arranged through our approved finance partners.",
-    "imageLabel": "0% Finance Offer",
+    "title": "0% Interest Over 5 Years",
+    "shortDescription": "0% downpayment, nothing to pay until 2027, and 0% interest financing — never back down.",
+    "description": "For a limited time, take delivery of a new MHERO with 0% promotional financing, 0% downpayment and nothing to pay until 2027, arranged through our participating bank partners. Stock is available now.",
+    "imageLabel": "0% Interest Over 5 Years Offer",
+    "image": "/images/offers/mhero-0-percent-5-years.png",
     "validUntil": "2026-09-30",
     "terms": [
       "Offer valid on new MHERO I and Model 2 purchases only.",
@@ -12,6 +13,160 @@
       "Minimum down payment of 20% required.",
       "Cannot be combined with other financing promotions.",
       "Offer valid while stocks last and may be withdrawn at any time."
+    ],
+    "termsSections": [
+      {
+        "heading": "1. Campaign Period",
+        "body": "The MHERO Promotional Financing Campaign Offer (\"Campaign Offer\") is available during the applicable promotional period and is subject to the terms, vehicle eligibility and availability applicable to each participating bank. Unless otherwise specified, the Campaign Offer period is from 1 August 2026 to 30 September 2026."
+      },
+      {
+        "heading": "2. Eligible Vehicles",
+        "body": "The Campaign Offer is available only on selected brand-new MHERO models determined by AG Auto Trading LLC (\"AG Auto\") and the applicable participating bank. Model eligibility and promotional tenure may vary by bank and customer category."
+      },
+      {
+        "heading": "3. Participating Banks",
+        "body": "This Campaign Offer is available through participating banks only, including Abu Dhabi Islamic Bank (ADIB), Emirates NBD Bank P.J.S.C. (ENBD) and Dubai Islamic Bank (DIB), subject to the applicable bank's eligibility criteria, approval and campaign terms."
+      },
+      {
+        "heading": "4. 0% Promotional Financing",
+        "body": "Eligible customers may benefit from a 0% flat annual financing rate for applicable financing tenures. The available 0% tenure depends on the participating bank, customer category, eligible MHERO model and other applicable campaign conditions."
+      },
+      {
+        "heading": "5. Bank-Specific Offers",
+        "items": [
+          { "text": "ADIB — Qualifying customers may be eligible for a 0% flat annual profit rate for up to 60 months, subject to ADIB's eligibility, credit approval and applicable campaign terms." },
+          { "text": "ENBD (UAE Nationals) — Qualifying UAE National customers may be eligible for 0% flat annual financing for up to 60 months, subject to ENBD's eligibility, credit approval and applicable campaign terms." },
+          { "text": "ENBD (Expatriate Customers) — Qualifying expatriate customers may be eligible for 0% flat annual financing for up to 36 or 48 months, depending on the applicable offer and eligibility. Financing beyond the applicable promotional tenure may be subject to the customer's applicable financing rate." },
+          {
+            "text": "DIB — Subject to DIB eligibility and approval:",
+            "subItems": [
+              "MHERO-II TERRAIN: 0% flat annual profit rate for up to 36 months.",
+              "Selected MHERO-I PRIME (AGM): 0% flat annual profit rate for up to 48 months."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "6. Customer Eligibility",
+        "body": "Eligibility varies by participating bank and campaign."
+      },
+      {
+        "heading": "7. Bank Approval",
+        "body": "All financing is subject to the relevant bank's credit assessment. Submission of an application, quotation or purchase request does not guarantee financing approval or eligibility for the promotional rate."
+      },
+      {
+        "heading": "8. Fees and Charges",
+        "body": "Applicable bank fees, processing fees and other transaction-related charges may apply in accordance with the relevant bank's prevailing fee schedule and financing terms."
+      },
+      {
+        "heading": "9. Financing Amount and Other Costs",
+        "body": "The final approved financing amount and applicable transaction costs are determined by the relevant bank."
+      },
+      {
+        "heading": "10. Vehicle Availability",
+        "body": "All offers are subject to availability of the eligible MHERO model and applicable specifications at the time of booking. The promotional rate does not apply automatically to every MHERO model or vehicle."
+      },
+      {
+        "heading": "11. Combination with Other Offers",
+        "body": "The Campaign Offer may not be combined with other discounts, promotions or financing offers unless expressly confirmed by AG Auto and the relevant participating bank."
+      },
+      {
+        "heading": "12. Bank Terms and Financing Documentation",
+        "body": "Financing facilities are provided by the relevant participating bank and are subject to the bank's final offer, applicable terms and conditions, fee schedule and executed financing agreement."
+      },
+      {
+        "heading": "13. Campaign Amendment or Withdrawal",
+        "body": "AG Auto and/or the relevant participating bank reserve the right to amend, extend, suspend or withdraw this Campaign Offer, subject to applicable requirements."
+      },
+      {
+        "heading": "14. General",
+        "body": "Images and vehicle specifications are for illustration purposes only. This Campaign Offer is subject to vehicle availability, customer eligibility, bank approval and applicable UAE laws and regulations."
+      }
+    ]
+  },
+  {
+    "slug": "0-percent-finance-mhero-2",
+    "title": "0% Interest Over 5 Years — MHERO II",
+    "shortDescription": "0% downpayment, nothing to pay until 2027, and 0% interest financing on the MHERO II — never back down.",
+    "description": "For a limited time, take delivery of a new MHERO II with 0% promotional financing, 0% downpayment and nothing to pay until 2027, arranged through our participating bank partners. Stock is available now.",
+    "imageLabel": "0% Interest Over 5 Years Offer — MHERO II",
+    "image": "/images/offers/mhero-0-percent-5-years-mhero2.png",
+    "validUntil": "2026-09-30",
+    "terms": [
+      "Offer valid on new MHERO II purchases only.",
+      "Subject to credit approval by participating finance partners.",
+      "Minimum down payment of 20% required.",
+      "Cannot be combined with other financing promotions.",
+      "Offer valid while stocks last and may be withdrawn at any time."
+    ],
+    "termsSections": [
+      {
+        "heading": "1. Campaign Period",
+        "body": "The MHERO Promotional Financing Campaign Offer (\"Campaign Offer\") is available during the applicable promotional period and is subject to the terms, vehicle eligibility and availability applicable to each participating bank. Unless otherwise specified, the Campaign Offer period is from 1 August 2026 to 30 September 2026."
+      },
+      {
+        "heading": "2. Eligible Vehicles",
+        "body": "The Campaign Offer is available only on selected brand-new MHERO models determined by AG Auto Trading LLC (\"AG Auto\") and the applicable participating bank. Model eligibility and promotional tenure may vary by bank and customer category."
+      },
+      {
+        "heading": "3. Participating Banks",
+        "body": "This Campaign Offer is available through participating banks only, including Abu Dhabi Islamic Bank (ADIB), Emirates NBD Bank P.J.S.C. (ENBD) and Dubai Islamic Bank (DIB), subject to the applicable bank's eligibility criteria, approval and campaign terms."
+      },
+      {
+        "heading": "4. 0% Promotional Financing",
+        "body": "Eligible customers may benefit from a 0% flat annual financing rate for applicable financing tenures. The available 0% tenure depends on the participating bank, customer category, eligible MHERO model and other applicable campaign conditions."
+      },
+      {
+        "heading": "5. Bank-Specific Offers",
+        "items": [
+          { "text": "ADIB — Qualifying customers may be eligible for a 0% flat annual profit rate for up to 60 months, subject to ADIB's eligibility, credit approval and applicable campaign terms." },
+          { "text": "ENBD (UAE Nationals) — Qualifying UAE National customers may be eligible for 0% flat annual financing for up to 60 months, subject to ENBD's eligibility, credit approval and applicable campaign terms." },
+          { "text": "ENBD (Expatriate Customers) — Qualifying expatriate customers may be eligible for 0% flat annual financing for up to 36 or 48 months, depending on the applicable offer and eligibility. Financing beyond the applicable promotional tenure may be subject to the customer's applicable financing rate." },
+          {
+            "text": "DIB — Subject to DIB eligibility and approval:",
+            "subItems": [
+              "MHERO-II TERRAIN: 0% flat annual profit rate for up to 36 months.",
+              "Selected MHERO-I PRIME (AGM): 0% flat annual profit rate for up to 48 months."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "6. Customer Eligibility",
+        "body": "Eligibility varies by participating bank and campaign."
+      },
+      {
+        "heading": "7. Bank Approval",
+        "body": "All financing is subject to the relevant bank's credit assessment. Submission of an application, quotation or purchase request does not guarantee financing approval or eligibility for the promotional rate."
+      },
+      {
+        "heading": "8. Fees and Charges",
+        "body": "Applicable bank fees, processing fees and other transaction-related charges may apply in accordance with the relevant bank's prevailing fee schedule and financing terms."
+      },
+      {
+        "heading": "9. Financing Amount and Other Costs",
+        "body": "The final approved financing amount and applicable transaction costs are determined by the relevant bank."
+      },
+      {
+        "heading": "10. Vehicle Availability",
+        "body": "All offers are subject to availability of the eligible MHERO model and applicable specifications at the time of booking. The promotional rate does not apply automatically to every MHERO model or vehicle."
+      },
+      {
+        "heading": "11. Combination with Other Offers",
+        "body": "The Campaign Offer may not be combined with other discounts, promotions or financing offers unless expressly confirmed by AG Auto and the relevant participating bank."
+      },
+      {
+        "heading": "12. Bank Terms and Financing Documentation",
+        "body": "Financing facilities are provided by the relevant participating bank and are subject to the bank's final offer, applicable terms and conditions, fee schedule and executed financing agreement."
+      },
+      {
+        "heading": "13. Campaign Amendment or Withdrawal",
+        "body": "AG Auto and/or the relevant participating bank reserve the right to amend, extend, suspend or withdraw this Campaign Offer, subject to applicable requirements."
+      },
+      {
+        "heading": "14. General",
+        "body": "Images and vehicle specifications are for illustration purposes only. This Campaign Offer is subject to vehicle availability, customer eligibility, bank approval and applicable UAE laws and regulations."
+      }
     ]
   },
   {

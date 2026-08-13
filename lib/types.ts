@@ -113,14 +113,27 @@ export interface VehicleModel {
   detailPage: ModelDetailPage;
 }
 
+export interface OfferTermsItem {
+  text: string;
+  subItems?: string[];
+}
+
+export interface OfferTermsSection {
+  heading: string;
+  body?: string;
+  items?: OfferTermsItem[];
+}
+
 export interface Offer {
   slug: string;
   title: string;
   shortDescription: string;
   description: string;
   imageLabel: string;
+  image?: string;
   validUntil: string;
   terms: string[];
+  termsSections?: OfferTermsSection[];
 }
 
 export interface PreOwnedVehicle {

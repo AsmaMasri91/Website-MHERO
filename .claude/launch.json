@@ -5,6 +5,7 @@
       "name": "mhero-dev-review",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
+      "port": 3100,
       "autoPort": true
     }
   ]
