@@ -60,7 +60,7 @@ export default function HeroSlider() {
 
   return (
     <section
-      className="relative h-[82vh] min-h-[500px] w-full overflow-hidden bg-mhero-black"
+      className="relative h-[90vh] min-h-[560px] w-full overflow-hidden bg-mhero-black"
       aria-roledescription="carousel"
       aria-label="Featured highlights"
     >

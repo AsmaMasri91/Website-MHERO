@@ -112,7 +112,7 @@ export default function Navbar() {
         {/* Nav links (right) */}
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           <div
-            className="relative flex h-20 items-center"
+            className="group relative flex h-20 items-center"
             data-nav-dropdown
             onMouseEnter={openModelsMenu}
             onMouseLeave={scheduleCloseModelsMenu}
@@ -121,13 +121,18 @@ export default function Navbar() {
               onClick={() => setModelsMenuOpen((v) => !v)}
               aria-expanded={modelsMenuOpen}
               aria-current={isActive("/models") ? "page" : undefined}
-              className={`link-underline flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white ${
-                isActive("/models") ? "text-white after:w-full" : "text-white/90"
+              className={`flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white ${
+                isActive("/models") ? "text-white" : "text-white/90"
               }`}
             >
               {dict.nav.models}
               <ChevronDown open={modelsMenuOpen} />
             </button>
+            <span
+              className={`absolute inset-x-0 bottom-0 h-0.5 origin-center scale-x-0 bg-[#8fb5a6] transition-transform duration-300 group-hover:scale-x-100 ${
+                isActive("/models") ? "scale-x-100" : ""
+              }`}
+            />
             <ModelsMegaMenu
               open={modelsMenuOpen}
               onNavigate={() => setModelsMenuOpen(false)}
@@ -141,29 +146,39 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               aria-current={isActive(link.href) ? "page" : undefined}
-              className={`link-underline text-sm font-medium hover:text-white ${
-                isActive(link.href) ? "text-white after:w-full" : "text-white/90"
+              className={`group relative flex h-20 items-center text-sm font-medium hover:text-white ${
+                isActive(link.href) ? "text-white" : "text-white/90"
               }`}
             >
               {link.label}
+              <span
+                className={`absolute inset-x-0 bottom-0 h-0.5 origin-center scale-x-0 bg-[#8fb5a6] transition-transform duration-300 group-hover:scale-x-100 ${
+                  isActive(link.href) ? "scale-x-100" : ""
+                }`}
+              />
             </Link>
           ))}
 
           <div
-            className="relative flex h-20 items-center"
+            className="group relative flex h-20 items-center"
             data-nav-dropdown
           >
             <button
               onClick={() => setDiscoverMenuOpen((v) => !v)}
               aria-expanded={discoverMenuOpen}
               aria-current={isActive("/discover") ? "page" : undefined}
-              className={`link-underline flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white ${
-                isActive("/discover") ? "text-white after:w-full" : "text-white/90"
+              className={`flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white ${
+                isActive("/discover") ? "text-white" : "text-white/90"
               }`}
             >
               {dict.nav.discover}
               <ChevronDown open={discoverMenuOpen} />
             </button>
+            <span
+              className={`absolute inset-x-0 bottom-0 h-0.5 origin-center scale-x-0 bg-[#8fb5a6] transition-transform duration-300 group-hover:scale-x-100 ${
+                isActive("/discover") ? "scale-x-100" : ""
+              }`}
+            />
             <DropdownPanel
               links={discoverLinks}
               open={discoverMenuOpen}

@@ -74,7 +74,7 @@ export default function OffersSlider() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
             className="max-w-xl"
           >
-            <h2 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl">
+            <h2 className="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
               {offer.title}
             </h2>
             <p className="mt-5 text-base text-white/70 md:text-lg">

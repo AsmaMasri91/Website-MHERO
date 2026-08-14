@@ -55,7 +55,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-mhero-black text-white">
       <div className="container-mhero py-16 md:py-20">
-        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-[1fr_repeat(4,auto)] lg:gap-x-24">
+        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-[1fr_repeat(4,auto)] lg:gap-x-36">
           <div className="col-span-2 md:col-span-1">
             <Image
               src="/images/mhero-logo.png"

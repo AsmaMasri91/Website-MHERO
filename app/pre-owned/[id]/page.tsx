@@ -61,7 +61,7 @@ export default function PreOwnedDetailPage({
               aspect="aspect-[16/10]"
               className="rounded-2xl"
             />
-            <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-mhero-black">
+            <h1 className="mt-8 text-3xl font-bold tracking-tight text-mhero-black md:text-5xl">
               {vehicle.model} ({vehicle.year})
             </h1>
             <p className="mt-4 text-mhero-steel">{vehicle.description}</p>

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "@/components/i18n/LocaleProvider";
+import { getModels, getOffers } from "@/lib/i18n/data";
+import { getBotReply } from "@/lib/chatbot";
 
 const WHATSAPP_NUMBER = "971600540045";
 
@@ -43,17 +45,31 @@ interface ChatMessage {
   text: string;
 }
 
+function BotAvatar() {
+  return (
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-mhero-black text-[10px] font-bold text-white">
+      M
+    </span>
+  );
+}
+
 function ChatWidget({ onClose }: { onClose: () => void }) {
   const { locale, dict } = useLocale();
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      from: "bot",
-      text:
-        locale === "ar"
-          ? "مرحبًا! أنا مساعد MHERO الذكي. كيف يمكنني مساعدتك اليوم؟"
-          : "Hi! I'm the MHERO assistant. How can I help you today?",
-    },
-  ]);
+  const models = getModels(locale);
+  const offers = getOffers(locale);
+  const faqs = dict.faqs.items;
+
+  const greeting =
+    locale === "ar"
+      ? "مرحبًا! أنا مساعد MHERO الذكي. اسألني عن الموديلات، الأسعار، العروض، أو حجز تجربة قيادة."
+      : "Hi! I'm the MHERO assistant. Ask me about models, pricing, offers, or booking a test drive.";
+
+  const [messages, setMessages] = useState<ChatMessage[]>([{ from: "bot", text: greeting }]);
+  const [quickReplies, setQuickReplies] = useState<string[]>(
+    locale === "ar"
+      ? ["أسعار MHERO I", "العروض الحالية", "احجز تجربة قيادة", "قارن الموديلات"]
+      : ["MHERO I pricing", "Current offers", "Book a test drive", "Compare models"]
+  );
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -62,31 +78,37 @@ function ChatWidget({ onClose }: { onClose: () => void }) {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, typing]);
 
-  const send = () => {
-    const text = input.trim();
-    if (!text) return;
-    setMessages((prev) => [...prev, { from: "user", text }]);
+  const sendText = (text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    setMessages((prev) => [...prev, { from: "user", text: trimmed }]);
     setInput("");
+    setQuickReplies([]);
     setTyping(true);
+
+    const reply = getBotReply(trimmed, { locale, models, offers, faqs });
+    const delay = Math.min(1800, 500 + reply.text.length * 8);
+
     setTimeout(() => {
       setTyping(false);
-      setMessages((prev) => [
-        ...prev,
-        {
-          from: "bot",
-          text:
-            locale === "ar"
-              ? "شكرًا لتواصلك! هذا مساعد تجريبي — لأسئلة حقيقية يرجى التواصل مع فريقنا عبر صفحة اتصل بنا."
-              : "Thanks for reaching out! This is a demo assistant — for real questions, please contact our team via the Contact Us page.",
-        },
-      ]);
-    }, 900);
+      setMessages((prev) => [...prev, { from: "bot", text: reply.text }]);
+      setQuickReplies(reply.quickReplies);
+    }, delay);
   };
 
   return (
     <div className="flex h-[28rem] w-80 flex-col overflow-hidden border border-mhero-fog bg-white shadow-2xl sm:w-96">
       <div className="flex items-center justify-between bg-mhero-black px-4 py-3 text-white">
-        <p className="text-sm font-semibold">{dict.chatbot.title}</p>
+        <div className="flex items-center gap-2">
+          <BotAvatar />
+          <div>
+            <p className="text-sm font-semibold leading-tight">{dict.chatbot.title}</p>
+            <p className="flex items-center gap-1.5 text-[11px] leading-tight text-white/50">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#25D366]" />
+              {locale === "ar" ? "متصل الآن" : "Online now"}
+            </p>
+          </div>
+        </div>
         <button
           onClick={onClose}
           aria-label={dict.chatbot.close}
@@ -100,28 +122,53 @@ function ChatWidget({ onClose }: { onClose: () => void }) {
         {messages.map((m, i) => (
           <div
             key={i}
-            className={`max-w-[85%] px-3 py-2 text-sm ${
-              m.from === "bot"
-                ? "bg-mhero-fog/60 text-mhero-black"
-                : "ms-auto bg-mhero-black text-white"
-            }`}
+            className={`flex items-end gap-2 ${m.from === "user" ? "flex-row-reverse" : ""}`}
           >
-            {m.text}
+            {m.from === "bot" && <BotAvatar />}
+            <div
+              className={`max-w-[80%] whitespace-pre-line px-3 py-2 text-sm ${
+                m.from === "bot"
+                  ? "rounded-2xl rounded-bl-sm bg-mhero-fog/60 text-mhero-black"
+                  : "rounded-2xl rounded-br-sm bg-mhero-black text-white"
+              }`}
+            >
+              {m.text}
+            </div>
           </div>
         ))}
         {typing && (
-          <div className="max-w-[60%] bg-mhero-fog/60 px-3 py-2 text-sm text-mhero-steel">
-            {dict.chatbot.typing}
+          <div className="flex items-end gap-2">
+            <BotAvatar />
+            <div className="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-mhero-fog/60 px-3 py-2.5">
+              <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-mhero-steel [animation-delay:-0.3s]" />
+              <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-mhero-steel [animation-delay:-0.15s]" />
+              <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-mhero-steel" />
+            </div>
           </div>
         )}
       </div>
 
+      {quickReplies.length > 0 && !typing && (
+        <div className="flex flex-wrap gap-2 border-t border-mhero-fog px-4 pt-3">
+          {quickReplies.map((q) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => sendText(q)}
+              className="rounded-full border border-mhero-fog px-3 py-1.5 text-xs font-medium text-mhero-black transition-colors hover:border-mhero-black"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      )}
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          send();
+          sendText(input);
         }}
-        className="flex items-center gap-2 border-t border-mhero-fog p-3"
+        className="flex items-center gap-2 p-3"
       >
         <input
           value={input}

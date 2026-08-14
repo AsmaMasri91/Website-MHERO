@@ -21,27 +21,60 @@
       {
         "label": "Performance",
         "items": [
-          { "label": "0–100 km/h", "value": "3.8s" },
-          { "label": "Top Speed", "value": "230 km/h" },
-          { "label": "Power Output", "value": "650 hp" },
-          { "label": "Torque", "value": "980 Nm" }
+          {
+            "label": "0–100 km/h",
+            "value": "3.8s"
+          },
+          {
+            "label": "Top Speed",
+            "value": "230 km/h"
+          },
+          {
+            "label": "Power Output",
+            "value": "650 hp"
+          },
+          {
+            "label": "Torque",
+            "value": "980 Nm"
+          }
         ]
       },
       {
         "label": "Range & Charging",
         "items": [
-          { "label": "Range (WLTP)", "value": "530 km" },
-          { "label": "Fast Charging", "value": "10–80% in 24 min" },
-          { "label": "Battery Capacity", "value": "108 kWh" }
+          {
+            "label": "Range (WLTP)",
+            "value": "530 km"
+          },
+          {
+            "label": "Fast Charging",
+            "value": "10–80% in 24 min"
+          },
+          {
+            "label": "Battery Capacity",
+            "value": "108 kWh"
+          }
         ]
       },
       {
         "label": "Dimensions",
         "items": [
-          { "label": "Length", "value": "5,210 mm" },
-          { "label": "Width", "value": "2,050 mm" },
-          { "label": "Wheelbase", "value": "3,110 mm" },
-          { "label": "Ground Clearance", "value": "310 mm (adjustable)" }
+          {
+            "label": "Length",
+            "value": "5,210 mm"
+          },
+          {
+            "label": "Width",
+            "value": "2,050 mm"
+          },
+          {
+            "label": "Wheelbase",
+            "value": "3,110 mm"
+          },
+          {
+            "label": "Ground Clearance",
+            "value": "310 mm (adjustable)"
+          }
         ]
       }
     ],
@@ -79,14 +112,33 @@
       "Ambient lighting with 64 colour presets"
     ],
     "colours": [
-      { "name": "Matte Green", "hex": "#3c4a3a", "image": "/images/mhero-1-colour-racing-green.webp" },
-      { "name": "Matte Black", "hex": "#1c1c1e", "image": "/images/mhero-1-colour-obsidian-black.webp" },
-      { "name": "Matte Grey", "hex": "#8a8d8f", "image": "/images/mhero-1-colour-matte-grey.webp" }
+      {
+        "name": "Matte Green",
+        "hex": "#3c4a3a",
+        "image": "/images/mhero-1-colour-racing-green.webp"
+      },
+      {
+        "name": "Matte Black",
+        "hex": "#1c1c1e",
+        "image": "/images/mhero-1-colour-obsidian-black.webp"
+      },
+      {
+        "name": "Matte Grey",
+        "hex": "#8a8d8f",
+        "image": "/images/mhero-1-colour-matte-grey.webp"
+      }
     ],
     "interiorColours": [
-      { "name": "Black Nappa Leather", "hex": "#1c1c1e" },
-      { "name": "Cognac Leather", "hex": "#7b4a2f" },
-      { "name": "Grey Alcantara", "hex": "#6e6e6e" }
+      {
+        "name": "Beige Nappa Leather",
+        "hex": "#c9ae87",
+        "image": "/images/models/interior-beige.png"
+      },
+      {
+        "name": "Black Leather",
+        "hex": "#17181c",
+        "image": "/images/models/interior-black.png"
+      }
     ],
     "variants": [
       {
@@ -109,11 +161,26 @@
       "heroSubcopy": "Experience the era of a new icon. MHERO I merges the whispers of electric power with the roars of unparalleled all-terrain performance.",
       "statsEyebrow": "Dual Power",
       "stats": [
-        { "label": "Power", "value": "805 HP" },
-        { "label": "Torque", "value": "1,050 Nm" },
-        { "label": "0–100 km/h", "value": "6.0 sec" },
-        { "label": "Range", "value": "834 km" },
-        { "label": "Battery Capacity", "value": "65 kWh" }
+        {
+          "label": "Power",
+          "value": "805 HP"
+        },
+        {
+          "label": "Torque",
+          "value": "1,050 Nm"
+        },
+        {
+          "label": "0–100 km/h",
+          "value": "6.0 sec"
+        },
+        {
+          "label": "Range",
+          "value": "834 km"
+        },
+        {
+          "label": "Battery Capacity",
+          "value": "65 kWh"
+        }
       ],
       "exteriorImageLabel": "MHERO I parked in front of modern architecture",
       "designEyebrow": "Design",
@@ -229,10 +296,22 @@
       "utilityTitle": "Limitless Utility",
       "utilityIntro": "The MHERO I embodies versatility and utility as a dependable 5-seater, offering impressive payload and roof load capacity, towing capability, and generous luggage volume.",
       "utilitySpecs": [
-        { "label": "Roof Load", "value": "Up to 100 kg" },
-        { "label": "Trunk Volume", "value": "452 L (1,137 L)" },
-        { "label": "Payload", "value": "Up to 585 kg" },
-        { "label": "Towing Capacity", "value": "Up to 2,500 kg" }
+        {
+          "label": "Roof Load",
+          "value": "Up to 100 kg"
+        },
+        {
+          "label": "Trunk Volume",
+          "value": "452 L (1,137 L)"
+        },
+        {
+          "label": "Payload",
+          "value": "Up to 585 kg"
+        },
+        {
+          "label": "Towing Capacity",
+          "value": "Up to 2,500 kg"
+        }
       ],
       "accessoriesTitle": "MHERO I Accessories",
       "accessories": [
@@ -250,11 +329,26 @@
       "chargingImageLabel": "MHERO I charging at a public station",
       "dimensionsTitle": "Dimensions",
       "dimensions": [
-        { "label": "Maximum Height", "value": "1,935 mm" },
-        { "label": "Length", "value": "4,987 mm" },
-        { "label": "Length with Storage Box", "value": "5,096 mm" },
-        { "label": "Wheel Base", "value": "2,950 mm" },
-        { "label": "Width", "value": "2,080 mm" }
+        {
+          "label": "Maximum Height",
+          "value": "1,935 mm"
+        },
+        {
+          "label": "Length",
+          "value": "4,987 mm"
+        },
+        {
+          "label": "Length with Storage Box",
+          "value": "5,096 mm"
+        },
+        {
+          "label": "Wheel Base",
+          "value": "2,950 mm"
+        },
+        {
+          "label": "Width",
+          "value": "2,080 mm"
+        }
       ],
       "dimensionsImageLabel": "MHERO I dimension line drawing"
     }
@@ -281,27 +375,60 @@
       {
         "label": "Performance",
         "items": [
-          { "label": "0–100 km/h", "value": "4.6s" },
-          { "label": "Top Speed", "value": "210 km/h" },
-          { "label": "Power Output", "value": "480 hp" },
-          { "label": "Torque", "value": "700 Nm" }
+          {
+            "label": "0–100 km/h",
+            "value": "4.6s"
+          },
+          {
+            "label": "Top Speed",
+            "value": "210 km/h"
+          },
+          {
+            "label": "Power Output",
+            "value": "480 hp"
+          },
+          {
+            "label": "Torque",
+            "value": "700 Nm"
+          }
         ]
       },
       {
         "label": "Range & Charging",
         "items": [
-          { "label": "Range (WLTP)", "value": "610 km" },
-          { "label": "Fast Charging", "value": "10–80% in 21 min" },
-          { "label": "Battery Capacity", "value": "94 kWh" }
+          {
+            "label": "Range (WLTP)",
+            "value": "610 km"
+          },
+          {
+            "label": "Fast Charging",
+            "value": "10–80% in 21 min"
+          },
+          {
+            "label": "Battery Capacity",
+            "value": "94 kWh"
+          }
         ]
       },
       {
         "label": "Dimensions",
         "items": [
-          { "label": "Length", "value": "4,980 mm" },
-          { "label": "Width", "value": "1,960 mm" },
-          { "label": "Wheelbase", "value": "2,980 mm" },
-          { "label": "Drag Coefficient", "value": "0.21 Cd" }
+          {
+            "label": "Length",
+            "value": "4,980 mm"
+          },
+          {
+            "label": "Width",
+            "value": "1,960 mm"
+          },
+          {
+            "label": "Wheelbase",
+            "value": "2,980 mm"
+          },
+          {
+            "label": "Drag Coefficient",
+            "value": "0.21 Cd"
+          }
         ]
       }
     ],
@@ -339,17 +466,33 @@
       "31-speaker premium audio system"
     ],
     "colours": [
-      { "name": "Obsidian Black", "hex": "#0a0a0a" },
-      { "name": "Glacier White", "hex": "#f2f2f0" },
-      { "name": "Titanium Grey", "hex": "#5b5b5b" },
-      { "name": "Ember Red", "hex": "#a6231f" },
-      { "name": "Champagne Gold", "hex": "#a68a5b" },
-      { "name": "Racing Green", "hex": "#1f3a2e" }
+      {
+        "name": "Clouds White",
+        "hex": "#e9e9e6",
+        "image": "/images/mhero-2-colour-clouds-white.png"
+      },
+      {
+        "name": "Piano Black",
+        "hex": "#15151a",
+        "image": "/images/mhero-2-colour-piano-black.png"
+      },
+      {
+        "name": "Olive Green",
+        "hex": "#8a9270",
+        "image": "/images/mhero-2-colour-olive-green.png"
+      }
     ],
     "interiorColours": [
-      { "name": "Black Nappa Leather", "hex": "#1c1c1e" },
-      { "name": "Ivory Leather", "hex": "#e8e2d5" },
-      { "name": "Grey Alcantara", "hex": "#6e6e6e" }
+      {
+        "name": "Beige Nappa Leather",
+        "hex": "#c9ae87",
+        "image": "/images/models/interior-beige.png"
+      },
+      {
+        "name": "Black Leather",
+        "hex": "#17181c",
+        "image": "/images/models/interior-black.png"
+      }
     ],
     "variants": [
       {
@@ -372,11 +515,26 @@
       "heroSubcopy": "MHERO II brings untamed power into the city, with intelligent capability that adapts on demand, bold design that makes its presence known, and a drive not limited to any road.",
       "statsEyebrow": "Power With Presence",
       "stats": [
-        { "label": "Power", "value": "677 HP" },
-        { "label": "Torque", "value": "848 Nm" },
-        { "label": "0–100 km/h", "value": "5.2 sec" },
-        { "label": "Combined Range", "value": "1,300 km" },
-        { "label": "Battery Capacity", "value": "31.7 kWh" }
+        {
+          "label": "Power",
+          "value": "677 HP"
+        },
+        {
+          "label": "Torque",
+          "value": "848 Nm"
+        },
+        {
+          "label": "0–100 km/h",
+          "value": "5.2 sec"
+        },
+        {
+          "label": "Combined Range",
+          "value": "1,300 km"
+        },
+        {
+          "label": "Battery Capacity",
+          "value": "31.7 kWh"
+        }
       ],
       "exteriorImageLabel": "MHERO II driving through the city at night",
       "designEyebrow": "Design",
@@ -503,10 +661,22 @@
       "utilityTitle": "Uncontained, By Every Measure",
       "utilityIntro": "MHERO II brings together performance, capability, and everyday usability in one place, with ground clearance and wading depth that keep pace wherever the road leads.",
       "utilitySpecs": [
-        { "label": "Ground Clearance", "value": "Up to 333 mm" },
-        { "label": "Wading Depth", "value": "Up to 900 mm" },
-        { "label": "Kerb Weight", "value": "3,005 kg" },
-        { "label": "WLTC Range", "value": "Up to 1,113 km" }
+        {
+          "label": "Ground Clearance",
+          "value": "Up to 333 mm"
+        },
+        {
+          "label": "Wading Depth",
+          "value": "Up to 900 mm"
+        },
+        {
+          "label": "Kerb Weight",
+          "value": "3,005 kg"
+        },
+        {
+          "label": "WLTC Range",
+          "value": "Up to 1,113 km"
+        }
       ],
       "accessoriesTitle": "MHERO II Accessories",
       "accessories": [
@@ -528,11 +698,26 @@
       "chargingImageLabel": "MHERO II charging in the city",
       "dimensionsTitle": "Dimensions",
       "dimensions": [
-        { "label": "Length", "value": "5,100 mm" },
-        { "label": "Width", "value": "1,998 mm" },
-        { "label": "Height", "value": "1,899 mm" },
-        { "label": "Wheelbase (Prime)", "value": "2,909 mm" },
-        { "label": "Kerb Weight", "value": "3,005 kg" }
+        {
+          "label": "Length",
+          "value": "5,100 mm"
+        },
+        {
+          "label": "Width",
+          "value": "1,998 mm"
+        },
+        {
+          "label": "Height",
+          "value": "1,899 mm"
+        },
+        {
+          "label": "Wheelbase (Prime)",
+          "value": "2,909 mm"
+        },
+        {
+          "label": "Kerb Weight",
+          "value": "3,005 kg"
+        }
       ],
       "dimensionsImageLabel": "MHERO II dimension line drawing"
     }
@@ -559,27 +744,60 @@
       {
         "label": "Performance",
         "items": [
-          { "label": "0–100 km/h", "value": "4.6s" },
-          { "label": "Top Speed", "value": "210 km/h" },
-          { "label": "Power Output", "value": "480 hp" },
-          { "label": "Torque", "value": "700 Nm" }
+          {
+            "label": "0–100 km/h",
+            "value": "4.6s"
+          },
+          {
+            "label": "Top Speed",
+            "value": "210 km/h"
+          },
+          {
+            "label": "Power Output",
+            "value": "480 hp"
+          },
+          {
+            "label": "Torque",
+            "value": "700 Nm"
+          }
         ]
       },
       {
         "label": "Range & Charging",
         "items": [
-          { "label": "Range (WLTP)", "value": "610 km" },
-          { "label": "Fast Charging", "value": "10–80% in 21 min" },
-          { "label": "Battery Capacity", "value": "94 kWh" }
+          {
+            "label": "Range (WLTP)",
+            "value": "610 km"
+          },
+          {
+            "label": "Fast Charging",
+            "value": "10–80% in 21 min"
+          },
+          {
+            "label": "Battery Capacity",
+            "value": "94 kWh"
+          }
         ]
       },
       {
         "label": "Dimensions",
         "items": [
-          { "label": "Length", "value": "4,980 mm" },
-          { "label": "Width", "value": "1,960 mm" },
-          { "label": "Wheelbase", "value": "2,980 mm" },
-          { "label": "Drag Coefficient", "value": "0.21 Cd" }
+          {
+            "label": "Length",
+            "value": "4,980 mm"
+          },
+          {
+            "label": "Width",
+            "value": "1,960 mm"
+          },
+          {
+            "label": "Wheelbase",
+            "value": "2,980 mm"
+          },
+          {
+            "label": "Drag Coefficient",
+            "value": "0.21 Cd"
+          }
         ]
       }
     ],
@@ -617,17 +835,33 @@
       "31-speaker premium audio system"
     ],
     "colours": [
-      { "name": "Obsidian Black", "hex": "#0a0a0a" },
-      { "name": "Glacier White", "hex": "#f2f2f0" },
-      { "name": "Titanium Grey", "hex": "#5b5b5b" },
-      { "name": "Ember Red", "hex": "#a6231f" },
-      { "name": "Champagne Gold", "hex": "#a68a5b" },
-      { "name": "Racing Green", "hex": "#1f3a2e" }
+      {
+        "name": "Clouds White",
+        "hex": "#e9e9e6",
+        "image": "/images/mhero-2-colour-clouds-white.png"
+      },
+      {
+        "name": "Piano Black",
+        "hex": "#15151a",
+        "image": "/images/mhero-2-colour-piano-black.png"
+      },
+      {
+        "name": "Olive Green",
+        "hex": "#8a9270",
+        "image": "/images/mhero-2-colour-olive-green.png"
+      }
     ],
     "interiorColours": [
-      { "name": "Black Nappa Leather", "hex": "#1c1c1e" },
-      { "name": "Ivory Leather", "hex": "#e8e2d5" },
-      { "name": "Grey Alcantara", "hex": "#6e6e6e" }
+      {
+        "name": "Beige Nappa Leather",
+        "hex": "#c9ae87",
+        "image": "/images/models/interior-beige.png"
+      },
+      {
+        "name": "Black Leather",
+        "hex": "#17181c",
+        "image": "/images/models/interior-black.png"
+      }
     ],
     "variants": [
       {
@@ -650,11 +884,26 @@
       "heroSubcopy": "MHERO II - Terrain brings the same untamed power into every environment, with intelligent all-wheel capability that adapts on demand, bold design that makes its presence known, and a drive not limited to any road.",
       "statsEyebrow": "Power With Presence",
       "stats": [
-        { "label": "Power", "value": "677 HP" },
-        { "label": "Torque", "value": "848 Nm" },
-        { "label": "0–100 km/h", "value": "5.2 sec" },
-        { "label": "Combined Range", "value": "1,300 km" },
-        { "label": "Battery Capacity", "value": "31.7 kWh" }
+        {
+          "label": "Power",
+          "value": "677 HP"
+        },
+        {
+          "label": "Torque",
+          "value": "848 Nm"
+        },
+        {
+          "label": "0–100 km/h",
+          "value": "5.2 sec"
+        },
+        {
+          "label": "Combined Range",
+          "value": "1,300 km"
+        },
+        {
+          "label": "Battery Capacity",
+          "value": "31.7 kWh"
+        }
       ],
       "exteriorImageLabel": "MHERO II Terrain driving through mixed terrain",
       "designEyebrow": "Design",
@@ -781,10 +1030,22 @@
       "utilityTitle": "Uncontained, By Every Measure",
       "utilityIntro": "MHERO II - Terrain brings together performance, capability, and everyday usability in one place, with ground clearance and wading depth that keep pace wherever the road leads.",
       "utilitySpecs": [
-        { "label": "Ground Clearance", "value": "Up to 333 mm" },
-        { "label": "Wading Depth", "value": "Up to 900 mm" },
-        { "label": "Kerb Weight", "value": "3,005 kg" },
-        { "label": "WLTC Range", "value": "Up to 1,113 km" }
+        {
+          "label": "Ground Clearance",
+          "value": "Up to 333 mm"
+        },
+        {
+          "label": "Wading Depth",
+          "value": "Up to 900 mm"
+        },
+        {
+          "label": "Kerb Weight",
+          "value": "3,005 kg"
+        },
+        {
+          "label": "WLTC Range",
+          "value": "Up to 1,113 km"
+        }
       ],
       "accessoriesTitle": "MHERO II - Terrain Accessories",
       "accessories": [
@@ -806,11 +1067,26 @@
       "chargingImageLabel": "MHERO II Terrain charging in the city",
       "dimensionsTitle": "Dimensions",
       "dimensions": [
-        { "label": "Length", "value": "5,100 mm" },
-        { "label": "Width", "value": "1,998 mm" },
-        { "label": "Height", "value": "1,899 mm" },
-        { "label": "Wheelbase (Terrain)", "value": "2,909 mm" },
-        { "label": "Kerb Weight", "value": "3,005 kg" }
+        {
+          "label": "Length",
+          "value": "5,100 mm"
+        },
+        {
+          "label": "Width",
+          "value": "1,998 mm"
+        },
+        {
+          "label": "Height",
+          "value": "1,899 mm"
+        },
+        {
+          "label": "Wheelbase (Terrain)",
+          "value": "2,909 mm"
+        },
+        {
+          "label": "Kerb Weight",
+          "value": "3,005 kg"
+        }
       ],
       "dimensionsImageLabel": "MHERO II Terrain dimension line drawing"
     }

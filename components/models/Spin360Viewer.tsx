@@ -79,7 +79,7 @@ export default function Spin360Viewer({
         <img
           src={src || fallbackSrc}
           alt={alt}
-          className="absolute inset-0 h-full w-full object-contain"
+          className="absolute inset-0 h-full w-full object-cover"
           draggable={false}
         />
       </div>

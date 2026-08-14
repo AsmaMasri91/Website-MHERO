@@ -8,7 +8,7 @@ import Section from "@/components/ui/Section";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 
 const carImages: Record<string, string> = {
-  "mhero-1": "/images/models/mhero-1-best-of-both.webp",
+  "mhero-1": "/images/best-of-both-mhero-1.webp",
   "mhero-2": "/images/models/mhero-2-best-of-both.webp",
 };
 

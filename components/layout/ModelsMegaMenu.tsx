@@ -43,11 +43,11 @@ export default function ModelsMegaMenu({
       <div className="absolute inset-0 bg-black/70" onClick={onMouseLeave} />
 
       <div className="relative border-t border-white/10 bg-mhero-charcoal text-white shadow-2xl">
-        <div className="container-mhero grid grid-cols-12 gap-10 py-10">
+        <div className="container-mhero grid grid-cols-12 gap-8 py-8">
           {/* Left rail */}
           <div className="col-span-3 flex flex-col border-e border-white/10 pe-8">
             <p className="eyebrow mb-3">{dict.nav.modelsRange}</p>
-            <h3 className="text-2xl font-bold leading-tight text-white">
+            <h3 className="text-xl font-bold leading-tight text-white">
               {dict.nav.exploreEveryModel}
             </h3>
             <p className="mt-3 text-sm text-white/50">
@@ -74,7 +74,7 @@ export default function ModelsMegaMenu({
           </div>
 
           {/* Model cards */}
-          <div className="col-span-9 grid grid-cols-3 gap-6">
+          <div className="col-span-9 grid grid-cols-3 gap-4">
             {models.map((model) => (
               <Link
                 key={model.slug}
@@ -82,17 +82,17 @@ export default function ModelsMegaMenu({
                 onClick={onNavigate}
                 className="group/card overflow-hidden rounded-2xl border border-white/10 bg-mhero-black transition-colors hover:border-white/30"
               >
-                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image
                     src={modelImages[model.slug]}
                     alt={model.name}
                     fill
-                    className="object-cover transition-transform duration-700 ease-premium group-hover/card:scale-105"
+                    className="scale-110 object-cover transition-transform duration-700 ease-premium group-hover/card:scale-[1.18]"
                   />
                 </div>
-                <div className="p-5">
-                  <h4 className="text-lg font-bold">{model.name}</h4>
-                  <p className="mt-1 text-sm text-white/50">
+                <div className="p-4">
+                  <h4 className="text-base font-bold">{model.name}</h4>
+                  <p className="mt-1 text-xs text-white/50">
                     {model.shortDescription}
                   </p>
                 </div>

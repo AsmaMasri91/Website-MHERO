@@ -23,10 +23,10 @@ import { formatCurrency } from "@/lib/financeMath";
 
 const modelsEn = modelsData as VehicleModel[];
 
-const carImages: Record<string, string> = {
-  "mhero-1": "/images/models/mhero-1-campaign.png",
-  "mhero-2": "/images/models/mhero-2-campaign.png",
-  "mhero-2-terrain": "/images/models/mhero-2-campaign.png",
+const hotspotImages: Record<string, string> = {
+  "mhero-1": "/images/models/mhero-1-best-of-both.webp",
+  "mhero-2": "/images/best-of-both-mhero-2.webp",
+  "mhero-2-terrain": "/images/best-of-both-mhero-2.webp",
 };
 
 export function generateStaticParams() {
@@ -85,7 +85,7 @@ export default function ModelDetailPage({
       </div>
       <div className="mt-8">
         <HotspotFeature
-          image={carImages[model.slug]}
+          image={hotspotImages[model.slug]}
           imageLabel={d.exteriorImageLabel}
           features={d.highlights}
         />
@@ -168,8 +168,8 @@ export default function ModelDetailPage({
       </Section>
 
       {/* Charging */}
-      <Section>
-        <ChargingSection label={d.chargingLabel} body={d.chargingBody} imageLabel={d.chargingImageLabel} />
+      <Section eyebrow={dict.models.overview} title={d.chargingLabel}>
+        <ChargingSection body={d.chargingBody} imageLabel={d.chargingImageLabel} />
       </Section>
 
       {/* Dimensions */}
@@ -179,7 +179,7 @@ export default function ModelDetailPage({
 
       {/* Final CTA */}
       <Section light={false} className="text-center">
-        <h2 className="!text-center text-3xl font-bold md:text-4xl">
+        <h2 className="!text-center text-3xl font-bold tracking-tight md:text-5xl">
           {locale === "ar" ? `جاهز لتجربة ${model.name}؟` : `Ready to experience ${model.name}?`}
         </h2>
         <div className="mt-8 flex flex-wrap justify-center gap-4">

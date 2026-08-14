@@ -48,7 +48,7 @@ export default function BlogDetailPage({
               { year: "numeric", month: "long", day: "numeric" }
             )}
           </p>
-          <h1 className="text-3xl font-extrabold tracking-tight text-mhero-black md:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-mhero-black md:text-5xl">
             {post.title}
           </h1>
           <PlaceholderImage

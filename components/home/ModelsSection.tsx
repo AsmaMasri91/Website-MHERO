@@ -60,7 +60,7 @@ export default function ModelsSection() {
                   src={model.heroImage}
                   alt={model.heroImageLabel}
                   fill
-                  className="object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
+                  className="scale-110 object-cover transition-transform duration-700 ease-premium group-hover:scale-[1.18]"
                 />
               ) : (
                 <PlaceholderImage
