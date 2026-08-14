@@ -18,7 +18,7 @@ export default function LanguageToggle() {
               locale === l ? "bg-white text-mhero-black" : "text-white/70 hover:text-white"
             }`}
           >
-            {l}
+            {l.toUpperCase()}
           </button>
         </div>
       ))}
