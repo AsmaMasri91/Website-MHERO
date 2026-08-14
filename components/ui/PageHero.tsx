@@ -37,8 +37,8 @@ export default function PageHero({
           <PlaceholderImage label={imageLabel} aspect="aspect-auto" className="h-full w-full" />
         )}
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-black/10" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/5" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
 
       <div className="container-mhero relative pb-20 text-white">
         {backHref && (

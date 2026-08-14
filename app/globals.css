@@ -43,7 +43,7 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-none px-7 py-3.5 text-sm font-semibold tracking-wide transition-all duration-300 ease-premium;
+    @apply inline-flex items-center justify-center gap-2 rounded-none px-7 py-2.5 text-sm font-semibold tracking-wide transition-all duration-300 ease-premium;
   }
 
   .btn-primary {

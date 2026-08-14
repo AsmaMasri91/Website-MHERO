@@ -62,7 +62,7 @@ export default function OffersSlider() {
           )}
         </motion.div>
       </AnimatePresence>
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/35 to-black/10" />
 
       <div className="container-mhero relative flex h-full flex-col justify-end pb-24 pt-32">
         <AnimatePresence mode="wait">

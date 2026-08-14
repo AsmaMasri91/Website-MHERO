@@ -7,18 +7,20 @@ export default function LanguageToggle() {
   const { locale, setLocale } = useLocale();
 
   return (
-    <div className="flex w-fit items-center rounded-full border border-white/20 p-0.5 text-xs font-semibold uppercase tracking-widest2">
-      {(["en", "ar"] as Locale[]).map((l) => (
-        <button
-          key={l}
-          onClick={() => setLocale(l)}
-          aria-pressed={locale === l}
-          className={`rounded-full px-2 py-0.5 transition-colors ${
-            locale === l ? "bg-white text-mhero-black" : "text-white/70 hover:text-white"
-          }`}
-        >
-          {l}
-        </button>
+    <div className="flex w-fit items-center border border-white/20 text-xs font-semibold uppercase tracking-widest2">
+      {(["en", "ar"] as Locale[]).map((l, i) => (
+        <div key={l} className="flex items-center">
+          {i > 0 && <span className="h-4 w-px bg-white/20" aria-hidden="true" />}
+          <button
+            onClick={() => setLocale(l)}
+            aria-pressed={locale === l}
+            className={`px-3 py-1.5 transition-colors ${
+              locale === l ? "bg-white text-mhero-black" : "text-white/70 hover:text-white"
+            }`}
+          >
+            {l}
+          </button>
+        </div>
       ))}
     </div>
   );
