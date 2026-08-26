@@ -15,7 +15,6 @@ import ColourSwatches from "@/components/models/ColourSwatches";
 import AccessoriesGrid from "@/components/models/AccessoriesGrid";
 import ChargingSection from "@/components/models/ChargingSection";
 import DimensionsTable from "@/components/models/DimensionsTable";
-import StatementSection from "@/components/models/StatementSection";
 import NumberedSlider from "@/components/models/NumberedSlider";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getModels } from "@/lib/i18n/data";
@@ -91,47 +90,36 @@ export default function ModelDetailPage({
         />
       </div>
 
-      {/* All-terrain performance slider */}
+      {/* Box highlighting exterior features (e.g. all-terrain performance) */}
       {d.terrainItems && d.terrainItems.length > 0 && (
         <Section>
           <NumberedSlider eyebrow={d.terrainEyebrow ?? ""} items={d.terrainItems} />
         </Section>
       )}
 
-      {/* Brand statement */}
-      {model.slug === "mhero-1" && (
-        <StatementSection
-          headline={locale === "ar" ? "الطريق ملكك، بيانك الخاص" : "Your Road, Your Statement"}
-          body={
-            locale === "ar"
-              ? "بحضور قوي وهيبة لا تُنكر، تفرض MHERO I حضورها وتلفت الأنظار أينما ذهبت. صُممت لمن يجرؤون على التميز ويرفضون الانصهار في الحشد، هذا التصميم بيان جريء للفردية. تصميمها الجريء واللافت يجسد القوة والصلابة، رمزًا لشجاعة من يختارون الطريق غير المطروق ويستكشفون آفاقًا جديدة على الطريق."
-              : "With a commanding stance and undeniable presence, the MHERO I demands attention and turns heads wherever it roams. Crafted for those who dare to stand out and refuse to blend in with the crowd, this design is a bold statement of individuality. Its edgy, eye-catching design embodies strength and power, symbolizing the courage of those who choose the unbeaten path and explore new horizons on the road."
-          }
-          images={model.gallery}
-        />
+      {/* Design gallery (not shown on MHERO I) */}
+      {model.slug !== "mhero-1" && (
+        <Section>
+          <NumberedSlider
+            badge={d.designEyebrow}
+            eyebrow={d.designTitle}
+            items={d.designGallery.map((slide) => ({
+              title: slide.heading,
+              body: slide.body,
+              imageLabel: slide.imageLabel,
+            }))}
+          />
+        </Section>
       )}
 
-      {/* Design gallery */}
-      <Section>
-        <NumberedSlider
-          badge={d.designEyebrow}
-          eyebrow={d.designTitle}
-          items={d.designGallery.map((slide) => ({
-            title: slide.heading,
-            body: slide.body,
-            imageLabel: slide.imageLabel,
-          }))}
-        />
-      </Section>
-
-      {/* Exterior */}
+      {/* Additional exterior highlights */}
       {d.exteriorItems && d.exteriorItems.length > 0 && (
         <Section>
           <NumberedSlider eyebrow={d.exteriorEyebrow ?? ""} items={d.exteriorItems} />
         </Section>
       )}
 
-      {/* Interior */}
+      {/* Box highlighting interior features (e.g. private jet cabin) */}
       {d.interiorItems && d.interiorItems.length > 0 && (
         <Section>
           <NumberedSlider eyebrow={d.interiorEyebrow ?? ""} items={d.interiorItems} />
@@ -148,12 +136,14 @@ export default function ModelDetailPage({
         <CabinTabs tabs={d.cabinTabs} />
       </Section>
 
-      {/* Utility (continues the same dark block as Cabin) */}
-      <Section light={false} eyebrow={dict.models.details} title={d.utilityTitle} description={d.utilityIntro} className="pt-0">
-        <UtilitySpecs specs={d.utilitySpecs} />
-      </Section>
+      {/* Utility (not shown on MHERO I) */}
+      {model.slug !== "mhero-1" && (
+        <Section light={false} eyebrow={dict.models.details} title={d.utilityTitle} description={d.utilityIntro} className="pt-0">
+          <UtilitySpecs specs={d.utilitySpecs} />
+        </Section>
+      )}
 
-      {/* Full specifications */}
+      {/* Full specifications (The Numbers) */}
       <Section id="specifications" eyebrow={dict.models.specifications} title={dict.models.theNumbers}>
         <SpecsTable groups={model.specs} />
       </Section>
@@ -167,15 +157,19 @@ export default function ModelDetailPage({
         />
       </Section>
 
-      {/* Charging */}
-      <Section eyebrow={dict.models.overview} title={d.chargingLabel}>
-        <ChargingSection body={d.chargingBody} imageLabel={d.chargingImageLabel} />
-      </Section>
+      {/* Charging (not shown on MHERO I) */}
+      {model.slug !== "mhero-1" && (
+        <Section eyebrow={dict.models.overview} title={d.chargingLabel}>
+          <ChargingSection body={d.chargingBody} imageLabel={d.chargingImageLabel} />
+        </Section>
+      )}
 
-      {/* Dimensions */}
-      <Section eyebrow={dict.models.overview} title={d.dimensionsTitle}>
-        <DimensionsTable rows={d.dimensions} diagramLabel={d.dimensionsImageLabel} />
-      </Section>
+      {/* Dimensions (not shown on MHERO I) */}
+      {model.slug !== "mhero-1" && (
+        <Section eyebrow={dict.models.overview} title={d.dimensionsTitle}>
+          <DimensionsTable rows={d.dimensions} diagramLabel={d.dimensionsImageLabel} />
+        </Section>
+      )}
 
       {/* Final CTA */}
       <Section light={false} className="text-center">

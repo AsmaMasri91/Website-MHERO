@@ -10,7 +10,17 @@ import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
 import { formatCurrency } from "@/lib/financeMath";
 
-const TIME_SLOTS = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+const TIME_SLOTS: string[] = (() => {
+  const slots: string[] = [];
+  for (let mins = 9 * 60; mins <= 19 * 60; mins += 30) {
+    const h = String(Math.floor(mins / 60)).padStart(2, "0");
+    const m = String(mins % 60).padStart(2, "0");
+    slots.push(`${h}:${m}`);
+  }
+  return slots;
+})();
+
+const SHOWROOM_OPTIONS = ["Private Viewing", "DXB", "AUH"] as const;
 
 const carImages: Record<string, string> = {
   "mhero-1": "/images/models/mhero-1-campaign.png",
@@ -21,6 +31,7 @@ const carImages: Record<string, string> = {
 const schema = z
   .object({
     model: z.string().min(1),
+    showroom: z.string().min(1),
     date: z.string().min(1),
     time: z.string().min(1),
     title: z.string().min(1),
@@ -35,6 +46,17 @@ const schema = z
   .superRefine((data, ctx) => {
     if (!data.acceptTerms) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["acceptTerms"], message: "Required" });
+    }
+    if (data.showroom === "Private Viewing" && data.date && data.time) {
+      const slot = new Date(`${data.date}T${data.time}:00`);
+      const minAllowed = new Date(Date.now() + 4 * 60 * 60 * 1000);
+      if (slot < minAllowed) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["time"],
+          message: "Private viewing slots require at least 4 hours' notice from now.",
+        });
+      }
     }
   });
 
@@ -90,6 +112,7 @@ export default function TestDriveForm() {
     resolver: zodResolver(schema),
     defaultValues: {
       model: models[0]?.slug ?? "",
+      showroom: "",
       date: "",
       time: "",
       title: "",
@@ -105,6 +128,7 @@ export default function TestDriveForm() {
 
   const selectedModelSlug = watch("model");
   const selectedTime = watch("time");
+  const selectedShowroom = watch("showroom");
   const selectedModel = models.find((m) => m.slug === selectedModelSlug) ?? models[0];
 
   const onSubmit = async () => {
@@ -112,6 +136,7 @@ export default function TestDriveForm() {
     setSubmitted(true);
     reset({
       model: models[0]?.slug ?? "",
+      showroom: "",
       date: "",
       time: "",
       title: "",
@@ -193,10 +218,22 @@ export default function TestDriveForm() {
       <div className="mt-10">
         <SectionHeader index={2} title={dict.testDrive.whenAndWhere} />
         <div className="space-y-5">
-          <FormField label={dict.testDrive.preferredShowroom}>
-            <p className="input-field-light flex items-center text-mhero-black">
-              {dict.contact.headOfficeAddress}
-            </p>
+          <FormField label={dict.testDrive.preferredShowroom} required error={errors.showroom?.message}>
+            <select className="input-field-light" {...register("showroom")}>
+              <option value="">—</option>
+              {SHOWROOM_OPTIONS.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+            {selectedShowroom === "Private Viewing" && (
+              <p className="mt-1.5 text-xs text-mhero-steel">
+                {locale === "ar"
+                  ? "تتطلب المعاينة الخاصة حجزًا قبل 4 ساعات على الأقل من الموعد."
+                  : "Private viewings require booking at least 4 hours before the selected time."}
+              </p>
+            )}
           </FormField>
 
           <div className="grid gap-5 sm:grid-cols-2">

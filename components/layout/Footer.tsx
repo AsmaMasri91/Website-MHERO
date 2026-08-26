@@ -15,9 +15,6 @@ export default function Footer() {
         { label: dict.nav.modelsLinks.model1, href: "/models/mhero-1" },
         { label: dict.nav.modelsLinks.model2, href: "/models/mhero-2" },
         { label: dict.nav.modelsLinks.model2Terrain, href: "/models/mhero-2-terrain" },
-        { label: dict.nav.bookTestDrive, href: "/models/test-drive" },
-        { label: dict.nav.compareModels, href: "/models/compare" },
-        { label: dict.nav.financeCalculator, href: "/models/finance-calculator" },
       ],
     },
     {
@@ -27,6 +24,9 @@ export default function Footer() {
         { label: dict.nav.afterSales, href: "/after-sales" },
         { label: dict.afterSales.bookService, href: "/after-sales/book-service" },
         { label: dict.nav.preOwned, href: "/pre-owned" },
+        { label: dict.nav.bookTestDrive, href: "/models/test-drive" },
+        { label: dict.nav.compareModels, href: "/models/compare" },
+        { label: dict.nav.financeCalculator, href: "/models/finance-calculator" },
       ],
     },
     {

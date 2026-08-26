@@ -23,9 +23,15 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
+const HOMEPAGE_PRICE_OVERRIDES: Record<string, number> = {
+  "mhero-1": 299900,
+  "mhero-2": 199900,
+};
+
 export default function ModelsSection() {
   const { locale, dict } = useLocale();
-  const models = getModels(locale);
+  const allModels = getModels(locale);
+  const models = allModels.filter((m) => m.slug === "mhero-1" || m.slug === "mhero-2");
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollByCard = (dir: 1 | -1) => {
@@ -71,12 +77,17 @@ export default function ModelsSection() {
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6">
-                <h3 className="text-xl font-bold text-white">{model.name}</h3>
+                <h3 className="text-xl font-bold text-white">
+                  {model.slug === "mhero-2" ? "MHERO II" : model.name}
+                </h3>
                 <p className="mt-1 text-sm text-white/70">{model.tagline}</p>
                 <p className="mt-2 text-sm text-white/70">
                   {dict.common.startingFrom}{" "}
                   <span className="font-semibold text-white">
-                    {formatCurrency(model.startingPrice, model.currency)}
+                    {formatCurrency(
+                      HOMEPAGE_PRICE_OVERRIDES[model.slug] ?? model.startingPrice,
+                      model.currency
+                    )}
                   </span>
                 </p>
               </div>

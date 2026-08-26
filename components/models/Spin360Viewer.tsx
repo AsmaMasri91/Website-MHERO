@@ -59,7 +59,7 @@ export default function Spin360Viewer({
 
   return (
     <div
-      className={`group relative aspect-[16/9] w-full select-none overflow-hidden rounded-2xl bg-mhero-fog ${
+      className={`group relative aspect-[3/2] w-full select-none overflow-hidden rounded-2xl bg-mhero-fog ${
         dragging ? "cursor-grabbing" : "cursor-grab"
       }`}
       onMouseDown={(e) => onDragStart(e.clientX)}
@@ -79,7 +79,7 @@ export default function Spin360Viewer({
         <img
           src={src || fallbackSrc}
           alt={alt}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-contain"
           draggable={false}
         />
       </div>

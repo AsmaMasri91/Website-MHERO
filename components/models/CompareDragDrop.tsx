@@ -14,6 +14,16 @@ const modelImages: Record<string, string> = {
   "mhero-2-terrain": "/images/models/mhero-2-campaign.png",
 };
 
+const COMPARE_PRICE_OVERRIDES: Record<string, number> = {
+  "mhero-1": 339900,
+  "mhero-2": 239900,
+  "mhero-2-terrain": 199900,
+};
+
+function comparePrice(model: VehicleModel): number {
+  return COMPARE_PRICE_OVERRIDES[model.slug] ?? model.startingPrice;
+}
+
 type Slot = VehicleModel | null;
 
 interface SpecRow {
@@ -32,7 +42,7 @@ export default function CompareDragDrop() {
   const slotCount = Math.min(models.length, 3);
 
   const [slots, setSlots] = useState<Slot[]>(
-    Array.from({ length: slotCount }, (_, i) => models[i] ?? null)
+    Array.from({ length: slotCount }, () => null)
   );
   const [dragOverSlot, setDragOverSlot] = useState<number | null>(null);
   const [showDifferencesOnly, setShowDifferencesOnly] = useState(false);
@@ -69,7 +79,7 @@ export default function CompareDragDrop() {
 
   const activeSlots = slots.filter((s) => s !== null) as VehicleModel[];
 
-  const prices = activeSlots.map((m) => m.startingPrice);
+  const prices = activeSlots.map((m) => comparePrice(m));
   const lowestPrice = prices.length > 1 ? Math.min(...prices) : null;
 
   // Build spec groups: Pricing & Body (synthetic) + each spec group from data (assumed aligned across models)
@@ -80,7 +90,7 @@ export default function CompareDragDrop() {
     rows: [
       {
         label: dict.common.startingFrom,
-        values: slots.map((s) => (s ? formatCurrency(s.startingPrice, s.currency) : null)),
+        values: slots.map((s) => (s ? formatCurrency(comparePrice(s), s.currency) : null)),
       },
       {
         label: dict.models.overview,
@@ -96,13 +106,34 @@ export default function CompareDragDrop() {
     const rows: SpecRow[] = [];
     for (let i = 0; i < itemCount; i++) {
       const itemLabel = slots.find((s) => s?.specs[g]?.items[i])?.specs[g]?.items[i]?.label ?? "";
+      const isFastCharging = /fast charging|شحن سريع/i.test(itemLabel);
       rows.push({
         label: itemLabel,
-        values: slots.map((s) => s?.specs[g]?.items[i]?.value ?? null),
+        values: slots.map((s) =>
+          !s ? null : isFastCharging ? (locale === "ar" ? "نعم" : "Yes") : s?.specs[g]?.items[i]?.value ?? null
+        ),
       });
     }
     groups.push({ label: groupLabel, rows });
   }
+
+  groups.push({
+    label: locale === "ar" ? "الملكية" : "Ownership",
+    rows: [
+      {
+        label: locale === "ar" ? "الضمان" : "Warranty",
+        values: slots.map((s) => (s ? (locale === "ar" ? "10 سنوات / بدون حد للكيلومترات" : "10 years / Unlimited km") : null)),
+      },
+      {
+        label: locale === "ar" ? "المساعدة على الطريق" : "Roadside Assistance",
+        values: slots.map((s) => (s ? (locale === "ar" ? "5 سنوات" : "5 years") : null)),
+      },
+      {
+        label: locale === "ar" ? "عقد الصيانة" : "Service Maintenance Contract",
+        values: slots.map((s) => (s ? (locale === "ar" ? "سنة واحدة" : "1 year") : null)),
+      },
+    ],
+  });
 
   function rowHasDifferences(row: SpecRow): boolean {
     const present = row.values.filter((v) => v !== null);
@@ -151,7 +182,7 @@ export default function CompareDragDrop() {
                   <div>
                     <p className="text-sm font-semibold">{model.name}</p>
                     <p className="text-xs text-mhero-steel">
-                      {dict.common.startingFrom} {formatCurrency(model.startingPrice, model.currency)}
+                      {dict.common.startingFrom} {formatCurrency(comparePrice(model), model.currency)}
                     </p>
                     <p className="mt-0.5 text-[11px] uppercase tracking-widest2 text-mhero-steel">
                       {isPlaced ? dict.models.inComparison : dict.models.dragOrTap}
@@ -176,7 +207,7 @@ export default function CompareDragDrop() {
                 isDragOver={dragOverSlot === index}
                 label={index === 0 ? dict.models.yourModel : dict.models.compareWith.replace("{n}", String(index))}
                 dropLabel={dict.models.dropCarHere.replace("{n}", String(index + 1))}
-                bestPrice={lowestPrice !== null && model !== null && model.startingPrice === lowestPrice}
+                bestPrice={lowestPrice !== null && model !== null && comparePrice(model) === lowestPrice}
                 bestPriceLabel={dict.models.bestPrice}
                 removeLabel={dict.models.remove}
                 onDragOver={() => setDragOverSlot(index)}
@@ -227,12 +258,7 @@ export default function CompareDragDrop() {
                   {slots.map((s, i) => (
                     <th key={i} className="py-4 align-bottom">
                       {s ? (
-                        <div className="flex items-center gap-2">
-                          <div className="relative h-8 w-12 shrink-0 overflow-hidden">
-                            <Image src={modelImages[s.slug]} alt={s.name} fill className="object-cover" />
-                          </div>
-                          <span className="font-semibold">{s.name}</span>
-                        </div>
+                        <span className="font-semibold">{s.name}</span>
                       ) : (
                         <span className="text-mhero-steel">—</span>
                       )}
@@ -260,7 +286,7 @@ export default function CompareDragDrop() {
                             className={`py-4 font-semibold text-mhero-black ${
                               lowestPrice !== null &&
                               row.label === dict.common.startingFrom &&
-                              slots[i]?.startingPrice === lowestPrice
+                              (slots[i] ? comparePrice(slots[i] as VehicleModel) : null) === lowestPrice
                                 ? "underline decoration-2 underline-offset-4"
                                 : ""
                             }`}
@@ -394,7 +420,7 @@ function DropSlot({
               </span>
             )}
             <p className="text-sm font-semibold">
-              {dict.common.startingFrom} {formatCurrency(model.startingPrice, model.currency)}
+              {dict.common.startingFrom} {formatCurrency(comparePrice(model), model.currency)}
             </p>
           </div>
         </div>

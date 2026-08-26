@@ -66,7 +66,12 @@ export default function BestOfBothWorlds() {
   const spec = car.specs[specIndex];
 
   return (
-    <Section light={false} eyebrow={dict.home.rangeEyebrow} title={dict.home.bestOfBothTitle}>
+    <Section
+      light={false}
+      eyebrow={dict.home.rangeEyebrow}
+      title={dict.home.bestOfBothTitle}
+      className="!py-10 md:!py-14"
+    >
       {/* Car select */}
       <div className="flex justify-center gap-1">
         {cars.map((c, i) => (
@@ -86,9 +91,9 @@ export default function BestOfBothWorlds() {
       {/* Car image with highlighted spec callout */}
       <Link
         href={`/models/${car.slug}`}
-        className="group relative mt-8 block overflow-hidden border border-white/10"
+        className="group relative mt-6 block overflow-hidden border border-white/10"
       >
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-mhero-charcoal">
+        <div className="relative aspect-[21/9] w-full overflow-hidden bg-mhero-charcoal">
           <AnimatePresence mode="wait">
             <motion.div
               key={car.slug}
@@ -129,7 +134,7 @@ export default function BestOfBothWorlds() {
       </Link>
 
       {/* Spec select */}
-      <div className="mt-6 flex justify-center gap-1">
+      <div className="mt-4 flex justify-center gap-1">
         {car.specs.map((s, i) => (
           <TabButton key={s.label} active={i === specIndex} onClick={() => setSpecIndex(i)}>
             {s.label}

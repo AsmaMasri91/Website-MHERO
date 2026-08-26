@@ -24,6 +24,9 @@ export default function ModelsMegaMenu({
 }) {
   const { locale, dict } = useLocale();
   const models = getModels(locale);
+  const mhero1 = models.find((m) => m.slug === "mhero-1");
+  const mhero2Prime = models.find((m) => m.slug === "mhero-2");
+  const mhero2Terrain = models.find((m) => m.slug === "mhero-2-terrain");
 
   const ctas = [
     { label: dict.nav.compareModels, href: "/models/compare", primary: false },
@@ -74,30 +77,62 @@ export default function ModelsMegaMenu({
           </div>
 
           {/* Model cards */}
-          <div className="col-span-9 grid grid-cols-3 gap-4">
-            {models.map((model) => (
+          <div className="col-span-9 grid grid-cols-2 gap-4">
+            {mhero1 && (
               <Link
-                key={model.slug}
-                href={`/models/${model.slug}`}
+                href={`/models/${mhero1.slug}`}
                 onClick={onNavigate}
                 className="group/card overflow-hidden rounded-2xl border border-white/10 bg-mhero-black transition-colors hover:border-white/30"
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image
-                    src={modelImages[model.slug]}
-                    alt={model.name}
+                    src={modelImages[mhero1.slug]}
+                    alt={mhero1.name}
                     fill
                     className="scale-110 object-cover transition-transform duration-700 ease-premium group-hover/card:scale-[1.18]"
                   />
                 </div>
                 <div className="p-4">
-                  <h4 className="text-base font-bold">{model.name}</h4>
-                  <p className="mt-1 text-xs text-white/50">
-                    {model.shortDescription}
-                  </p>
+                  <h4 className="text-base font-bold">{mhero1.name}</h4>
+                  <p className="mt-1 text-xs text-white/50">{mhero1.shortDescription}</p>
                 </div>
               </Link>
-            ))}
+            )}
+
+            {mhero2Prime && mhero2Terrain && (
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-mhero-black">
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                  <Image
+                    src={modelImages[mhero2Prime.slug]}
+                    alt="MHERO II"
+                    fill
+                    className="scale-110 object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h4 className="text-base font-bold">MHERO II</h4>
+                  <p className="mt-1 text-xs text-white/50">
+                    {locale === "ar" ? "اختر الفئة" : "Choose your variant"}
+                  </p>
+                  <div className="mt-3 flex gap-2">
+                    <Link
+                      href={`/models/${mhero2Prime.slug}`}
+                      onClick={onNavigate}
+                      className="flex-1 border border-white/15 px-3 py-2 text-center text-xs font-semibold text-white/90 transition-colors hover:border-white hover:text-white"
+                    >
+                      {locale === "ar" ? "برايم" : "Prime"}
+                    </Link>
+                    <Link
+                      href={`/models/${mhero2Terrain.slug}`}
+                      onClick={onNavigate}
+                      className="flex-1 border border-white/15 px-3 py-2 text-center text-xs font-semibold text-white/90 transition-colors hover:border-white hover:text-white"
+                    >
+                      {locale === "ar" ? "تيرين" : "Terrain"}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

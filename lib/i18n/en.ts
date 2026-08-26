@@ -180,7 +180,7 @@ const en = {
     amountFinanced: "Amount Financed",
     includedOffer: "Included Offer",
     includedOfferBody:
-      "Includes complimentary registration assistance, with extended warranty plans available through Al Ghurair Mobility service centres.",
+      "10 years / Unlimited km warranty, 5 years Roadside assistance, 1 year Service contract.",
     disclaimer:
       "Figures shown are an indicative estimate only and do not constitute a finance offer. Interest rates, eligibility, and final approval are determined solely by the financing bank in accordance with its own underwriting criteria, and may differ from the amounts shown here. Al Ghurair Mobility is not responsible for the rates, terms, or decisions of any bank or finance provider.",
     monthsAbbrev: "MO",
@@ -495,12 +495,8 @@ const en = {
       maintenance: "Routine Maintenance",
       repair: "Repair",
       warranty: "Warranty Claim",
-      recall: "Recall",
-      other: "Other",
+      other: "Others",
     },
-    serviceNextInterval: "Service Next Interval",
-    selectServiceInterval: "Select next service interval",
-    serviceIntervalHint: "Choose the next due service based on your mileage or service schedule.",
     selectLocation: "Select Location",
     preferredAppointmentDate: "Preferred Appointment Date",
     preferredAppointmentTime: "Preferred Appointment Time",

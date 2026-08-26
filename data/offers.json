@@ -168,33 +168,5 @@
         "body": "Images and vehicle specifications are for illustration purposes only. This Campaign Offer is subject to vehicle availability, customer eligibility, bank approval and applicable UAE laws and regulations."
       }
     ]
-  },
-  {
-    "slug": "complimentary-service-package",
-    "title": "3 Years Complimentary Service",
-    "shortDescription": "Enjoy scheduled maintenance on us for the first three years of ownership.",
-    "description": "Every new MHERO purchased this quarter comes with a complimentary 3-year scheduled maintenance package, covering all manufacturer-recommended service intervals at authorized MHERO service centers.",
-    "imageLabel": "Complimentary Service Offer",
-    "validUntil": "2026-12-31",
-    "terms": [
-      "Applies to scheduled maintenance only; excludes wear-and-tear parts.",
-      "Valid at authorized MHERO service centers only.",
-      "Non-transferable and non-redeemable for cash.",
-      "Must be redeemed within the 3-year period from delivery date."
-    ]
-  },
-  {
-    "slug": "trade-in-bonus",
-    "title": "AED 15,000 Trade-In Bonus",
-    "shortDescription": "Get an extra AED 15,000 towards your new MHERO when you trade in your current vehicle.",
-    "description": "Trade in any vehicle, regardless of make or model, and receive an additional AED 15,000 bonus on top of the market valuation towards the purchase of a new MHERO.",
-    "imageLabel": "Trade-In Bonus Offer",
-    "validUntil": "2026-10-15",
-    "terms": [
-      "Trade-in vehicle must be owned by the purchaser for a minimum of 6 months.",
-      "Final valuation subject to physical inspection at an MHERO showroom.",
-      "Bonus applied as a deduction on the new vehicle invoice only.",
-      "Not valid in conjunction with the 0% finance offer."
-    ]
   }
 ]

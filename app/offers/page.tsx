@@ -26,7 +26,7 @@ export default function OffersPage() {
         imageLabel="MHERO current offers"
       />
       <Section>
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2">
           {offers.map((offer) => (
             <Card key={offer.slug}>
               {offer.image ? (

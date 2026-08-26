@@ -19,13 +19,6 @@ const LOCATIONS = [
   { value: "abu-dhabi-mussafah", en: "Abu Dhabi Mussafah", ar: "أبوظبي مصفح" },
 ];
 
-const SERVICE_INTERVALS = [
-  { value: "asap", en: "As Soon As Possible", ar: "في أقرب وقت ممكن" },
-  { value: "5000", en: "Next 5,000 km", ar: "خلال 5,000 كم القادمة" },
-  { value: "10000", en: "Next 10,000 km", ar: "خلال 10,000 كم القادمة" },
-  { value: "20000", en: "Next 20,000 km", ar: "خلال 20,000 كم القادمة" },
-];
-
 const schema = z
   .object({
     title: z.string().min(1),
@@ -37,7 +30,6 @@ const schema = z
     plateCode: z.string().min(1),
     plateNumber: z.string().min(1),
     purpose: z.string().min(1),
-    serviceInterval: z.string().min(1),
     location: z.string().min(1),
     appointmentDate: z.string().min(1),
     appointmentTime: z.string().min(1),
@@ -158,6 +150,10 @@ export default function ServiceBookingForm() {
   const [submitted, setSubmitted] = useState(false);
   const [code, setCode] = useState(generateCode);
   const [codeError, setCodeError] = useState(false);
+  const [hasVisitedBefore, setHasVisitedBefore] = useState<boolean | null>(null);
+  const [lookupPhone, setLookupPhone] = useState("");
+  const [lookingUp, setLookingUp] = useState(false);
+  const [lookedUp, setLookedUp] = useState(false);
 
   const {
     register,
@@ -179,7 +175,6 @@ export default function ServiceBookingForm() {
       plateCode: "",
       plateNumber: "",
       purpose: "",
-      serviceInterval: "",
       location: "",
       appointmentDate: "",
       appointmentTime: "",
@@ -200,6 +195,24 @@ export default function ServiceBookingForm() {
     () => LOCATIONS.map((l) => ({ value: l.value, label: locale === "ar" ? l.ar : l.en })),
     [locale]
   );
+
+  const lookupCustomer = async () => {
+    if (!lookupPhone.trim()) return;
+    setLookingUp(true);
+    await new Promise((r) => setTimeout(r, 700));
+    setValue("title", "mr");
+    setValue("firstName", "Ahmed");
+    setValue("lastName", "Al Mansoori");
+    setValue("phone", lookupPhone.trim());
+    setValue("email", "ahmed.almansoori@example.com");
+    setValue("plateEmirate", "dubai");
+    setValue("plateCode", "A");
+    setValue("plateNumber", "12345");
+    setLookingUp(false);
+    setLookedUp(true);
+  };
+
+  const showFormBody = hasVisitedBefore === false || (hasVisitedBefore === true && lookedUp);
 
   const onSubmit = async (data: FormValues) => {
     if (data.verificationCode.trim().toUpperCase() !== code) {
@@ -229,6 +242,56 @@ export default function ServiceBookingForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="border border-mhero-fog bg-white p-8 md:p-10" noValidate>
       <p className="mb-8 text-xs text-mhero-ash">{dict.forms.fieldsRequired}</p>
 
+      <div className="mb-8">
+        <YesNoRow
+          label={dict.forms.existingCustomerQuestion}
+          value={hasVisitedBefore ?? false}
+          onChange={(v) => {
+            setHasVisitedBefore(v);
+            setLookedUp(false);
+            setLookupPhone("");
+          }}
+          yesLabel={dict.forms.yes}
+          noLabel={dict.forms.no}
+        />
+        <p className="mt-1.5 text-xs text-mhero-ash">{dict.forms.existingCustomerHint}</p>
+
+        {hasVisitedBefore === true && !lookedUp && (
+          <div className="mt-4 flex flex-wrap items-end gap-3 border border-mhero-fog p-4">
+            <div className="flex-1">
+              <Field label={dict.forms.phoneNumber} required>
+                <div className="flex">
+                  <span className="flex items-center border border-e-0 border-mhero-fog bg-mhero-fog/40 px-3 text-sm text-mhero-steel">
+                    🇦🇪 +971
+                  </span>
+                  <input
+                    className="input-field-light"
+                    type="tel"
+                    placeholder="50 123 4567"
+                    value={lookupPhone}
+                    onChange={(e) => setLookupPhone(e.target.value)}
+                  />
+                </div>
+              </Field>
+            </div>
+            <button
+              type="button"
+              onClick={lookupCustomer}
+              disabled={lookingUp || !lookupPhone.trim()}
+              className="btn-primary shrink-0"
+            >
+              {lookingUp ? dict.forms.booking : locale === "ar" ? "بحث" : "Find My Details"}
+            </button>
+          </div>
+        )}
+
+        {hasVisitedBefore === true && lookedUp && (
+          <p className="mt-4 text-xs text-mhero-steel">{dict.forms.autoPopulateHint}</p>
+        )}
+      </div>
+
+      {showFormBody && (
+        <>
       <SectionHeader index={1} title={dict.forms.personalInformation} />
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="sm:col-span-2 sm:max-w-xs">
@@ -304,36 +367,20 @@ export default function ServiceBookingForm() {
               <option value="maintenance">{dict.forms.purposeOptions.maintenance}</option>
               <option value="repair">{dict.forms.purposeOptions.repair}</option>
               <option value="warranty">{dict.forms.purposeOptions.warranty}</option>
-              <option value="recall">{dict.forms.purposeOptions.recall}</option>
               <option value="other">{dict.forms.purposeOptions.other}</option>
             </select>
           </Field>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <Field label={dict.forms.serviceNextInterval} required error={errors.serviceInterval?.message}>
-                <select className="input-field-light" {...register("serviceInterval")}>
-                  <option value="">{dict.forms.selectServiceInterval}</option>
-                  {SERVICE_INTERVALS.map((s) => (
-                    <option key={s.value} value={s.value}>
-                      {locale === "ar" ? s.ar : s.en}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-              <p className="mt-1.5 text-xs text-mhero-ash">{dict.forms.serviceIntervalHint}</p>
-            </div>
-            <Field label={dict.forms.location} required error={errors.location?.message}>
-              <select className="input-field-light" {...register("location")}>
-                <option value="">{dict.forms.selectLocation}</option>
-                {locationOptions.map((l) => (
-                  <option key={l.value} value={l.value}>
-                    {l.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-          </div>
+          <Field label={dict.forms.location} required error={errors.location?.message}>
+            <select className="input-field-light" {...register("location")}>
+              <option value="">{dict.forms.selectLocation}</option>
+              {locationOptions.map((l) => (
+                <option key={l.value} value={l.value}>
+                  {l.label}
+                </option>
+              ))}
+            </select>
+          </Field>
 
           <div className="grid gap-5 sm:grid-cols-2">
             <Field label={dict.forms.preferredAppointmentDate} required error={errors.appointmentDate?.message}>
@@ -523,6 +570,8 @@ export default function ServiceBookingForm() {
           {dict.forms.cancel}
         </button>
       </div>
+        </>
+      )}
     </form>
   );
 }
