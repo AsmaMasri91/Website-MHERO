@@ -39,7 +39,7 @@ export default function FeaturedNews() {
                 href={`/discover/news/${article.slug}`}
                 className="link-underline mt-5 inline-block text-sm font-semibold text-mhero-black"
               >
-                {dict.common.readMore} →
+                {dict.common.readMore} <span className="inline-block rtl:rotate-180">→</span>
               </Link>
             </div>
           </Card>

@@ -181,7 +181,7 @@ function ChatWidget({ onClose }: { onClose: () => void }) {
           aria-label={dict.chatbot.send}
           className="flex h-11 w-11 shrink-0 items-center justify-center bg-mhero-black text-white hover:bg-mhero-charcoal"
         >
-          →
+          <span className="inline-block rtl:rotate-180">→</span>
         </button>
       </form>
     </div>

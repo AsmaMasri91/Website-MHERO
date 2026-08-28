@@ -319,7 +319,7 @@ export default function CompareDragDrop() {
                     href={`/models/finance-calculator?model=${m.slug}`}
                     className="link-underline text-center text-sm font-semibold text-mhero-black"
                   >
-                    {dict.nav.calculateFinance} →
+                    {dict.nav.calculateFinance} <span className="inline-block rtl:rotate-180">→</span>
                   </Link>
                 </div>
               ) : (

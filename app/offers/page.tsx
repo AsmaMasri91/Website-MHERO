@@ -50,7 +50,7 @@ export default function OffersPage() {
                   href={`/offers/${offer.slug}`}
                   className="link-underline mt-5 inline-block text-sm font-semibold text-mhero-black"
                 >
-                  {dict.common.viewOffer} →
+                  {dict.common.viewOffer} <span className="inline-block rtl:rotate-180">→</span>
                 </Link>
               </div>
             </Card>

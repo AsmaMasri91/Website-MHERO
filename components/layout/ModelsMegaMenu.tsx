@@ -142,7 +142,7 @@ export default function ModelsMegaMenu({
 
 function ArrowRight() {
   return (
-    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true">
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true" className="rtl:rotate-180">
       <path
         d="M9.5 1L15 6M15 6L9.5 11M15 6H1"
         stroke="currentColor"
