@@ -70,7 +70,7 @@ export default function BestOfBothWorlds() {
       light={false}
       eyebrow={dict.home.rangeEyebrow}
       title={dict.home.bestOfBothTitle}
-      className="!py-10 md:!py-14"
+      className="!py-8 md:!py-10"
     >
       {/* Car select */}
       <div className="flex justify-center gap-1">
@@ -93,7 +93,7 @@ export default function BestOfBothWorlds() {
         href={`/models/${car.slug}`}
         className="group relative mt-6 block overflow-hidden border border-white/10"
       >
-        <div className="relative aspect-[21/9] w-full overflow-hidden bg-mhero-charcoal">
+        <div className="relative aspect-[24/9] w-full overflow-hidden bg-mhero-charcoal">
           <AnimatePresence mode="wait">
             <motion.div
               key={car.slug}
