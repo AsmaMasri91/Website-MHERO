@@ -20,7 +20,15 @@ const TIME_SLOTS: string[] = (() => {
   return slots;
 })();
 
-const SHOWROOM_OPTIONS = ["Private Viewing", "DXB", "AUH"] as const;
+const SHOWROOM_OPTIONS = ["DXB", "AUH", "Private Viewing"] as const;
+const PRIVATE_VIEWING_NOTICE_HOURS = 4;
+
+function isSlotWithinNotice(date: string, time: string, noticeHours: number): boolean {
+  if (!date || !time) return false;
+  const slot = new Date(`${date}T${time}:00`);
+  const minAllowed = new Date(Date.now() + noticeHours * 60 * 60 * 1000);
+  return slot < minAllowed;
+}
 
 const carImages: Record<string, string> = {
   "mhero-1": "/images/models/mhero-1-campaign.png",
@@ -47,16 +55,17 @@ const schema = z
     if (!data.acceptTerms) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["acceptTerms"], message: "Required" });
     }
-    if (data.showroom === "Private Viewing" && data.date && data.time) {
-      const slot = new Date(`${data.date}T${data.time}:00`);
-      const minAllowed = new Date(Date.now() + 4 * 60 * 60 * 1000);
-      if (slot < minAllowed) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["time"],
-          message: "Private viewing slots require at least 4 hours' notice from now.",
-        });
-      }
+    if (
+      data.showroom === "Private Viewing" &&
+      data.date &&
+      data.time &&
+      isSlotWithinNotice(data.date, data.time, PRIVATE_VIEWING_NOTICE_HOURS)
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["time"],
+        message: "Private Viewing requires at least 4 hours' notice.",
+      });
     }
   });
 
@@ -69,6 +78,58 @@ function SectionHeader({ index, title }: { index: number; title: string }) {
         {index}
       </span>
       <h3 className="text-sm font-semibold uppercase tracking-widest2 text-mhero-black">{title}</h3>
+    </div>
+  );
+}
+
+function ShowroomSelect({
+  value,
+  onChange,
+  placeholder,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="input-field-light flex w-full items-center justify-between text-start"
+      >
+        <span className={value ? "text-mhero-black" : "text-mhero-ash"}>
+          {value || placeholder}
+        </span>
+        <span className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`}>▾</span>
+      </button>
+
+      {open && (
+        <>
+          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+          <div className="absolute inset-x-0 top-full z-20 mt-1 border border-mhero-fog bg-white shadow-lg">
+            {SHOWROOM_OPTIONS.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => {
+                  onChange(s);
+                  setOpen(false);
+                }}
+                className={`block w-full px-4 py-3 text-start text-sm transition-colors ${
+                  value === s
+                    ? "bg-[#8fb5a6] text-mhero-black"
+                    : "text-mhero-black hover:bg-[#8fb5a6]/15"
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -129,7 +190,13 @@ export default function TestDriveForm() {
   const selectedModelSlug = watch("model");
   const selectedTime = watch("time");
   const selectedShowroom = watch("showroom");
+  const selectedDate = watch("date");
   const selectedModel = models.find((m) => m.slug === selectedModelSlug) ?? models[0];
+
+  const isPrivateViewing = selectedShowroom === "Private Viewing";
+  const slotDisabled = (t: string) =>
+    isPrivateViewing && isSlotWithinNotice(selectedDate, t, PRIVATE_VIEWING_NOTICE_HOURS);
+  const hasValidSlotsForDate = !isPrivateViewing || !selectedDate || TIME_SLOTS.some((t) => !slotDisabled(t));
 
   const onSubmit = async () => {
     await new Promise((r) => setTimeout(r, 600));
@@ -219,47 +286,85 @@ export default function TestDriveForm() {
         <SectionHeader index={2} title={dict.testDrive.whenAndWhere} />
         <div className="space-y-5">
           <FormField label={dict.testDrive.preferredShowroom} required error={errors.showroom?.message}>
-            <select className="input-field-light" {...register("showroom")}>
-              <option value="">—</option>
-              {SHOWROOM_OPTIONS.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
+            <ShowroomSelect
+              value={selectedShowroom}
+              onChange={(v) => {
+                setValue("showroom", v, { shouldValidate: true });
+                if (v === "Private Viewing" && selectedTime && isSlotWithinNotice(selectedDate, selectedTime, PRIVATE_VIEWING_NOTICE_HOURS)) {
+                  setValue("time", "", { shouldValidate: true });
+                }
+              }}
+              placeholder="—"
+            />
             {selectedShowroom === "Private Viewing" && (
               <p className="mt-1.5 text-xs text-mhero-steel">
                 {locale === "ar"
-                  ? "تتطلب المعاينة الخاصة حجزًا قبل 4 ساعات على الأقل من الموعد."
-                  : "Private viewings require booking at least 4 hours before the selected time."}
+                  ? "تتطلب المعاينة الخاصة حجزًا قبل 4 ساعات على الأقل."
+                  : "Private Viewing requires at least 4 hours' notice."}
               </p>
             )}
           </FormField>
 
           <div className="grid gap-5 sm:grid-cols-2">
             <FormField label={dict.forms.preferredDate} required error={errors.date?.message}>
-              <input className="input-field-light" type="date" {...register("date")} />
+              <input
+                className="input-field-light"
+                type="date"
+                min={new Date().toISOString().slice(0, 10)}
+                {...register("date", {
+                  onChange: (e) => {
+                    if (
+                      isPrivateViewing &&
+                      selectedTime &&
+                      isSlotWithinNotice(e.target.value, selectedTime, PRIVATE_VIEWING_NOTICE_HOURS)
+                    ) {
+                      setValue("time", "", { shouldValidate: true });
+                    }
+                  },
+                })}
+              />
             </FormField>
             <div>
               <label className="mb-2 block text-xs font-medium uppercase tracking-widest2 text-mhero-ash">
                 {dict.forms.preferredTime} *
               </label>
-              <div className="grid grid-cols-4 gap-2">
-                {TIME_SLOTS.map((t) => (
-                  <button
-                    type="button"
-                    key={t}
-                    onClick={() => setValue("time", t)}
-                    className={`border px-2 py-2 text-xs font-semibold transition-colors ${
-                      selectedTime === t
-                        ? "border-mhero-black bg-mhero-black text-white"
-                        : "border-mhero-fog text-mhero-steel hover:border-mhero-black/40"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
+              {isPrivateViewing && selectedDate && !hasValidSlotsForDate ? (
+                <p className="border border-mhero-fog bg-mhero-fog/30 px-3 py-3 text-xs text-mhero-steel">
+                  {locale === "ar"
+                    ? "لا تتوفر مواعيد معاينة خاصة صالحة في هذا التاريخ. الرجاء اختيار تاريخ آخر."
+                    : "No Private Viewing slots are available for this date. Please choose another date."}
+                </p>
+              ) : (
+                <div className="grid grid-cols-4 gap-2">
+                  {TIME_SLOTS.map((t) => {
+                    const disabled = slotDisabled(t);
+                    return (
+                      <button
+                        type="button"
+                        key={t}
+                        disabled={disabled}
+                        onClick={() => setValue("time", t, { shouldValidate: true })}
+                        title={
+                          disabled
+                            ? locale === "ar"
+                              ? "خارج نافذة الإشعار لمدة 4 ساعات"
+                              : "Outside the 4-hour notice window"
+                            : undefined
+                        }
+                        className={`border px-2 py-2 text-xs font-semibold transition-colors ${
+                          disabled
+                            ? "cursor-not-allowed border-mhero-fog text-mhero-fog line-through"
+                            : selectedTime === t
+                            ? "border-mhero-black bg-mhero-black text-white"
+                            : "border-mhero-fog text-mhero-steel hover:border-mhero-black/40"
+                        }`}
+                      >
+                        {t}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
               {errors.time && <p className="mt-1.5 text-xs text-mhero-accent-dark">{errors.time.message}</p>}
             </div>
           </div>

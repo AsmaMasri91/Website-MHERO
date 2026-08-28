@@ -180,7 +180,7 @@ const en = {
     amountFinanced: "Amount Financed",
     includedOffer: "Included Offer",
     includedOfferBody:
-      "10 years / Unlimited km warranty, 5 years Roadside assistance, 1 year Service contract.",
+      "Includes a 10-year / unlimited km warranty, 5 years of roadside assistance, and a 1-year service contract.",
     disclaimer:
       "Figures shown are an indicative estimate only and do not constitute a finance offer. Interest rates, eligibility, and final approval are determined solely by the financing bank in accordance with its own underwriting criteria, and may differ from the amounts shown here. Al Ghurair Mobility is not responsible for the rates, terms, or decisions of any bank or finance provider.",
     monthsAbbrev: "MO",

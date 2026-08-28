@@ -13,12 +13,6 @@ export const metadata: Metadata = {
   description: "Explore the full MHERO model range.",
 };
 
-const LISTING_PRICE_OVERRIDES: Record<string, number> = {
-  "mhero-1": 299900,
-  "mhero-2": 199900,
-  "mhero-2-terrain": 199900,
-};
-
 export default function ModelsOverviewPage() {
   const { locale, dict } = getServerDictionary();
   const models = getModels(locale);
@@ -64,10 +58,7 @@ export default function ModelsOverviewPage() {
                 <p className="mt-2 text-sm text-white/70">
                   {dict.common.startingFrom}{" "}
                   <span className="font-semibold text-white">
-                    {formatCurrency(
-                      LISTING_PRICE_OVERRIDES[model.slug] ?? model.startingPrice,
-                      model.currency
-                    )}
+                    {formatCurrency(model.startingPrice, model.currency)}
                   </span>
                 </p>
               </div>

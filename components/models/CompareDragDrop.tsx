@@ -15,8 +15,6 @@ const modelImages: Record<string, string> = {
 };
 
 const COMPARE_PRICE_OVERRIDES: Record<string, number> = {
-  "mhero-1": 339900,
-  "mhero-2": 239900,
   "mhero-2-terrain": 199900,
 };
 

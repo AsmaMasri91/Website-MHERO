@@ -8,11 +8,6 @@ import Section from "@/components/ui/Section";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
 
-const HOMEPAGE_PRICE_OVERRIDES: Record<string, number> = {
-  "mhero-1": 299900,
-  "mhero-2": 199900,
-};
-
 export default function ModelsSection() {
   const { locale, dict } = useLocale();
   const allModels = getModels(locale);
@@ -55,10 +50,7 @@ export default function ModelsSection() {
               <p className="mt-2 text-sm text-white/70">
                 {dict.common.startingFrom}{" "}
                 <span className="font-semibold text-white">
-                  {formatCurrency(
-                    HOMEPAGE_PRICE_OVERRIDES[model.slug] ?? model.startingPrice,
-                    model.currency
-                  )}
+                  {formatCurrency(model.startingPrice, model.currency)}
                 </span>
               </p>
             </div>
