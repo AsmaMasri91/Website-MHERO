@@ -21,8 +21,6 @@ export default function Footer() {
       title: dict.footer.explore,
       links: [
         { label: dict.nav.offers, href: "/offers" },
-        { label: dict.nav.afterSales, href: "/after-sales" },
-        { label: dict.afterSales.bookService, href: "/after-sales/book-service" },
         { label: dict.nav.preOwned, href: "/pre-owned" },
         { label: dict.nav.bookTestDrive, href: "/models/test-drive" },
         { label: dict.nav.compareModels, href: "/models/compare" },
@@ -33,6 +31,8 @@ export default function Footer() {
       title: dict.footer.discover,
       links: [
         { label: dict.nav.discoverLinks.about, href: "/discover/about" },
+        { label: dict.nav.afterSales, href: "/after-sales" },
+        { label: dict.afterSales.bookService, href: "/after-sales/book-service" },
         { label: dict.nav.discoverLinks.news, href: "/discover/news" },
         { label: dict.nav.discoverLinks.blog, href: "/discover/blog" },
       ],
