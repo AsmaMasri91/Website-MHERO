@@ -17,7 +17,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileModelsOpen, setMobileModelsOpen] = useState(false);
+  const [mobileDiscoverOpen, setMobileDiscoverOpen] = useState(false);
   const [modelsMenuOpen, setModelsMenuOpen] = useState(false);
+  const [discoverMenuOpen, setDiscoverMenuOpen] = useState(false);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearCloseTimeout = () => {
@@ -46,6 +48,12 @@ export default function Navbar() {
     { label: dict.nav.financeCalculator, href: "/models/finance-calculator" },
   ];
 
+  const discoverLinks = [
+    { label: dict.nav.discoverLinks.about, href: "/discover/about" },
+    { label: dict.nav.discoverLinks.news, href: "/discover/news" },
+    { label: dict.nav.discoverLinks.blog, href: "/discover/blog" },
+  ];
+
   const topLevelLinks = [
     { label: dict.nav.offers, href: "/offers" },
     { label: dict.nav.afterSales, href: "/after-sales" },
@@ -69,16 +77,17 @@ export default function Navbar() {
   }, [mobileOpen]);
 
   useEffect(() => {
-    if (!modelsMenuOpen) return;
+    if (!modelsMenuOpen && !discoverMenuOpen) return;
     const onClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target.closest("[data-nav-dropdown]")) {
         setModelsMenuOpen(false);
+        setDiscoverMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
-  }, [modelsMenuOpen]);
+  }, [modelsMenuOpen, discoverMenuOpen]);
 
   return (
     <>
@@ -149,6 +158,33 @@ export default function Navbar() {
               />
             </Link>
           ))}
+
+          <div
+            className="group relative flex h-20 items-center"
+            data-nav-dropdown
+          >
+            <button
+              onClick={() => setDiscoverMenuOpen((v) => !v)}
+              aria-expanded={discoverMenuOpen}
+              aria-current={isActive("/discover") ? "page" : undefined}
+              className={`flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white ${
+                isActive("/discover") ? "text-white" : "text-white/90"
+              }`}
+            >
+              {dict.nav.discover}
+              <ChevronDown open={discoverMenuOpen} />
+            </button>
+            <span
+              className={`absolute inset-x-0 bottom-0 h-0.5 origin-center scale-x-0 bg-[#8fb5a6] transition-transform duration-300 group-hover:scale-x-100 ${
+                isActive("/discover") ? "scale-x-100" : ""
+              }`}
+            />
+            <DropdownPanel
+              links={discoverLinks}
+              open={discoverMenuOpen}
+              onNavigate={() => setDiscoverMenuOpen(false)}
+            />
+          </div>
         </nav>
 
         {/* Right cluster: search, language, book a test drive */}
@@ -220,6 +256,13 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <MobileAccordion
+                label={dict.nav.discover}
+                open={mobileDiscoverOpen}
+                setOpen={setMobileDiscoverOpen}
+                links={discoverLinks}
+                onNavigate={() => setMobileOpen(false)}
+              />
               <div className="mt-6 flex flex-col gap-4">
                 <Link
                   href="/models/test-drive"
@@ -235,6 +278,33 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+function DropdownPanel({
+  links,
+  open,
+  onNavigate,
+}: {
+  links: { label: string; href: string }[];
+  open: boolean;
+  onNavigate: () => void;
+}) {
+  if (!open) return null;
+
+  return (
+    <div className="absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 translate-y-3 rounded-2xl border border-white/10 bg-mhero-charcoal p-2 shadow-2xl">
+      {links.map((link) => (
+        <Link
+          key={link.href}
+          href={link.href}
+          onClick={onNavigate}
+          className="block rounded-xl px-4 py-3 text-sm text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+        >
+          {link.label}
+        </Link>
+      ))}
+    </div>
   );
 }
 
