@@ -4,9 +4,9 @@ import Link from "next/link";
 import preownedData from "@/data/preowned.json";
 import { PreOwnedVehicle } from "@/lib/types";
 import { formatCurrency } from "@/lib/financeMath";
-import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import Section from "@/components/ui/Section";
 import EnquiryForm from "@/components/forms/EnquiryForm";
+import PreOwnedGallery from "@/components/preowned/PreOwnedGallery";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getPreOwned } from "@/lib/i18n/data";
 
@@ -56,11 +56,7 @@ export default function PreOwnedDetailPage({
 
         <div className="mt-8 grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           <div>
-            <PlaceholderImage
-              label={vehicle.imageLabel}
-              aspect="aspect-[16/10]"
-              className="rounded-2xl"
-            />
+            <PreOwnedGallery label={vehicle.imageLabel} />
             <h1 className="mt-8 text-3xl font-bold tracking-tight text-mhero-black md:text-5xl">
               {vehicle.model} ({vehicle.year})
             </h1>
@@ -76,7 +72,7 @@ export default function PreOwnedDetailPage({
             </dl>
           </div>
 
-          <div className="h-fit rounded-2xl border border-white/10 bg-mhero-charcoal p-8 text-white">
+          <div className="h-fit rounded-2xl border border-white/10 bg-mhero-charcoal p-8 text-white lg:sticky lg:top-28 lg:self-start">
             <p className="text-sm text-white/70">{dict.preOwned.price}</p>
             <p className="mt-1 text-3xl font-extrabold">{formatCurrency(vehicle.price)}</p>
             <div className="mt-6 flex flex-col gap-4">
