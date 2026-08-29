@@ -1,16 +1,14 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 function slugify(label: string) {
   return label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
 /**
- * Drag-to-spin viewer. Pass multiple `frames` (real multi-angle photos) for a
- * true frame-cycling 360 spin. With a single frame, it falls back to a
- * perspective tilt driven by the drag — same gesture, honest about only
- * having one real angle until more photography is available.
+ * Static colour/angle viewer. Renders whichever frame is passed in (the
+ * selected colourway's photo) with an expand-to-fullscreen affordance.
  */
 export default function Spin360Viewer({
   frames,
@@ -19,70 +17,20 @@ export default function Spin360Viewer({
   frames: string[];
   alt: string;
 }) {
-  const [frameIndex, setFrameIndex] = useState(0);
-  const [tilt, setTilt] = useState(0);
-  const [dragging, setDragging] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const dragStartX = useRef(0);
-  const dragStartFrame = useRef(0);
-  const dragStartTilt = useRef(0);
 
-  const multiFrame = frames.length > 1;
-  const src = multiFrame ? frames[frameIndex] : frames[0];
+  const src = frames[0];
   const fallbackSrc = `https://picsum.photos/seed/${slugify(alt)}/1600/1000`;
 
-  const onDragStart = (clientX: number) => {
-    setDragging(true);
-    dragStartX.current = clientX;
-    dragStartFrame.current = frameIndex;
-    dragStartTilt.current = tilt;
-  };
-
-  const onDragMove = (clientX: number) => {
-    if (!dragging) return;
-    const delta = clientX - dragStartX.current;
-    if (multiFrame) {
-      const framesPerPixel = 6;
-      const steps = Math.round(delta / framesPerPixel);
-      const next = (((dragStartFrame.current - steps) % frames.length) + frames.length) % frames.length;
-      setFrameIndex(next);
-    } else {
-      const next = Math.max(-25, Math.min(25, dragStartTilt.current + delta / 6));
-      setTilt(next);
-    }
-  };
-
-  const onDragEnd = () => {
-    setDragging(false);
-    if (!multiFrame) setTilt(0);
-  };
-
   return (
-    <div
-      className={`group relative aspect-[3/2] w-full select-none overflow-hidden rounded-2xl bg-mhero-fog ${
-        dragging ? "cursor-grabbing" : "cursor-grab"
-      }`}
-      onMouseDown={(e) => onDragStart(e.clientX)}
-      onMouseMove={(e) => onDragMove(e.clientX)}
-      onMouseUp={onDragEnd}
-      onMouseLeave={onDragEnd}
-      onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
-      onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
-      onTouchEnd={onDragEnd}
-      style={{ perspective: 1200 }}
-    >
-      <div
-        className="absolute inset-0 transition-transform duration-300 ease-out"
-        style={{ transform: `rotateY(${tilt}deg)`, transformStyle: "preserve-3d" }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={src || fallbackSrc}
-          alt={alt}
-          className="absolute inset-0 h-full w-full object-contain"
-          draggable={false}
-        />
-      </div>
+    <div className="group relative aspect-[3/2] w-full select-none overflow-hidden rounded-2xl bg-mhero-fog">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src || fallbackSrc}
+        alt={alt}
+        className="absolute inset-0 h-full w-full object-contain"
+        draggable={false}
+      />
 
       {/* Expand */}
       <button
@@ -92,13 +40,6 @@ export default function Spin360Viewer({
       >
         <ExpandIcon />
       </button>
-
-      {/* Drag hint */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center">
-        <span className="rounded-full bg-mhero-black/70 px-4 py-2 text-xs font-medium uppercase tracking-widest2 text-white opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
-          Drag to spin
-        </span>
-      </div>
 
       {expanded && (
         <div

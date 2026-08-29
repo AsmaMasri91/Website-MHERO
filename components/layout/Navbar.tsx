@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import SearchBox from "@/components/layout/SearchBox";
 import LanguageToggle from "@/components/layout/LanguageToggle";
 import ModelsMegaMenu from "@/components/layout/ModelsMegaMenu";
+import SocialIcons from "@/components/layout/SocialIcons";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 
 export default function Navbar() {
@@ -17,6 +18,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileModelsOpen, setMobileModelsOpen] = useState(false);
+  const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
+  const [mobileDiscoverOpen, setMobileDiscoverOpen] = useState(false);
+  const [mobileSupportOpen, setMobileSupportOpen] = useState(false);
   const [modelsMenuOpen, setModelsMenuOpen] = useState(false);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -41,15 +45,39 @@ export default function Navbar() {
     { label: dict.nav.modelsLinks.model1, href: "/models/mhero-1" },
     { label: dict.nav.modelsLinks.model2, href: "/models/mhero-2" },
     { label: dict.nav.modelsLinks.model2Terrain, href: "/models/mhero-2-terrain" },
-    { label: dict.nav.bookTestDrive, href: "/models/test-drive" },
-    { label: dict.nav.compareModels, href: "/models/compare" },
-    { label: dict.nav.financeCalculator, href: "/models/finance-calculator" },
   ];
 
   const topLevelLinks = [
     { label: dict.nav.offers, href: "/offers" },
     { label: dict.nav.afterSales, href: "/after-sales" },
     { label: dict.nav.preOwned, href: "/pre-owned" },
+  ];
+
+  const exploreLinks = [
+    { label: dict.nav.offers, href: "/offers" },
+    { label: dict.nav.preOwned, href: "/pre-owned" },
+    { label: dict.nav.bookTestDrive, href: "/models/test-drive" },
+    { label: dict.nav.compareModels, href: "/models/compare" },
+    { label: dict.nav.financeCalculator, href: "/models/finance-calculator" },
+  ];
+
+  const discoverLinks = [
+    { label: dict.nav.discoverLinks.about, href: "/discover/about" },
+    { label: dict.nav.afterSales, href: "/after-sales" },
+    { label: dict.afterSales.bookService, href: "/after-sales/book-service" },
+    { label: dict.nav.discoverLinks.news, href: "/discover/news" },
+    { label: dict.nav.discoverLinks.blog, href: "/discover/blog" },
+  ];
+
+  const supportLinks = [
+    { label: dict.footer.contactUs, href: "/contact" },
+    { label: dict.footer.faqs, href: "/faqs" },
+  ];
+
+  const legalLinks = [
+    { label: dict.footer.privacyPolicy, href: "/privacy-policy" },
+    { label: dict.footer.cookiesPolicy, href: "/cookies-policy" },
+    { label: dict.footer.terms, href: "/terms" },
   ];
 
   useEffect(() => {
@@ -184,7 +212,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-mhero-black lg:hidden"
+            className="fixed inset-0 z-[60] overflow-y-auto bg-mhero-black lg:hidden"
           >
             <div className="container-mhero flex h-20 items-center justify-between">
               <Image
@@ -210,16 +238,28 @@ export default function Navbar() {
                 links={modelsLinks}
                 onNavigate={() => setMobileOpen(false)}
               />
-              {topLevelLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="border-b border-white/10 py-4 text-lg font-medium text-white"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              <MobileAccordion
+                label={dict.footer.explore}
+                open={mobileExploreOpen}
+                setOpen={setMobileExploreOpen}
+                links={exploreLinks}
+                onNavigate={() => setMobileOpen(false)}
+              />
+              <MobileAccordion
+                label={dict.footer.discover}
+                open={mobileDiscoverOpen}
+                setOpen={setMobileDiscoverOpen}
+                links={discoverLinks}
+                onNavigate={() => setMobileOpen(false)}
+              />
+              <MobileAccordion
+                label={dict.footer.support}
+                open={mobileSupportOpen}
+                setOpen={setMobileSupportOpen}
+                links={supportLinks}
+                onNavigate={() => setMobileOpen(false)}
+              />
+
               <div className="mt-6 flex flex-col gap-4">
                 <Link
                   href="/models/test-drive"
@@ -229,6 +269,26 @@ export default function Navbar() {
                   {dict.nav.bookTestDrive}
                 </Link>
                 <LanguageToggle />
+              </div>
+
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/10 pt-6">
+                {legalLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="link-underline text-xs text-white/60 hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+
+              <div className="mt-6 flex items-center justify-between">
+                <p className="text-xs text-white/60">
+                  © {new Date().getFullYear()} MHERO. {dict.footer.rights}
+                </p>
+                <SocialIcons />
               </div>
             </nav>
           </motion.div>
