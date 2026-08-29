@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "@/components/i18n/LocaleProvider";
@@ -20,19 +20,33 @@ function buildTimeSlots(startMins: number, endMins: number): string[] {
   return slots;
 }
 
-// Showroom viewings run 9:00 AM – 7:00 PM.
-const TIME_SLOTS = buildTimeSlots(9 * 60, 19 * 60);
-// Private Viewing slots run 9:00 AM – 6:30 PM (showroom closes at 7:00 PM).
-const PRIVATE_VIEWING_TIME_SLOTS = buildTimeSlots(9 * 60, 18 * 60 + 30);
+// Operating hours: 9:00 AM – 7:00 PM, for both standard and Private Viewing bookings.
+const OPEN_MINS = 9 * 60;
+const CLOSE_MINS = 19 * 60;
+const TIME_SLOTS = buildTimeSlots(OPEN_MINS, CLOSE_MINS);
+// Private Viewing shares the same 9:00 AM–7:00 PM window; the 4-hour notice
+// rule (applied below) is what actually restricts which of these are bookable.
+const PRIVATE_VIEWING_TIME_SLOTS = TIME_SLOTS;
 
 const SHOWROOM_OPTIONS = ["DXB", "AUH", "Private Viewing"] as const;
 const PRIVATE_VIEWING_NOTICE_HOURS = 4;
 
-function isSlotWithinNotice(date: string, time: string, noticeHours: number): boolean {
+/**
+ * A Private Viewing slot is only bookable if it falls on/after
+ * (referenceTime + noticeHours). `referenceTime` must be the *actual* moment
+ * of the check — pass Date.now() at submit time and a live-ticking clock for
+ * on-screen slot rendering — never a value captured once when the form loaded.
+ */
+function isSlotWithinNotice(
+  date: string,
+  time: string,
+  noticeHours: number,
+  referenceTime: number = Date.now()
+): boolean {
   if (!date || !time) return false;
   const slot = new Date(`${date}T${time}:00`);
-  const minAllowed = new Date(Date.now() + noticeHours * 60 * 60 * 1000);
-  return slot < minAllowed;
+  const earliestAllowed = new Date(referenceTime + noticeHours * 60 * 60 * 1000);
+  return slot < earliestAllowed;
 }
 
 const carImages: Record<string, string> = {
@@ -108,6 +122,61 @@ function SelectChevron({ open }: { open: boolean }) {
   );
 }
 
+function LightSelect({
+  value,
+  onChange,
+  options,
+  placeholder,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: { value: string; label: string }[];
+  placeholder: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const selected = options.find((o) => o.value === value);
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="input-field-light flex w-full items-center justify-between bg-white text-start"
+      >
+        <span className={value ? "text-mhero-black" : "text-mhero-ash"}>
+          {selected?.label || placeholder}
+        </span>
+        <SelectChevron open={open} />
+      </button>
+
+      {open && (
+        <>
+          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+          <div className="absolute inset-x-0 top-full z-20 mt-1 border border-mhero-fog bg-white shadow-lg">
+            {options.map((o) => (
+              <button
+                key={o.value}
+                type="button"
+                onClick={() => {
+                  onChange(o.value);
+                  setOpen(false);
+                }}
+                className={`block w-full px-4 py-3 text-start text-sm transition-colors ${
+                  value === o.value
+                    ? "bg-mhero-primary text-mhero-black"
+                    : "text-mhero-black hover:bg-mhero-primary/15"
+                }`}
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function ShowroomSelect({
   value,
   onChange,
@@ -117,46 +186,13 @@ function ShowroomSelect({
   onChange: (v: string) => void;
   placeholder: string;
 }) {
-  const [open, setOpen] = useState(false);
-
   return (
-    <div className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="input-field-light flex w-full items-center justify-between text-start"
-      >
-        <span className={value ? "text-mhero-black" : "text-mhero-ash"}>
-          {value || placeholder}
-        </span>
-        <SelectChevron open={open} />
-      </button>
-
-      {open && (
-        <>
-          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute inset-x-0 top-full z-20 mt-1 border border-mhero-fog bg-white shadow-lg">
-            {SHOWROOM_OPTIONS.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => {
-                  onChange(s);
-                  setOpen(false);
-                }}
-                className={`block w-full px-4 py-3 text-start text-sm transition-colors ${
-                  value === s
-                    ? "bg-mhero-primary text-mhero-black"
-                    : "text-mhero-black hover:bg-mhero-primary/15"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
+    <LightSelect
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      options={SHOWROOM_OPTIONS.map((s) => ({ value: s, label: s }))}
+    />
   );
 }
 
@@ -187,6 +223,16 @@ export default function TestDriveForm() {
   const { locale, dict } = useLocale();
   const models = getModels(locale);
   const [submitted, setSubmitted] = useState(false);
+
+  // Live clock used only to keep the Private Viewing 4-hour notice window
+  // accurate while the form sits open (e.g. left open for a couple of
+  // hours). The definitive check still re-runs against the real submission
+  // instant inside the zod schema when the form is actually submitted.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 30_000);
+    return () => clearInterval(id);
+  }, []);
 
   const {
     register,
@@ -222,7 +268,7 @@ export default function TestDriveForm() {
   const isPrivateViewing = selectedShowroom === "Private Viewing";
   const visibleTimeSlots = isPrivateViewing ? PRIVATE_VIEWING_TIME_SLOTS : TIME_SLOTS;
   const slotDisabled = (t: string) =>
-    isPrivateViewing && isSlotWithinNotice(selectedDate, t, PRIVATE_VIEWING_NOTICE_HOURS);
+    isPrivateViewing && isSlotWithinNotice(selectedDate, t, PRIVATE_VIEWING_NOTICE_HOURS, now);
   const hasValidSlotsForDate =
     !isPrivateViewing || !selectedDate || visibleTimeSlots.some((t) => !slotDisabled(t));
 
@@ -330,11 +376,20 @@ export default function TestDriveForm() {
               placeholder="—"
             />
             {selectedShowroom === "Private Viewing" && (
-              <p className="mt-1.5 text-xs text-mhero-steel">
-                {locale === "ar"
-                  ? "تتطلب المعاينة الخاصة حدًا أدنى 4 ساعات من الإشعار المسبق."
-                  : "Private Viewing requires a minimum of 4 hours' notice."}
-              </p>
+              <div className="mt-3 flex items-start gap-3 border border-mhero-primary bg-mhero-primary/25 px-4 py-3 text-sm text-mhero-black">
+                <span
+                  aria-hidden="true"
+                  className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mhero-primary text-xs font-bold text-white"
+                >
+                  !
+                </span>
+                <p>
+                  <span className="font-semibold">{locale === "ar" ? "إشعار: " : "Notice: "}</span>
+                  {locale === "ar"
+                    ? "تتطلب المعاينة الخاصة حدًا أدنى 4 ساعات من الإشعار المسبق."
+                    : "Private Viewing requires a minimum of 4 hours' notice."}
+                </p>
+              </div>
             )}
           </FormField>
 
@@ -363,7 +418,11 @@ export default function TestDriveForm() {
               </label>
               {isPrivateViewing && selectedDate && !hasValidSlotsForDate ? (
                 <p className="border border-mhero-fog bg-mhero-fog/30 px-3 py-3 text-xs text-mhero-steel">
-                  {locale === "ar"
+                  {selectedDate === new Date(now).toISOString().slice(0, 10)
+                    ? locale === "ar"
+                      ? "لا تتوفر مواعيد معاينة خاصة اليوم. أقرب موعد متاح هو غدًا الساعة 9:00 صباحًا."
+                      : "No private viewing times are available today. The next available time is tomorrow at 9:00 AM."
+                    : locale === "ar"
                     ? "لا تتوفر مواعيد معاينة خاصة صالحة في هذا التاريخ. الرجاء اختيار تاريخ آخر."
                     : "No Private Viewing slots are available for this date. Please choose another date."}
                 </p>
@@ -409,13 +468,17 @@ export default function TestDriveForm() {
         <div className="grid gap-5 sm:grid-cols-2">
           <div className="sm:col-span-2 sm:max-w-xs">
             <FormField label={dict.forms.title} required error={errors.title?.message}>
-              <select className="input-field-light" {...register("title")}>
-                <option value="">—</option>
-                <option value="mr">{dict.forms.titleMr}</option>
-                <option value="mrs">{dict.forms.titleMrs}</option>
-                <option value="ms">{dict.forms.titleMs}</option>
-                <option value="dr">{dict.forms.titleDr}</option>
-              </select>
+              <LightSelect
+                value={watch("title")}
+                onChange={(v) => setValue("title", v, { shouldValidate: true })}
+                placeholder="—"
+                options={[
+                  { value: "mr", label: dict.forms.titleMr },
+                  { value: "mrs", label: dict.forms.titleMrs },
+                  { value: "ms", label: dict.forms.titleMs },
+                  { value: "dr", label: dict.forms.titleDr },
+                ]}
+              />
             </FormField>
           </div>
           <FormField label={dict.forms.firstName} required error={errors.firstName?.message}>
