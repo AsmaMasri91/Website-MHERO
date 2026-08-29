@@ -91,12 +91,12 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 md:flex-row">
-          <ul className="order-1 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:order-1">
+          <ul className="order-1 flex w-full flex-col items-start gap-3 md:order-1 md:w-auto md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-x-6 md:gap-y-2">
             {legalLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} className="w-full md:w-auto">
                 <Link
                   href={link.href}
-                  className="link-underline text-xs text-white/60 hover:text-white"
+                  className="link-underline block w-full text-xs text-white/60 hover:text-white md:w-auto"
                 >
                   {link.label}
                 </Link>

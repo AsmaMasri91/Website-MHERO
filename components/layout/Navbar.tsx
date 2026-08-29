@@ -271,13 +271,13 @@ export default function Navbar() {
                 <LanguageToggle />
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/10 pt-6">
+              <div className="mt-8 flex w-full flex-col items-start gap-3 border-t border-white/10 pt-6">
                 {legalLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="link-underline text-xs text-white/60 hover:text-white"
+                    className="link-underline block w-full text-xs text-white/60 hover:text-white"
                   >
                     {link.label}
                   </Link>
