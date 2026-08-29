@@ -10,15 +10,20 @@ import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
 import { formatCurrency } from "@/lib/financeMath";
 
-const TIME_SLOTS: string[] = (() => {
+function buildTimeSlots(startMins: number, endMins: number): string[] {
   const slots: string[] = [];
-  for (let mins = 9 * 60; mins <= 19 * 60; mins += 30) {
+  for (let mins = startMins; mins <= endMins; mins += 30) {
     const h = String(Math.floor(mins / 60)).padStart(2, "0");
     const m = String(mins % 60).padStart(2, "0");
     slots.push(`${h}:${m}`);
   }
   return slots;
-})();
+}
+
+// Showroom viewings run 9:00 AM – 7:00 PM.
+const TIME_SLOTS = buildTimeSlots(9 * 60, 19 * 60);
+// Private Viewing slots run 9:00 AM – 6:30 PM (showroom closes at 7:00 PM).
+const PRIVATE_VIEWING_TIME_SLOTS = buildTimeSlots(9 * 60, 18 * 60 + 30);
 
 const SHOWROOM_OPTIONS = ["DXB", "AUH", "Private Viewing"] as const;
 const PRIVATE_VIEWING_NOTICE_HOURS = 4;
@@ -64,7 +69,7 @@ const schema = z
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["time"],
-        message: "Private Viewing requires at least 4 hours' notice.",
+        message: "Private Viewing requires a minimum of 4 hours' notice.",
       });
     }
   });
@@ -215,9 +220,11 @@ export default function TestDriveForm() {
   const selectedModel = models.find((m) => m.slug === selectedModelSlug) ?? models[0];
 
   const isPrivateViewing = selectedShowroom === "Private Viewing";
+  const visibleTimeSlots = isPrivateViewing ? PRIVATE_VIEWING_TIME_SLOTS : TIME_SLOTS;
   const slotDisabled = (t: string) =>
     isPrivateViewing && isSlotWithinNotice(selectedDate, t, PRIVATE_VIEWING_NOTICE_HOURS);
-  const hasValidSlotsForDate = !isPrivateViewing || !selectedDate || TIME_SLOTS.some((t) => !slotDisabled(t));
+  const hasValidSlotsForDate =
+    !isPrivateViewing || !selectedDate || visibleTimeSlots.some((t) => !slotDisabled(t));
 
   const onSubmit = async () => {
     await new Promise((r) => setTimeout(r, 600));
@@ -311,7 +318,12 @@ export default function TestDriveForm() {
               value={selectedShowroom}
               onChange={(v) => {
                 setValue("showroom", v, { shouldValidate: true });
-                if (v === "Private Viewing" && selectedTime && isSlotWithinNotice(selectedDate, selectedTime, PRIVATE_VIEWING_NOTICE_HOURS)) {
+                if (
+                  v === "Private Viewing" &&
+                  selectedTime &&
+                  (!PRIVATE_VIEWING_TIME_SLOTS.includes(selectedTime) ||
+                    isSlotWithinNotice(selectedDate, selectedTime, PRIVATE_VIEWING_NOTICE_HOURS))
+                ) {
                   setValue("time", "", { shouldValidate: true });
                 }
               }}
@@ -320,8 +332,8 @@ export default function TestDriveForm() {
             {selectedShowroom === "Private Viewing" && (
               <p className="mt-1.5 text-xs text-mhero-steel">
                 {locale === "ar"
-                  ? "تتطلب المعاينة الخاصة حجزًا قبل 4 ساعات على الأقل."
-                  : "Private Viewing requires at least 4 hours' notice."}
+                  ? "تتطلب المعاينة الخاصة حدًا أدنى 4 ساعات من الإشعار المسبق."
+                  : "Private Viewing requires a minimum of 4 hours' notice."}
               </p>
             )}
           </FormField>
@@ -357,7 +369,7 @@ export default function TestDriveForm() {
                 </p>
               ) : (
                 <div className="grid grid-cols-4 gap-2">
-                  {TIME_SLOTS.map((t) => {
+                  {visibleTimeSlots.map((t) => {
                     const disabled = slotDisabled(t);
                     return (
                       <button
