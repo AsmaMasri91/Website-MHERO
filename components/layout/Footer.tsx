@@ -91,7 +91,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 md:flex-row">
-          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <ul className="order-1 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:order-1">
             {legalLinks.map((link) => (
               <li key={link.href}>
                 <Link
@@ -104,11 +104,13 @@ export default function Footer() {
             ))}
           </ul>
 
-          <p className="text-xs text-white/60">
+          <div className="order-2 md:order-3">
+            <SocialIcons />
+          </div>
+
+          <p className="order-3 whitespace-nowrap text-xs text-white/60 md:order-2">
             © {new Date().getFullYear()} MHERO. {dict.footer.rights}
           </p>
-
-          <SocialIcons />
         </div>
       </div>
     </footer>
