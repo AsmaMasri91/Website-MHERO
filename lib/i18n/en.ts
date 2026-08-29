@@ -103,7 +103,7 @@ const en = {
     offersTitle: "Current Offers",
     instagramEyebrow: "@MHERO",
     instagramTitle: "Follow the Journey",
-    instagramDescription: "A live feed placeholder — connect the Instagram Graph API to pull real posts here.",
+    instagramDescription: "Follow us on Instagram @MHERO for the latest updates.",
     newsEyebrow: "Newsroom",
     newsTitle: "Featured News",
     testimonialsEyebrow: "Testimonials",

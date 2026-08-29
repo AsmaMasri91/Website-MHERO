@@ -100,7 +100,7 @@ const ar: Dictionary = {
     offersTitle: "العروض الحالية",
     instagramEyebrow: "@MHERO",
     instagramTitle: "تابع الرحلة",
-    instagramDescription: "عنصر نائب لبث مباشر — يمكن ربطه بواجهة Instagram Graph API لعرض المنشورات الفعلية هنا.",
+    instagramDescription: "تابعونا على إنستغرام @MHERO لمشاهدة آخر التحديثات.",
     newsEyebrow: "غرفة الأخبار",
     newsTitle: "أخبار مميزة",
     testimonialsEyebrow: "آراء العملاء",
