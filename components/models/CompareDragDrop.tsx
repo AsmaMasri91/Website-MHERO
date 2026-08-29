@@ -14,12 +14,8 @@ const modelImages: Record<string, string> = {
   "mhero-2-terrain": "/images/models/mhero-2-campaign.png",
 };
 
-const COMPARE_PRICE_OVERRIDES: Record<string, number> = {
-  "mhero-2-terrain": 199900,
-};
-
 function comparePrice(model: VehicleModel): number {
-  return COMPARE_PRICE_OVERRIDES[model.slug] ?? model.startingPrice;
+  return model.startingPrice;
 }
 
 type Slot = VehicleModel | null;
