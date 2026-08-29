@@ -56,29 +56,30 @@ export default function ColourSwatches({
       </div>
 
       <Spin360Viewer
-        key={`${tab}-${colour.name}`}
         frames={colour.image ? [colour.image] : []}
         alt={`${modelName} in ${colour.name}`}
+        overlay={
+          <div className="flex flex-wrap justify-center gap-4">
+            {colours.map((c, i) => (
+              <button
+                key={c.name}
+                onClick={() => setActive(i)}
+                className="flex flex-col items-center gap-2"
+                aria-label={`Select colour ${c.name}`}
+                aria-current={i === active}
+              >
+                <span
+                  className={`h-10 w-10 rounded-full border-2 transition-all ${
+                    i === active ? "border-mhero-black scale-110" : "border-white/60"
+                  }`}
+                  style={{ backgroundColor: c.hex }}
+                />
+                <span className="text-xs font-medium text-mhero-black">{c.name}</span>
+              </button>
+            ))}
+          </div>
+        }
       />
-      <div className="mt-6 flex flex-wrap gap-4">
-        {colours.map((c, i) => (
-          <button
-            key={c.name}
-            onClick={() => setActive(i)}
-            className="flex flex-col items-center gap-2"
-            aria-label={`Select colour ${c.name}`}
-            aria-current={i === active}
-          >
-            <span
-              className={`h-10 w-10 rounded-full border-2 transition-all ${
-                i === active ? "border-mhero-black scale-110" : "border-mhero-fog"
-              }`}
-              style={{ backgroundColor: c.hex }}
-            />
-            <span className="text-xs text-mhero-steel">{c.name}</span>
-          </button>
-        ))}
-      </div>
     </div>
   );
 }

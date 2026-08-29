@@ -13,9 +13,11 @@ function slugify(label: string) {
 export default function Spin360Viewer({
   frames,
   alt,
+  overlay,
 }: {
   frames: string[];
   alt: string;
+  overlay?: React.ReactNode;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -40,6 +42,12 @@ export default function Spin360Viewer({
       >
         <ExpandIcon />
       </button>
+
+      {overlay && (
+        <div className="absolute inset-x-0 bottom-0 flex justify-center bg-gradient-to-t from-mhero-fog via-mhero-fog/90 to-transparent px-6 pb-5 pt-10">
+          {overlay}
+        </div>
+      )}
 
       {expanded && (
         <div
