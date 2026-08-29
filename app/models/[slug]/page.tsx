@@ -13,8 +13,6 @@ import UtilitySpecs from "@/components/models/UtilitySpecs";
 import SpecsTable from "@/components/models/SpecsTable";
 import ColourSwatches from "@/components/models/ColourSwatches";
 import AccessoriesGrid from "@/components/models/AccessoriesGrid";
-import ChargingSection from "@/components/models/ChargingSection";
-import DimensionsTable from "@/components/models/DimensionsTable";
 import NumberedSlider from "@/components/models/NumberedSlider";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getModels } from "@/lib/i18n/data";
@@ -156,20 +154,6 @@ export default function ModelDetailPage({
           factoryOptionalEquipmentTabLabel={d.factoryOptionalEquipmentTitle}
         />
       </Section>
-
-      {/* Charging (not shown on MHERO I) */}
-      {model.slug !== "mhero-1" && (
-        <Section eyebrow={dict.models.overview} title={d.chargingLabel}>
-          <ChargingSection body={d.chargingBody} imageLabel={d.chargingImageLabel} />
-        </Section>
-      )}
-
-      {/* Dimensions (not shown on MHERO I) */}
-      {model.slug !== "mhero-1" && (
-        <Section eyebrow={dict.models.overview} title={d.dimensionsTitle}>
-          <DimensionsTable rows={d.dimensions} diagramLabel={d.dimensionsImageLabel} />
-        </Section>
-      )}
 
       {/* Final CTA */}
       <Section light={false} className="text-center">

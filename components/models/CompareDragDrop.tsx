@@ -100,12 +100,9 @@ export default function CompareDragDrop() {
     const rows: SpecRow[] = [];
     for (let i = 0; i < itemCount; i++) {
       const itemLabel = slots.find((s) => s?.specs[g]?.items[i])?.specs[g]?.items[i]?.label ?? "";
-      const isFastCharging = /fast charging|شحن سريع/i.test(itemLabel);
       rows.push({
         label: itemLabel,
-        values: slots.map((s) =>
-          !s ? null : isFastCharging ? (locale === "ar" ? "نعم" : "Yes") : s?.specs[g]?.items[i]?.value ?? null
-        ),
+        values: slots.map((s) => (!s ? null : s?.specs[g]?.items[i]?.value ?? null)),
       });
     }
     groups.push({ label: groupLabel, rows });

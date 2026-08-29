@@ -40,40 +40,15 @@
         ]
       },
       {
-        "label": "Range & Charging",
+        "label": "Range & Battery",
         "items": [
           {
             "label": "Range (WLTP)",
             "value": "530 km"
           },
           {
-            "label": "Fast Charging",
-            "value": "10–80% in 24 min"
-          },
-          {
             "label": "Battery Capacity",
             "value": "108 kWh"
-          }
-        ]
-      },
-      {
-        "label": "Dimensions",
-        "items": [
-          {
-            "label": "Length",
-            "value": "5,210 mm"
-          },
-          {
-            "label": "Width",
-            "value": "2,050 mm"
-          },
-          {
-            "label": "Wheelbase",
-            "value": "3,110 mm"
-          },
-          {
-            "label": "Ground Clearance",
-            "value": "310 mm (adjustable)"
           }
         ]
       }
@@ -394,40 +369,15 @@
         ]
       },
       {
-        "label": "Range & Charging",
+        "label": "Range & Battery",
         "items": [
           {
             "label": "Range (WLTP)",
             "value": "610 km"
           },
           {
-            "label": "Fast Charging",
-            "value": "10–80% in 21 min"
-          },
-          {
             "label": "Battery Capacity",
             "value": "94 kWh"
-          }
-        ]
-      },
-      {
-        "label": "Dimensions",
-        "items": [
-          {
-            "label": "Length",
-            "value": "4,980 mm"
-          },
-          {
-            "label": "Width",
-            "value": "1,960 mm"
-          },
-          {
-            "label": "Wheelbase",
-            "value": "2,980 mm"
-          },
-          {
-            "label": "Drag Coefficient",
-            "value": "0.21 Cd"
           }
         ]
       }
@@ -763,40 +713,15 @@
         ]
       },
       {
-        "label": "Range & Charging",
+        "label": "Range & Battery",
         "items": [
           {
             "label": "Range (WLTP)",
             "value": "610 km"
           },
           {
-            "label": "Fast Charging",
-            "value": "10–80% in 21 min"
-          },
-          {
             "label": "Battery Capacity",
             "value": "94 kWh"
-          }
-        ]
-      },
-      {
-        "label": "Dimensions",
-        "items": [
-          {
-            "label": "Length",
-            "value": "4,980 mm"
-          },
-          {
-            "label": "Width",
-            "value": "1,960 mm"
-          },
-          {
-            "label": "Wheelbase",
-            "value": "2,980 mm"
-          },
-          {
-            "label": "Drag Coefficient",
-            "value": "0.21 Cd"
           }
         ]
       }
