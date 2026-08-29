@@ -28,7 +28,7 @@ function TabButton({
         active ? "bg-[#d9d9d9] text-mhero-black" : "text-white hover:text-white/80"
       }`}
       style={{
-        borderBottom: active ? "2px solid #174D56" : "2px solid rgba(55,110,116,0.8)",
+        borderBottom: active ? "2px solid #8fb5a6" : "2px solid rgba(143,181,166,0.5)",
       }}
     >
       {children}

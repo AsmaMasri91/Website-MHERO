@@ -250,6 +250,16 @@ export default function ServiceBookingForm() {
             setHasVisitedBefore(v);
             setLookedUp(false);
             setLookupPhone("");
+            if (!v) {
+              setValue("title", "");
+              setValue("firstName", "");
+              setValue("lastName", "");
+              setValue("phone", "");
+              setValue("email", "");
+              setValue("plateEmirate", "");
+              setValue("plateCode", "");
+              setValue("plateNumber", "");
+            }
           }}
           yesLabel={dict.forms.yes}
           noLabel={dict.forms.no}
