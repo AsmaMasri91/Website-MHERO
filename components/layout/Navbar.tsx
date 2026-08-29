@@ -284,11 +284,11 @@ export default function Navbar() {
                 ))}
               </div>
 
-              <div className="mt-6 flex items-center justify-between">
+              <div className="mt-6 flex flex-col items-center gap-4">
+                <SocialIcons />
                 <p className="text-xs text-white/60">
                   © {new Date().getFullYear()} MHERO. {dict.footer.rights}
                 </p>
-                <SocialIcons />
               </div>
             </nav>
           </motion.div>
