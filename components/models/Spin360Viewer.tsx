@@ -25,7 +25,7 @@ export default function Spin360Viewer({
   const fallbackSrc = `https://picsum.photos/seed/${slugify(alt)}/1600/1000`;
 
   return (
-    <div className="group relative aspect-[3/2] w-full select-none overflow-hidden rounded-2xl bg-mhero-fog">
+    <div className="group relative aspect-[16/9] w-full select-none overflow-hidden rounded-2xl bg-mhero-fog">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src || fallbackSrc}
