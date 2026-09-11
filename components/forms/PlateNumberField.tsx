@@ -38,6 +38,10 @@ function Field({
   );
 }
 
+function maskPlateNumber(n: string): string {
+  return n.length <= 1 ? n : `${n[0]}${"X".repeat(n.length - 1)}`;
+}
+
 export default function PlateNumberField({
   emirate,
   onEmirateChange,
@@ -49,6 +53,7 @@ export default function PlateNumberField({
   codeError,
   numberError,
   light,
+  maskNumber,
 }: {
   emirate: string;
   onEmirateChange: (v: string) => void;
@@ -60,10 +65,12 @@ export default function PlateNumberField({
   codeError?: string;
   numberError?: string;
   light?: boolean;
+  maskNumber?: boolean;
 }) {
   const { locale, dict } = useLocale();
   const selectedEmirate = EMIRATES.find((e) => e.value === emirate);
   const inputClass = light ? "input-field-light" : "input-field";
+  const displayNumber = maskNumber ? maskPlateNumber(number) : number;
 
   return (
     <div className="grid gap-5 sm:grid-cols-[1fr_1fr_1fr_auto]">
@@ -94,12 +101,13 @@ export default function PlateNumberField({
 
       <Field label={dict.forms.plateNumber} error={numberError} light={light}>
         <input
-          className={inputClass}
+          className={maskNumber ? `${inputClass} cursor-not-allowed bg-mhero-fog/20 text-mhero-steel` : inputClass}
           inputMode="numeric"
           maxLength={5}
           placeholder={dict.forms.plateDigitsHint}
-          value={number}
-          onChange={(e) => onNumberChange(e.target.value.replace(/[^0-9]/g, ""))}
+          value={displayNumber}
+          readOnly={maskNumber}
+          onChange={maskNumber ? undefined : (e) => onNumberChange(e.target.value.replace(/[^0-9]/g, ""))}
         />
       </Field>
 
@@ -120,7 +128,7 @@ export default function PlateNumberField({
             {code || "•"}
           </div>
           <div className="flex flex-[1.4] items-center justify-center px-2 text-base font-extrabold tracking-widest">
-            {number || "•••••"}
+            {displayNumber || "•••••"}
           </div>
           <div className="w-2 shrink-0 bg-mhero-accent-dark" />
         </div>

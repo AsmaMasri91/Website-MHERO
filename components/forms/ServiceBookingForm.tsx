@@ -202,7 +202,7 @@ export default function ServiceBookingForm() {
     [locale]
   );
 
-  const isExistingCustomerEmail = hasVisitedBefore === true && lookedUp;
+  const isMaskedLookup = hasVisitedBefore === true && lookedUp;
 
   const lookupCustomer = async () => {
     if (!lookupPhone.trim()) return;
@@ -338,7 +338,7 @@ export default function ServiceBookingForm() {
           </div>
         </Field>
         <Field label={dict.forms.emailAddress} required error={errors.email?.message}>
-          {isExistingCustomerEmail ? (
+          {isMaskedLookup ? (
             <>
               <input
                 className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel"
@@ -379,6 +379,7 @@ export default function ServiceBookingForm() {
                       emirateError={errors.plateEmirate?.message}
                       codeError={errors.plateCode?.message}
                       numberError={errors.plateNumber?.message}
+                      maskNumber={isMaskedLookup}
                     />
                   )}
                 />
