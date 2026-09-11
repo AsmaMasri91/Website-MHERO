@@ -12,6 +12,12 @@ const TIME_SLOTS = [
   "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
 ];
 
+function maskEmail(email: string): string {
+  const [local, domain] = email.split("@");
+  if (!local || !domain) return email;
+  return `${local.slice(0, 3)}xxxx@${domain}`;
+}
+
 const LOCATIONS = [
   { value: "dubai-al-ittihad", en: "Dubai Al Ittihad", ar: "دبي الاتحاد" },
   { value: "sharjah", en: "Sharjah", ar: "الشارقة" },
@@ -196,6 +202,8 @@ export default function ServiceBookingForm() {
     [locale]
   );
 
+  const isExistingCustomerEmail = hasVisitedBefore === true && lookedUp;
+
   const lookupCustomer = async () => {
     if (!lookupPhone.trim()) return;
     setLookingUp(true);
@@ -330,7 +338,19 @@ export default function ServiceBookingForm() {
           </div>
         </Field>
         <Field label={dict.forms.emailAddress} required error={errors.email?.message}>
-          <input className="input-field-light" type="email" {...register("email")} />
+          {isExistingCustomerEmail ? (
+            <>
+              <input
+                className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel"
+                type="text"
+                value={maskEmail(watch("email") || "")}
+                readOnly
+              />
+              <input type="hidden" {...register("email")} />
+            </>
+          ) : (
+            <input className="input-field-light" type="email" {...register("email")} />
+          )}
         </Field>
       </div>
 
