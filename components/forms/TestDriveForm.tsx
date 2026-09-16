@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
 import { formatCurrency } from "@/lib/financeMath";
+import LightSelect from "@/components/forms/LightSelect";
 
 function buildTimeSlots(startMins: number, endMins: number): string[] {
   const slots: string[] = [];
@@ -97,82 +98,6 @@ function SectionHeader({ index, title }: { index: number; title: string }) {
         {index}
       </span>
       <h3 className="text-sm font-semibold uppercase tracking-widest2 text-mhero-black">{title}</h3>
-    </div>
-  );
-}
-
-function SelectChevron({ open }: { open: boolean }) {
-  return (
-    <svg
-      width="12"
-      height="8"
-      viewBox="0 0 12 8"
-      fill="none"
-      aria-hidden="true"
-      className={`shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-    >
-      <path
-        d="M1 1.5L6 6.5L11 1.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function LightSelect({
-  value,
-  onChange,
-  options,
-  placeholder,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  options: { value: string; label: string }[];
-  placeholder: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const selected = options.find((o) => o.value === value);
-
-  return (
-    <div className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="input-field-light flex w-full items-center justify-between bg-white text-start"
-      >
-        <span className={value ? "text-mhero-black" : "text-mhero-ash"}>
-          {selected?.label || placeholder}
-        </span>
-        <SelectChevron open={open} />
-      </button>
-
-      {open && (
-        <>
-          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute inset-x-0 top-full z-20 mt-1 border border-mhero-fog bg-white shadow-lg">
-            {options.map((o) => (
-              <button
-                key={o.value}
-                type="button"
-                onClick={() => {
-                  onChange(o.value);
-                  setOpen(false);
-                }}
-                className={`block w-full px-4 py-3 text-start text-sm transition-colors ${
-                  value === o.value
-                    ? "bg-mhero-primary text-mhero-black"
-                    : "text-mhero-black hover:bg-mhero-primary/15"
-                }`}
-              >
-                {o.label}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
     </div>
   );
 }
