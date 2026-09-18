@@ -1213,7 +1213,16 @@ export default function ServiceBookingForm() {
               <p className="mb-4 border border-mhero-primary bg-mhero-primary/15 px-3 py-2 text-xs text-mhero-black">
                 {sb.transportServiceNotice}
               </p>
-              <Checkbox checked={tcAcknowledged} onChange={(v) => setValue("tcAcknowledged", v, { shouldValidate: true })}>
+              <Checkbox
+                checked={tcAcknowledged}
+                onChange={(v) => {
+                  if (v) {
+                    setTcModalOpen(true);
+                  } else {
+                    setValue("tcAcknowledged", false, { shouldValidate: true });
+                  }
+                }}
+              >
                 {sb.tcAcknowledgePrefix}{" "}
                 <button type="button" onClick={() => setTcModalOpen(true)} className="link-underline font-semibold text-mhero-black">
                   {sb.tcLinkLabel}
