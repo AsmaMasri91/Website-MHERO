@@ -1159,12 +1159,10 @@ export default function ServiceBookingForm() {
                 </p>
               )}
 
-              <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-wrap items-center gap-6">
                 <p className="text-sm font-medium text-mhero-black">{sb.waitAtReception}</p>
-                <div className="flex items-center gap-6">
-                  <RadioDot selected={waitAtReception === true} label={dict.forms.yes} onClick={() => setValue("waitAtReception", true, { shouldValidate: true })} />
-                  <RadioDot selected={waitAtReception === false} label={dict.forms.no} onClick={() => setValue("waitAtReception", false, { shouldValidate: true })} />
-                </div>
+                <RadioDot selected={waitAtReception === true} label={dict.forms.yes} onClick={() => setValue("waitAtReception", true, { shouldValidate: true })} />
+                <RadioDot selected={waitAtReception === false} label={dict.forms.no} onClick={() => setValue("waitAtReception", false, { shouldValidate: true })} />
               </div>
 
               <Field label={sb.additionalMessage}>
