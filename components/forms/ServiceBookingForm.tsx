@@ -483,7 +483,7 @@ export default function ServiceBookingForm() {
       serviceCenter: "",
       appointmentDate: "",
       appointmentTime: "",
-      waitAtReception: false,
+      waitAtReception: true,
       message: "",
       pickupType: "not-required",
       tcAcknowledged: false,
