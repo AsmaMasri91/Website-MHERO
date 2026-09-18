@@ -104,10 +104,6 @@ function maskPhone(digits: string): string {
   return `+971 ${g1} ${"X".repeat(g2.length)} ${g3Masked}`;
 }
 
-function maskPlateNumber(n: string): string {
-  return "X".repeat(n.length);
-}
-
 function generateCaptcha(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
@@ -895,7 +891,7 @@ export default function ServiceBookingForm() {
                 >
                   <p className="text-sm font-bold text-mhero-black">{v.model}</p>
                   <p className="mt-1 text-xs text-mhero-steel">
-                    {v.plateCode} {maskPlateNumber(v.plateNumber)}
+                    {v.plateCode} {v.plateNumber}
                   </p>
                 </button>
               ))}
@@ -907,7 +903,7 @@ export default function ServiceBookingForm() {
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-mhero-primary bg-mhero-primary/15 p-4">
             <p className="text-sm text-mhero-black">
               <span className="font-semibold">{sb.vehicleSelectedBanner}</span>{" "}
-              {selectedVehicle.model} — {selectedVehicle.plateCode} {maskPlateNumber(selectedVehicle.plateNumber)}
+              {selectedVehicle.model} — {selectedVehicle.plateCode} {selectedVehicle.plateNumber}
             </p>
             <button type="button" onClick={changeVehicle} className="link-underline shrink-0 text-sm font-semibold text-mhero-black">
               {sb.change}
@@ -1015,23 +1011,21 @@ export default function ServiceBookingForm() {
             </div>
 
             <div className="mt-5 grid grid-cols-[1fr_1fr_auto] gap-5">
-              <Field label={dict.forms.plateCode} required error={errors.plateCode?.message} hint={isMaskedLookup ? sb.lockedFieldHint : sb.plateLettersHint}>
+              <Field label={dict.forms.plateCode} required error={errors.plateCode?.message} hint={sb.plateLettersHint}>
                 <input
-                  className={`input-field-light text-center uppercase ${isMaskedLookup ? "cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" : ""}`}
+                  className="input-field-light text-center uppercase"
                   maxLength={3}
                   placeholder="ABC"
-                  readOnly={isMaskedLookup}
                   value={watch("plateCode")}
                   onChange={(e) => setValue("plateCode", e.target.value.toUpperCase().replace(/[^A-Z]/g, ""), { shouldValidate: true })}
                 />
               </Field>
-              <Field label={dict.forms.plateNumber} required error={errors.plateNumber?.message} hint={isMaskedLookup ? sb.lockedFieldHint : dict.forms.plateDigitsHint}>
+              <Field label={dict.forms.plateNumber} required error={errors.plateNumber?.message} hint={dict.forms.plateDigitsHint}>
                 <input
-                  className={`input-field-light ${isMaskedLookup ? "cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" : ""}`}
+                  className="input-field-light"
                   inputMode="numeric"
                   maxLength={5}
-                  readOnly={isMaskedLookup}
-                  value={isMaskedLookup ? maskPlateNumber(watch("plateNumber")) : watch("plateNumber")}
+                  value={watch("plateNumber")}
                   onChange={(e) => setValue("plateNumber", e.target.value.replace(/[^0-9]/g, ""), { shouldValidate: true })}
                 />
               </Field>
@@ -1042,7 +1036,7 @@ export default function ServiceBookingForm() {
                     {watch("plateCode") || "•"}
                   </div>
                   <div className="flex flex-[1.4] items-center justify-center px-2 text-base font-extrabold tracking-widest">
-                    {(isMaskedLookup ? maskPlateNumber(watch("plateNumber")) : watch("plateNumber")) || "•••••"}
+                    {watch("plateNumber") || "•••••"}
                   </div>
                   <div className="w-2 shrink-0 bg-mhero-primary" />
                 </div>
