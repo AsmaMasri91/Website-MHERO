@@ -383,6 +383,153 @@ function MapPlaceholder({ label }: { label: string }) {
   );
 }
 
+function SelectChevron({ open }: { open: boolean }) {
+  return (
+    <svg
+      width="12"
+      height="8"
+      viewBox="0 0 12 8"
+      fill="none"
+      aria-hidden="true"
+      className={`shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+    >
+      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function formatDateDisplay(dateStr: string, locale: string): string {
+  if (!dateStr) return "";
+  const d = new Date(`${dateStr}T00:00:00`);
+  return d.toLocaleDateString(locale === "ar" ? "ar-AE" : "en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+function DateDropdown({
+  value,
+  onChange,
+  placeholder,
+  locale,
+  disabled,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+  locale: string;
+  disabled?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const initial = value ? new Date(`${value}T00:00:00`) : today;
+  const [viewYear, setViewYear] = useState(initial.getFullYear());
+  const [viewMonth, setViewMonth] = useState(initial.getMonth());
+
+  const monthLabel = new Date(viewYear, viewMonth, 1).toLocaleDateString(locale === "ar" ? "ar-AE" : "en-US", {
+    month: "long",
+    year: "numeric",
+  });
+  const firstDay = new Date(viewYear, viewMonth, 1);
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const leadingBlanks = firstDay.getDay();
+  const weekDayLabels =
+    locale === "ar" ? ["أحد", "إثن", "ثلا", "أرب", "خمي", "جمع", "سبت"] : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+  const cells: (Date | null)[] = [
+    ...Array.from({ length: leadingBlanks }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, i) => new Date(viewYear, viewMonth, i + 1)),
+  ];
+
+  const toDateStr = (d: Date) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => !disabled && setOpen((v) => !v)}
+        disabled={disabled}
+        className={`input-field-light flex w-full items-center justify-between bg-white text-start ${
+          disabled ? "cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" : ""
+        }`}
+      >
+        <span className={value ? "text-mhero-black" : "text-mhero-ash"}>
+          {value ? formatDateDisplay(value, locale) : placeholder}
+        </span>
+        <SelectChevron open={open} />
+      </button>
+
+      {open && !disabled && (
+        <>
+          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+          <div className="absolute inset-x-0 top-full z-20 mt-1 w-full min-w-[280px] border border-mhero-fog bg-white p-4 shadow-lg">
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => {
+                  const m = viewMonth === 0 ? 11 : viewMonth - 1;
+                  const y = viewMonth === 0 ? viewYear - 1 : viewYear;
+                  setViewMonth(m);
+                  setViewYear(y);
+                }}
+                className="flex h-7 w-7 items-center justify-center border border-mhero-fog text-mhero-black hover:bg-mhero-fog/30"
+                aria-label="Previous month"
+              >
+                ‹
+              </button>
+              <p className="text-sm font-semibold text-mhero-black">{monthLabel}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  const m = viewMonth === 11 ? 0 : viewMonth + 1;
+                  const y = viewMonth === 11 ? viewYear + 1 : viewYear;
+                  setViewMonth(m);
+                  setViewYear(y);
+                }}
+                className="flex h-7 w-7 items-center justify-center border border-mhero-fog text-mhero-black hover:bg-mhero-fog/30"
+                aria-label="Next month"
+              >
+                ›
+              </button>
+            </div>
+
+            <div className="mt-3 grid grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase text-mhero-ash">
+              {weekDayLabels.map((w, i) => (
+                <div key={`${w}-${i}`}>{w}</div>
+              ))}
+            </div>
+            <div className="mt-1 grid grid-cols-7 gap-1">
+              {cells.map((d, i) => {
+                if (!d) return <div key={`b-${i}`} />;
+                const dateStr = toDateStr(d);
+                const unavailable = d < today;
+                const isSelected = dateStr === value;
+                return (
+                  <button
+                    key={dateStr}
+                    type="button"
+                    disabled={unavailable}
+                    onClick={() => {
+                      onChange(dateStr);
+                      setOpen(false);
+                    }}
+                    className={`aspect-square text-xs font-medium transition-colors ${
+                      isSelected
+                        ? "bg-mhero-primary text-mhero-black"
+                        : unavailable
+                        ? "cursor-not-allowed text-mhero-fog line-through"
+                        : "text-mhero-black hover:bg-mhero-fog/40"
+                    }`}
+                  >
+                    {d.getDate()}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function TermsModal({
   open,
   onDecline,
@@ -1107,11 +1254,11 @@ export default function ServiceBookingForm() {
                   />
                 </Field>
                 <Field label={sb.appointmentDate} required error={errors.appointmentDate?.message}>
-                  <input
-                    className="input-field-light"
-                    type="date"
-                    min={new Date().toISOString().slice(0, 10)}
-                    {...register("appointmentDate")}
+                  <DateDropdown
+                    value={appointmentDate}
+                    onChange={(d) => setValue("appointmentDate", d, { shouldValidate: true })}
+                    placeholder={dict.forms.selectDate}
+                    locale={locale}
                   />
                 </Field>
                 <Field label={sb.appointmentTime} required error={errors.appointmentTime?.message}>
@@ -1213,30 +1360,28 @@ export default function ServiceBookingForm() {
             </div>
           )}
 
-          {pickupType !== "not-required" && tcAcknowledged && centerCharges && (
-            <div className="mt-5 border border-mhero-fog bg-white p-6">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">{sb.transportChargeTitle}</p>
-              <dl className="space-y-2 text-sm">
-                {(pickupType === "pickup" || pickupType === "both") && (
-                  <div className="flex justify-between border-b border-mhero-fog pb-2">
-                    <dt className="text-mhero-steel">{sb.transportPickupChargeLabel}</dt>
-                    <dd className="font-semibold text-mhero-black">AED {centerCharges.pickup}</dd>
-                  </div>
-                )}
-                {(pickupType === "dropoff" || pickupType === "both") && (
-                  <div className="flex justify-between border-b border-mhero-fog pb-2">
-                    <dt className="text-mhero-steel">{sb.transportDropoffChargeLabel}</dt>
-                    <dd className="font-semibold text-mhero-black">AED {centerCharges.dropoff}</dd>
-                  </div>
-                )}
-                {pickupType === "both" && (
-                  <div className="flex justify-between pb-1">
-                    <dt className="font-semibold text-mhero-black">{sb.transportTotalChargeLabel}</dt>
-                    <dd className="font-bold text-mhero-black">AED {centerCharges.pickup + centerCharges.dropoff}</dd>
-                  </div>
-                )}
-              </dl>
-              <p className="mt-3 text-xs text-mhero-steel">{sb.transportChargeDisclaimer}</p>
+          {pickupType !== "not-required" && tcAcknowledged && centerCharges && selectedCenter && (
+            <div className="mt-5 flex items-start gap-3 border border-mhero-primary bg-mhero-primary/15 px-4 py-3 text-sm text-mhero-black">
+              <span
+                aria-hidden="true"
+                className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mhero-primary text-xs font-bold text-white"
+              >
+                i
+              </span>
+              <p>
+                <span className="font-semibold uppercase tracking-widest2">{sb.transportChargeTitle}</span>
+                <br />
+                {pickupType === "pickup" &&
+                  sb.transportChargeNoticePickup.replace("{amount}", String(centerCharges.pickup)).replace("{location}", sb[selectedCenter.labelKey])}
+                {pickupType === "dropoff" &&
+                  sb.transportChargeNoticeDropoff.replace("{amount}", String(centerCharges.dropoff)).replace("{location}", sb[selectedCenter.labelKey])}
+                {pickupType === "both" &&
+                  sb.transportChargeNoticeBoth
+                    .replace("{pickup}", String(centerCharges.pickup))
+                    .replace("{dropoff}", String(centerCharges.dropoff))
+                    .replace("{total}", String(centerCharges.pickup + centerCharges.dropoff))
+                    .replace("{location}", sb[selectedCenter.labelKey])}
+              </p>
             </div>
           )}
 
@@ -1260,7 +1405,7 @@ export default function ServiceBookingForm() {
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Field label={sb.preferredPickUpDate}>
-                      <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={appointmentDate} />
+                      <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={formatDateDisplay(appointmentDate, locale)} />
                     </Field>
                     <Field label={sb.preferredPickUpTime} required error={errors.pickUpTime?.message} hint={sb.pickupBufferHint}>
                       <LightSelect
@@ -1300,7 +1445,7 @@ export default function ServiceBookingForm() {
                   </div>
 
                   <Field label={sb.preferredDropOffDate}>
-                    <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={appointmentDate} />
+                    <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={formatDateDisplay(appointmentDate, locale)} />
                   </Field>
 
                   <Field label={dict.forms.instructions}>
