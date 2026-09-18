@@ -536,6 +536,7 @@ const en = {
     otpInvalid: "Incorrect OTP. Please try again.",
     otpIncomplete: "Enter the 6-digit code.",
     otpVerified: "Mobile number verified.",
+    otpDemoHintPrefix: "Demo mode — no SMS is sent. Your verification code is:",
     changeNumber: "Change Number",
     yourVehicles: "Your Registered Vehicles",
     vehicleSelectedBanner: "Vehicle selected from your registered vehicles.",

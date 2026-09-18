@@ -529,6 +529,7 @@ const ar: Dictionary = {
     otpInvalid: "رمز التحقق غير صحيح. حاول مرة أخرى.",
     otpIncomplete: "أدخل الرمز المكون من 6 أرقام.",
     otpVerified: "تم التحقق من رقم الهاتف.",
+    otpDemoHintPrefix: "وضع تجريبي — لا يتم إرسال رسالة نصية. رمز التحقق الخاص بك هو:",
     changeNumber: "تغيير الرقم",
     yourVehicles: "مركباتك المسجلة",
     vehicleSelectedBanner: "تم اختيار السيارة من مركباتك المسجلة.",

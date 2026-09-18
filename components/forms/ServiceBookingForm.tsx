@@ -902,6 +902,9 @@ export default function ServiceBookingForm() {
           <div className="mt-4 border border-mhero-fog p-4">
             <p className="mb-1 text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">{sb.otpEnterTitle}</p>
             <p className="mb-3 text-sm text-mhero-steel">{maskPhone(lookupPhone)}</p>
+            <p className="mb-3 border border-mhero-primary bg-mhero-primary/15 px-3 py-2 text-xs text-mhero-black">
+              {sb.otpDemoHintPrefix} <span className="font-mono font-bold tracking-[3px]">{generatedOtp}</span>
+            </p>
             <div className="flex flex-wrap items-end gap-3">
               <input
                 className="input-field-light max-w-[160px] tracking-[4px]"
