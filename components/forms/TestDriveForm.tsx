@@ -10,6 +10,7 @@ import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
 import { formatCurrency } from "@/lib/financeMath";
 import LightSelect from "@/components/forms/LightSelect";
+import DateDropdown from "@/components/forms/DateDropdown";
 
 function buildTimeSlots(startMins: number, endMins: number): string[] {
   const slots: string[] = [];
@@ -237,6 +238,19 @@ export default function TestDriveForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="border border-mhero-fog bg-white p-8 md:p-10" noValidate>
       <SectionHeader index={1} title={dict.testDrive.chooseYourMhero} />
+      <div className="mb-6 flex items-start gap-3 border border-mhero-primary bg-mhero-primary/15 px-4 py-3 text-sm text-mhero-black">
+        <span
+          aria-hidden="true"
+          className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mhero-primary text-xs font-bold text-white"
+        >
+          i
+        </span>
+        <p>
+          {locale === "ar"
+            ? "يرجى ملاحظة أن رخصة قيادة إماراتية سارية مطلوبة لتجربة القيادة."
+            : "Note that a valid UAE license is required for the test drive."}
+        </p>
+      </div>
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-mhero-fog/40 lg:aspect-auto">
           {selectedModel && (
@@ -320,21 +334,16 @@ export default function TestDriveForm() {
 
           <div className="grid gap-5 sm:grid-cols-2">
             <FormField label={dict.forms.preferredDate} required error={errors.date?.message}>
-              <input
-                className="input-field-light"
-                type="date"
-                min={new Date().toISOString().slice(0, 10)}
-                {...register("date", {
-                  onChange: (e) => {
-                    if (
-                      isPrivateViewing &&
-                      selectedTime &&
-                      isSlotWithinNotice(e.target.value, selectedTime, PRIVATE_VIEWING_NOTICE_HOURS)
-                    ) {
-                      setValue("time", "", { shouldValidate: true });
-                    }
-                  },
-                })}
+              <DateDropdown
+                value={selectedDate}
+                locale={locale}
+                placeholder={dict.forms.selectDate}
+                onChange={(v) => {
+                  setValue("date", v, { shouldValidate: true });
+                  if (isPrivateViewing && selectedTime && isSlotWithinNotice(v, selectedTime, PRIVATE_VIEWING_NOTICE_HOURS)) {
+                    setValue("time", "", { shouldValidate: true });
+                  }
+                }}
               />
             </FormField>
             <div>
