@@ -972,7 +972,7 @@ export default function ServiceBookingForm() {
         )}
       </div>
 
-      {showFormBody && (
+      {showFormBody && !isMaskedLookup && (
         <>
           <Accordion index={1} title={dict.forms.personalInformation} open={openPersonal} onToggle={() => setOpenPersonal((v) => !v)}>
             <div className="grid gap-5 sm:grid-cols-3">
@@ -1105,8 +1105,17 @@ export default function ServiceBookingForm() {
               </div>
             </div>
           </Accordion>
+        </>
+      )}
 
-          <Accordion index={3} title={dict.forms.appointmentDetails} open={openAppointment} onToggle={() => setOpenAppointment((v) => !v)}>
+      {showFormBody && (
+        <>
+          <Accordion
+            index={isMaskedLookup ? 1 : 3}
+            title={dict.forms.appointmentDetails}
+            open={openAppointment}
+            onToggle={() => setOpenAppointment((v) => !v)}
+          >
             <div className="space-y-5">
               <Field label={dict.forms.purposeOfVisit} required error={errors.purpose?.message}>
                 <LightSelect
