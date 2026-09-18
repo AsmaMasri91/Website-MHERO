@@ -248,7 +248,7 @@ function Accordion({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border border-mhero-fog bg-white">
+    <div className="border border-mhero-fog bg-mhero-fog">
       <button
         type="button"
         onClick={onToggle}
