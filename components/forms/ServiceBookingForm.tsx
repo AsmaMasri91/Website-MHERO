@@ -73,6 +73,18 @@ const TRANSPORT_CHARGES: Record<string, { pickup: number; dropoff: number }> = {
   "abu-dhabi": { pickup: 120, dropoff: 120 },
 };
 
+const ARRIVAL_WINDOWS: Record<string, { start: string; end: string }> = {
+  "al-quoz": { start: "08:00", end: "16:00" },
+  "abu-dhabi": { start: "08:00", end: "12:30" },
+};
+
+function formatTime12h(t: string, locale: string): string {
+  const [h, m] = t.split(":").map(Number);
+  const period = h < 12 ? (locale === "ar" ? "ص" : "AM") : locale === "ar" ? "م" : "PM";
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return `${h12}:${pad2(m)} ${period}`;
+}
+
 function maskEmail(email: string): string {
   const [local, domain] = email.split("@");
   if (!local || !domain) return email;
@@ -111,10 +123,6 @@ function generateOtp(): string {
 
 function pad2(n: number) {
   return String(n).padStart(2, "0");
-}
-
-function toDateStr(d: Date): string {
-  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
 }
 
 function minutesFromTime(t: string): number {
@@ -375,120 +383,6 @@ function MapPlaceholder({ label }: { label: string }) {
   );
 }
 
-function Calendar({
-  selected,
-  onSelect,
-  locale,
-  legendSelected,
-  legendUnavailable,
-}: {
-  selected: string;
-  onSelect: (d: string) => void;
-  locale: string;
-  legendSelected: string;
-  legendUnavailable: string;
-}) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const initial = selected ? new Date(`${selected}T00:00:00`) : today;
-  const [viewYear, setViewYear] = useState(initial.getFullYear());
-  const [viewMonth, setViewMonth] = useState(initial.getMonth());
-
-  const monthLabel = new Date(viewYear, viewMonth, 1).toLocaleDateString(locale === "ar" ? "ar-AE" : "en-US", {
-    month: "long",
-    year: "numeric",
-  });
-
-  const firstDay = new Date(viewYear, viewMonth, 1);
-  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-  const leadingBlanks = firstDay.getDay();
-  const weekDayLabels =
-    locale === "ar"
-      ? ["أحد", "إثن", "ثلا", "أرب", "خمي", "جمع", "سبت"]
-      : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-  const cells: (Date | null)[] = [
-    ...Array.from({ length: leadingBlanks }, () => null),
-    ...Array.from({ length: daysInMonth }, (_, i) => new Date(viewYear, viewMonth, i + 1)),
-  ];
-
-  const isUnavailable = (d: Date) => d < today;
-
-  return (
-    <div className="border border-mhero-fog bg-white p-4">
-      <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => {
-            const m = viewMonth === 0 ? 11 : viewMonth - 1;
-            const y = viewMonth === 0 ? viewYear - 1 : viewYear;
-            setViewMonth(m);
-            setViewYear(y);
-          }}
-          className="flex h-8 w-8 items-center justify-center border border-mhero-fog text-mhero-black hover:bg-mhero-fog/30"
-          aria-label="Previous month"
-        >
-          ‹
-        </button>
-        <p className="text-sm font-semibold text-mhero-black">{monthLabel}</p>
-        <button
-          type="button"
-          onClick={() => {
-            const m = viewMonth === 11 ? 0 : viewMonth + 1;
-            const y = viewMonth === 11 ? viewYear + 1 : viewYear;
-            setViewMonth(m);
-            setViewYear(y);
-          }}
-          className="flex h-8 w-8 items-center justify-center border border-mhero-fog text-mhero-black hover:bg-mhero-fog/30"
-          aria-label="Next month"
-        >
-          ›
-        </button>
-      </div>
-
-      <div className="mt-4 grid grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase text-mhero-ash">
-        {weekDayLabels.map((w) => (
-          <div key={w}>{w}</div>
-        ))}
-      </div>
-      <div className="mt-1 grid grid-cols-7 gap-1">
-        {cells.map((d, i) => {
-          if (!d) return <div key={`b-${i}`} />;
-          const dateStr = toDateStr(d);
-          const unavailable = isUnavailable(d);
-          const isSelected = dateStr === selected;
-          return (
-            <button
-              key={dateStr}
-              type="button"
-              disabled={unavailable}
-              onClick={() => onSelect(dateStr)}
-              className={`aspect-square text-xs font-medium transition-colors ${
-                isSelected
-                  ? "bg-mhero-primary text-mhero-black"
-                  : unavailable
-                  ? "cursor-not-allowed text-mhero-fog line-through"
-                  : "text-mhero-black hover:bg-mhero-fog/40"
-              }`}
-            >
-              {d.getDate()}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 flex items-center gap-4 border-t border-mhero-fog pt-3 text-[11px] text-mhero-steel">
-        <span className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 bg-mhero-primary" /> {legendSelected}
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="h-2.5 w-2.5 bg-mhero-fog" /> {legendUnavailable}
-        </span>
-      </div>
-    </div>
-  );
-}
-
 function TermsModal({ open, onClose, title, body, closeLabel }: { open: boolean; onClose: () => void; title: string; body: string; closeLabel: string }) {
   if (!open) return null;
   return (
@@ -592,6 +486,19 @@ export default function ServiceBookingForm() {
   const pickupDropoffEnabled = Boolean(serviceCenter && appointmentDate && appointmentTime);
   const selectedCenter = SERVICE_CENTERS.find((c) => c.value === serviceCenter);
   const centerCharges = selectedCenter ? TRANSPORT_CHARGES[selectedCenter.value] : undefined;
+  const arrivalWindow = selectedCenter ? ARRIVAL_WINDOWS[selectedCenter.value] : undefined;
+  const visibleAppointmentSlots = arrivalWindow
+    ? TIME_SLOTS.filter(
+        (t) => minutesFromTime(t) >= minutesFromTime(arrivalWindow.start) && minutesFromTime(t) <= minutesFromTime(arrivalWindow.end)
+      )
+    : TIME_SLOTS;
+
+  useEffect(() => {
+    if (appointmentTime && !visibleAppointmentSlots.includes(appointmentTime)) {
+      setValue("appointmentTime", "");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serviceCenter]);
   const transportCharge =
     centerCharges &&
     (pickupType === "pickup"
@@ -1117,25 +1024,30 @@ export default function ServiceBookingForm() {
             onToggle={() => setOpenAppointment((v) => !v)}
           >
             <div className="space-y-5">
-              <Field label={dict.forms.purposeOfVisit} required error={errors.purpose?.message}>
-                <LightSelect
-                  value={purpose}
-                  onChange={(v) => setValue("purpose", v, { shouldValidate: true })}
-                  placeholder={dict.forms.selectPurpose}
-                  options={[
-                    { value: "service", label: sb.purposeService },
-                    { value: "collision", label: sb.purposeCollision },
-                    { value: "report-fault", label: sb.purposeReportFault },
-                  ]}
-                />
-              </Field>
+              <div className="grid gap-5 sm:grid-cols-3">
+                <Field label={dict.forms.purposeOfVisit} required error={errors.purpose?.message}>
+                  <LightSelect
+                    value={purpose}
+                    onChange={(v) => setValue("purpose", v, { shouldValidate: true })}
+                    placeholder={dict.forms.selectPurpose}
+                    options={[
+                      { value: "service", label: sb.purposeService },
+                      { value: "collision", label: sb.purposeCollision },
+                      { value: "report-fault", label: sb.purposeReportFault },
+                    ]}
+                  />
+                </Field>
 
-              {purpose === "service" && (
-                <Field label={sb.serviceInterval} required error={errors.serviceInterval?.message}>
+                <Field
+                  label={sb.serviceInterval}
+                  required={purpose === "service"}
+                  error={purpose === "service" ? errors.serviceInterval?.message : undefined}
+                >
                   <LightSelect
                     value={watch("serviceInterval") || ""}
                     onChange={(v) => setValue("serviceInterval", v, { shouldValidate: true })}
                     placeholder={sb.selectServiceInterval}
+                    disabled={purpose !== "service"}
                     options={SERVICE_INTERVAL_OPTIONS.map((k) => {
                       const completed = isMaskedLookup && !!selectedVehicle && SERVICE_INTERVAL_KMS[k] <= selectedVehicle.lastCompletedKm;
                       return {
@@ -1147,37 +1059,38 @@ export default function ServiceBookingForm() {
                     })}
                   />
                 </Field>
-              )}
 
-              {purpose && purpose !== "service" && (
-                <Field label={sb.pleaseSpecify} required error={errors.purposeDetails?.message}>
-                  <textarea
-                    className="input-field-light min-h-[90px]"
+                <Field
+                  label={sb.pleaseSpecify}
+                  required={purpose === "collision" || purpose === "report-fault"}
+                  error={purpose !== "service" ? errors.purposeDetails?.message : undefined}
+                >
+                  <input
+                    className={`input-field-light ${purpose === "service" || !purpose ? "cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" : ""}`}
+                    disabled={purpose === "service" || !purpose}
                     placeholder={
                       purpose === "collision" ? sb.pleaseSpecifyPlaceholderCollision : sb.pleaseSpecifyPlaceholderFault
                     }
                     {...register("purposeDetails")}
                   />
                 </Field>
-              )}
+              </div>
 
-              <Field label={sb.serviceCenter} required error={errors.serviceCenter?.message}>
-                <LightSelect
-                  value={serviceCenter}
-                  onChange={(v) => setValue("serviceCenter", v, { shouldValidate: true })}
-                  placeholder={sb.selectServiceCenter}
-                  options={SERVICE_CENTERS.map((c) => ({ value: c.value, label: sb[c.labelKey] }))}
-                />
-              </Field>
-
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid gap-5 sm:grid-cols-3">
+                <Field label={sb.serviceCenter} required error={errors.serviceCenter?.message}>
+                  <LightSelect
+                    value={serviceCenter}
+                    onChange={(v) => setValue("serviceCenter", v, { shouldValidate: true })}
+                    placeholder={sb.selectServiceCenter}
+                    options={SERVICE_CENTERS.map((c) => ({ value: c.value, label: sb[c.labelKey] }))}
+                  />
+                </Field>
                 <Field label={sb.appointmentDate} required error={errors.appointmentDate?.message}>
-                  <Calendar
-                    selected={appointmentDate}
-                    onSelect={(d) => setValue("appointmentDate", d, { shouldValidate: true })}
-                    locale={locale}
-                    legendSelected={sb.calendarLegendSelected}
-                    legendUnavailable={sb.calendarLegendUnavailable}
+                  <input
+                    className="input-field-light"
+                    type="date"
+                    min={new Date().toISOString().slice(0, 10)}
+                    {...register("appointmentDate")}
                   />
                 </Field>
                 <Field label={sb.appointmentTime} required error={errors.appointmentTime?.message}>
@@ -1186,27 +1099,46 @@ export default function ServiceBookingForm() {
                     onChange={(v) => setValue("appointmentTime", v, { shouldValidate: true })}
                     placeholder={appointmentDate ? dict.forms.selectTime : sb.selectDateFirst}
                     disabled={!appointmentDate}
-                    options={TIME_SLOTS.map((t) => ({ value: t, label: t }))}
+                    options={visibleAppointmentSlots.map((t) => ({ value: t, label: t }))}
                   />
-                  {LATE_SLOTS.includes(appointmentTime) && (
-                    <p className="mt-2 border border-mhero-primary bg-mhero-primary/15 px-3 py-2 text-xs text-mhero-black">
-                      {sb.lateAppointmentNotice}
-                    </p>
-                  )}
                 </Field>
               </div>
 
-              <YesNoRow
-                label={sb.waitAtReception}
-                value={waitAtReception}
-                onChange={(v) => setValue("waitAtReception", v, { shouldValidate: true })}
-                yesLabel={dict.forms.yes}
-                noLabel={dict.forms.no}
-              />
+              {arrivalWindow && (
+                <div className="flex items-start gap-3 border border-mhero-primary bg-mhero-primary/15 px-4 py-3 text-sm text-mhero-black">
+                  <span
+                    aria-hidden="true"
+                    className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mhero-primary text-xs font-bold text-white"
+                  >
+                    i
+                  </span>
+                  <p>
+                    <span className="font-semibold uppercase tracking-widest2">{sb.arrivalWindowTitle}</span>
+                    <br />
+                    {sb.arrivalWindowBody
+                      .replace("{start}", formatTime12h(arrivalWindow.start, locale))
+                      .replace("{end}", formatTime12h(arrivalWindow.end, locale))}
+                  </p>
+                </div>
+              )}
+
+              {LATE_SLOTS.includes(appointmentTime) && (
+                <p className="border border-mhero-primary bg-mhero-primary/15 px-3 py-2 text-xs text-mhero-black">
+                  {sb.lateAppointmentNotice}
+                </p>
+              )}
+
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <p className="text-sm font-medium text-mhero-black">{sb.waitAtReception}</p>
+                <div className="flex items-center gap-6">
+                  <RadioDot selected={waitAtReception === true} label={dict.forms.yes} onClick={() => setValue("waitAtReception", true, { shouldValidate: true })} />
+                  <RadioDot selected={waitAtReception === false} label={dict.forms.no} onClick={() => setValue("waitAtReception", false, { shouldValidate: true })} />
+                </div>
+              </div>
 
               <Field label={sb.additionalMessage}>
                 <textarea
-                  className="input-field-light min-h-[100px]"
+                  className="input-field-light min-h-[140px]"
                   placeholder={sb.additionalMessagePlaceholder}
                   {...register("message")}
                 />

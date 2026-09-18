@@ -567,8 +567,11 @@ const en = {
       contract: "Service Contract",
     },
     serviceIntervalCompleted: "Completed",
-    serviceCenter: "MHERO Service Center",
+    serviceCenter: "Location",
     selectServiceCenter: "Select Service Center",
+    arrivalWindowTitle: "Arrival Window",
+    arrivalWindowBody:
+      "This service centre accepts vehicles between {start} and {end}. Please select a time within this window. Vehicles arriving outside this window may not be accommodated on the same day.",
     centerAlQuoz: "Al Quoz",
     centerAbuDhabi: "Abu Dhabi",
     appointmentDate: "Appointment Date",

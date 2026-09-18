@@ -560,8 +560,11 @@ const ar: Dictionary = {
       contract: "عقد صيانة",
     },
     serviceIntervalCompleted: "مكتملة",
-    serviceCenter: "مركز خدمة MHERO",
+    serviceCenter: "الموقع",
     selectServiceCenter: "اختر مركز الخدمة",
+    arrivalWindowTitle: "نافذة الوصول",
+    arrivalWindowBody:
+      "يستقبل هذا المركز السيارات بين {start} و{end}. يرجى اختيار وقت ضمن هذه النافذة. قد لا يتم استقبال السيارات التي تصل خارج هذه النافذة في نفس اليوم.",
     centerAlQuoz: "القوز",
     centerAbuDhabi: "أبوظبي",
     appointmentDate: "تاريخ الموعد",
