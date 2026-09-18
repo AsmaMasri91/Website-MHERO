@@ -595,12 +595,38 @@ const en = {
       "Vehicle transport service charges apply. Charges vary based on the selected service center and transport location.",
     tcAcknowledgePrefix: "I acknowledge the",
     tcLinkLabel: "Vehicle Transport Terms & Conditions",
-    tcModalTitle: "Vehicle Transport Terms & Conditions",
-    tcModalBody:
-      "Vehicle pick-up and drop-off is offered as a paid transport service. Charges vary based on the selected MHERO service center and your pick-up/drop-off location, and are shown before you confirm your booking. Pick-up and drop-off times are subject to the 1-hour transport buffer before your appointment time. A cancellation fee of AED 20 applies if a scheduled pick-up or drop-off is cancelled with less than 2 hours' notice. It is the customer's responsibility to ensure the vehicle is accessible at the address and time provided. MHERO drivers will contact you shortly before arrival.",
+    tcModalHeading: "Customer Terms & Conditions",
+    tcModalSubheading: "Vehicle Pick-up / Drop-off Service",
+    tcModalIntro:
+      "These Customer Terms & Conditions (\"Terms\") govern the vehicle pick-up and drop-off service (\"Service\") offered by Al Ghurair Mobility (\"MHERO\", \"we\", \"us\") to its customers (\"Customer\", \"you\") in connection with vehicles owned by the Customer (\"Vehicle\"). By requesting, accepting, or otherwise using the Service, the Customer agrees to be bound by these Terms.",
     tcModalClose: "Close",
     tcModalDecline: "Cancel",
     tcModalAcknowledge: "Acknowledge",
+    tcSections: [
+      {
+        title: "1. Nature of the Service",
+        items: [
+          "1.1. MHERO offers Customers the convenience of booking a vehicle pick-up and/or drop-off (for example, to or from an MHERO service center for maintenance, inspection, or delivery) without the Customer needing to arrange their own transport.",
+          "1.2. The Service is arranged and coordinated by MHERO and performed by MHERO or its appointed service partners, who are responsible for the pick-up and drop-off of the Vehicle.",
+        ],
+      },
+      {
+        title: "2. Customer Authorization",
+        items: [
+          "2.1. By requesting or accepting the Service, the Customer expressly authorizes MHERO to arrange the pick-up and/or drop-off of the specified Vehicle, and authorizes the assigned driver to take possession of, drive, and transport the Vehicle solely for the purpose of completing the pick-up/drop-off.",
+          "2.2. The Customer confirms that they are either the registered owner of the Vehicle or have the registered owner's consent to authorize this Service in relation to the Vehicle, and that they are entitled to hand over the Vehicle and its keys for this purpose.",
+          "2.3. The Customer is responsible for removing personal belongings, valuables, and confidential items (including toll tags, garage door openers, documents, electronic devices, or data-storage media) from the Vehicle before hand-over. MHERO is not responsible for personal items left in the Vehicle.",
+        ],
+      },
+      {
+        title: "3. Charges & Cancellation",
+        items: [
+          "3.1. Vehicle pick-up and drop-off is offered as a paid transport service. Charges vary based on the selected MHERO service center and the Customer's pick-up/drop-off location, and are shown before the booking is confirmed.",
+          "3.2. A cancellation fee of AED 20 applies if a scheduled pick-up or drop-off is cancelled with less than 2 hours' notice.",
+          "3.3. Pick-up and drop-off times are subject to a 1-hour transport buffer before the appointment time. MHERO drivers will contact the Customer shortly before arrival, and the Customer should ensure the Vehicle is accessible at the address and time provided.",
+        ],
+      },
+    ],
     transportChargeTitle: "Vehicle Transport Service Charge",
     transportChargeNoticePickup: "A pick-up service charge of AED {amount} applies for the {location} location. This will be reflected in your final service invoice.",
     transportChargeNoticeDropoff: "A drop-off service charge of AED {amount} applies for the {location} location. This will be reflected in your final service invoice.",
@@ -609,7 +635,6 @@ const en = {
     dropOffAddress: "Drop-Off Address",
     pickUpAddressPlaceholder: "Enter your pick-up address",
     dropOffAddressPlaceholder: "Enter your drop-off address",
-    autoFilledFromCenter: "Automatically set to your selected service center",
     pickupDateMatchNotice: "Your pick-up date will match your appointment date.",
     preferredPickUpDate: "Preferred Pick-Up Date",
     preferredPickUpTime: "Preferred Pick-Up Time",

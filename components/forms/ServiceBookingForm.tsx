@@ -534,25 +534,40 @@ function TermsModal({
   open,
   onDecline,
   onAcknowledge,
-  title,
-  body,
+  heading,
+  subheading,
+  intro,
+  sections,
   declineLabel,
   acknowledgeLabel,
 }: {
   open: boolean;
   onDecline: () => void;
   onAcknowledge: () => void;
-  title: string;
-  body: string;
+  heading: string;
+  subheading: string;
+  intro: string;
+  sections: { title: string; items: string[] }[];
   declineLabel: string;
   acknowledgeLabel: string;
 }) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4">
-      <div className="max-h-[80vh] w-full max-w-[480px] overflow-y-auto border border-mhero-fog bg-white p-6">
-        <h3 className="text-lg font-bold text-mhero-black">{title}</h3>
-        <p className="mt-4 text-sm leading-relaxed text-mhero-steel">{body}</p>
+      <div className="max-h-[85vh] w-full max-w-[560px] overflow-y-auto border border-mhero-fog bg-white p-6 md:p-8">
+        <h3 className="text-2xl font-bold text-mhero-black">{heading}</h3>
+        <p className="mt-4 text-sm font-bold text-mhero-black">{subheading}</p>
+        <p className="mt-2 text-sm leading-relaxed text-mhero-steel">{intro}</p>
+        {sections.map((section) => (
+          <div key={section.title} className="mt-4">
+            <p className="text-sm font-bold text-mhero-black">{section.title}</p>
+            {section.items.map((item) => (
+              <p key={item} className="mt-2 text-sm leading-relaxed text-mhero-steel">
+                {item}
+              </p>
+            ))}
+          </div>
+        ))}
         <div className="mt-6 flex gap-3">
           <button type="button" onClick={onDecline} className="btn-outline flex-1">
             {declineLabel}
@@ -1394,7 +1409,7 @@ export default function ServiceBookingForm() {
                     <Field label={sb.pickUpAddress} required error={errors.pickUpAddress?.message}>
                       <input className="input-field-light" placeholder={sb.pickUpAddressPlaceholder} {...register("pickUpAddress")} />
                     </Field>
-                    <Field label={sb.dropOffAddress} hint={sb.autoFilledFromCenter} error={errors.pickupSectionDropOffAddress?.message}>
+                    <Field label={sb.dropOffAddress} error={errors.pickupSectionDropOffAddress?.message}>
                       <input className="input-field-light" {...register("pickupSectionDropOffAddress")} />
                     </Field>
                   </div>
@@ -1436,7 +1451,7 @@ export default function ServiceBookingForm() {
               <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
                 <div className="space-y-5">
                   <div className="grid gap-5 sm:grid-cols-2">
-                    <Field label={sb.pickUpAddress} hint={sb.autoFilledFromCenter}>
+                    <Field label={sb.pickUpAddress}>
                       <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={selectedCenter?.address ?? ""} />
                     </Field>
                     <Field label={sb.dropOffAddress} required error={errors.dropOffAddress?.message}>
@@ -1512,8 +1527,10 @@ export default function ServiceBookingForm() {
           setValue("tcAcknowledged", true, { shouldValidate: true });
           setTcModalOpen(false);
         }}
-        title={sb.tcModalTitle}
-        body={sb.tcModalBody}
+        heading={sb.tcModalHeading}
+        subheading={sb.tcModalSubheading}
+        intro={sb.tcModalIntro}
+        sections={sb.tcSections}
         declineLabel={sb.tcModalDecline}
         acknowledgeLabel={sb.tcModalAcknowledge}
       />
