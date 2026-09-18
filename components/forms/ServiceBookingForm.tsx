@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import LightSelect from "@/components/forms/LightSelect";
@@ -45,19 +45,33 @@ const SERVICE_CENTERS = [
   { value: "abu-dhabi", labelKey: "centerAbuDhabi" as const, address: "MHERO Service Center — Abu Dhabi" },
 ];
 
-const SERVICE_INTERVAL_OPTIONS = ["km5000", "km10000", "km20000", "contract"] as const;
+const SERVICE_INTERVAL_OPTIONS = ["km5000", "km10000", "km20000", "km30000", "km40000", "km50000"] as const;
+const SERVICE_INTERVAL_KMS: Record<(typeof SERVICE_INTERVAL_OPTIONS)[number], number> = {
+  km5000: 5000,
+  km10000: 10000,
+  km20000: 20000,
+  km30000: 30000,
+  km40000: 40000,
+  km50000: 50000,
+};
 
 const TIME_SLOTS = [
   "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-  "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+  "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00",
 ];
+const LATE_SLOTS = ["15:00", "15:30", "16:00"];
 
 const PICKUP_BUFFER_MINS = 60;
 
 const REGISTERED_VEHICLES = [
-  { id: "v1", model: "MHERO I", country: "uae", city: "dubai", plateCode: "A", plateNumber: "12345" },
-  { id: "v2", model: "MHERO II - Prime", country: "uae", city: "abu-dhabi", plateCode: "BC", plateNumber: "67890" },
+  { id: "v1", model: "MHERO I", country: "uae", city: "dubai", plateCode: "A", plateNumber: "12345", lastCompletedKm: 10000 },
+  { id: "v2", model: "MHERO II - Prime", country: "uae", city: "abu-dhabi", plateCode: "BC", plateNumber: "67890", lastCompletedKm: 0 },
 ];
+
+const TRANSPORT_CHARGES: Record<string, { pickup: number; dropoff: number }> = {
+  "al-quoz": { pickup: 50, dropoff: 50 },
+  "abu-dhabi": { pickup: 120, dropoff: 120 },
+};
 
 function maskEmail(email: string): string {
   const [local, domain] = email.split("@");
@@ -88,7 +102,11 @@ function generateCaptcha(): string {
 
 function generateBookingReference(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  return `EX-${Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join("")}`;
+  return `MH-${Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join("")}`;
+}
+
+function generateOtp(): string {
+  return String(Math.floor(100000 + Math.random() * 900000));
 }
 
 function pad2(n: number) {
@@ -125,11 +143,12 @@ const schema = z
     serviceCenter: z.string().min(1),
     appointmentDate: z.string().min(1),
     appointmentTime: z.string().min(1),
-    waitAtReception: z.boolean().nullable(),
+    waitAtReception: z.boolean(),
     message: z.string().optional(),
     pickupType: z.enum(["not-required", "pickup", "dropoff", "both"]),
     tcAcknowledged: z.boolean(),
     pickUpAddress: z.string().optional(),
+    pickupSectionDropOffAddress: z.string().optional(),
     dropOffAddress: z.string().optional(),
     pickUpTime: z.string().optional(),
     pickUpInstructions: z.string().optional(),
@@ -143,9 +162,6 @@ const schema = z
     }
     if (data.purpose !== "service" && !data.purposeDetails?.trim()) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["purposeDetails"], message: "Required" });
-    }
-    if (data.waitAtReception === null) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["waitAtReception"], message: "Required" });
     }
     if (data.pickupType !== "not-required") {
       if (!data.tcAcknowledged) {
@@ -396,10 +412,7 @@ function Calendar({
     ...Array.from({ length: daysInMonth }, (_, i) => new Date(viewYear, viewMonth, i + 1)),
   ];
 
-  const isUnavailable = (d: Date) => {
-    const day = d.getDay();
-    return d < today || day === 5 || day === 6;
-  };
+  const isUnavailable = (d: Date) => d < today;
 
   return (
     <div className="border border-mhero-fog bg-white p-4">
@@ -500,7 +513,13 @@ export default function ServiceBookingForm() {
 
   const [hasVisitedBefore, setHasVisitedBefore] = useState<boolean | null>(null);
   const [lookupPhone, setLookupPhone] = useState("");
-  const [lookingUp, setLookingUp] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [otpInput, setOtpInput] = useState("");
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
+  const [otpError, setOtpError] = useState<"invalid" | "incomplete" | null>(null);
+  const [otpResentNotice, setOtpResentNotice] = useState(false);
   const [lookedUp, setLookedUp] = useState(false);
   const [selectedVehicleId, setSelectedVehicleId] = useState<string | null>(null);
 
@@ -537,11 +556,12 @@ export default function ServiceBookingForm() {
       serviceCenter: "",
       appointmentDate: "",
       appointmentTime: "",
-      waitAtReception: null,
+      waitAtReception: false,
       message: "",
       pickupType: "not-required",
       tcAcknowledged: false,
       pickUpAddress: "",
+      pickupSectionDropOffAddress: "",
       dropOffAddress: "",
       pickUpTime: "",
       pickUpInstructions: "",
@@ -570,6 +590,31 @@ export default function ServiceBookingForm() {
   );
 
   const pickupDropoffEnabled = Boolean(serviceCenter && appointmentDate && appointmentTime);
+  const selectedCenter = SERVICE_CENTERS.find((c) => c.value === serviceCenter);
+  const centerCharges = selectedCenter ? TRANSPORT_CHARGES[selectedCenter.value] : undefined;
+  const transportCharge =
+    centerCharges &&
+    (pickupType === "pickup"
+      ? centerCharges.pickup
+      : pickupType === "dropoff"
+      ? centerCharges.dropoff
+      : pickupType === "both"
+      ? centerCharges.pickup + centerCharges.dropoff
+      : 0);
+
+  const pickupSectionDropOffAddress = watch("pickupSectionDropOffAddress");
+  const autoFilledDropOffRef = useRef("");
+  useEffect(() => {
+    if (!selectedCenter) return;
+    if (
+      (pickupType === "pickup" || pickupType === "both") &&
+      (!pickupSectionDropOffAddress || pickupSectionDropOffAddress === autoFilledDropOffRef.current)
+    ) {
+      autoFilledDropOffRef.current = selectedCenter.address;
+      setValue("pickupSectionDropOffAddress", selectedCenter.address);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pickupType, selectedCenter?.address]);
 
   const latestPickupMins = appointmentTime ? minutesFromTime(appointmentTime) - PICKUP_BUFFER_MINS : null;
   const pickupTimeOptions = useMemo(() => {
@@ -588,17 +633,55 @@ export default function ServiceBookingForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appointmentTime]);
 
-  const lookupCustomer = async () => {
+  const sendOtp = async () => {
     if (!lookupPhone.trim()) return;
-    setLookingUp(true);
+    setSendingOtp(true);
+    setOtpResentNotice(false);
     await new Promise((r) => setTimeout(r, 700));
+    setGeneratedOtp(generateOtp());
+    setOtpInput("");
+    setOtpError(null);
+    setSendingOtp(false);
+    setOtpSent(true);
+  };
+
+  const resendOtp = async () => {
+    setSendingOtp(true);
+    await new Promise((r) => setTimeout(r, 500));
+    setGeneratedOtp(generateOtp());
+    setOtpInput("");
+    setOtpError(null);
+    setSendingOtp(false);
+    setOtpResentNotice(true);
+  };
+
+  const verifyOtp = async () => {
+    if (otpInput.trim().length < 6) {
+      setOtpError("incomplete");
+      return;
+    }
+    setVerifyingOtp(true);
+    await new Promise((r) => setTimeout(r, 600));
+    if (otpInput.trim() !== generatedOtp) {
+      setOtpError("invalid");
+      setVerifyingOtp(false);
+      return;
+    }
+    setOtpError(null);
     setValue("title", "mr");
     setValue("firstName", "Ahmed");
     setValue("lastName", "Al Mansoori");
     setValue("phone", lookupPhone.trim());
     setValue("email", "ahmed.almansoori@example.com");
-    setLookingUp(false);
+    setVerifyingOtp(false);
     setLookedUp(true);
+  };
+
+  const changeNumber = () => {
+    setOtpSent(false);
+    setOtpInput("");
+    setOtpError(null);
+    setOtpResentNotice(false);
   };
 
   const selectRegisteredVehicle = (id: string) => {
@@ -617,8 +700,6 @@ export default function ServiceBookingForm() {
 
   const showFormBody = hasVisitedBefore === false || (hasVisitedBefore === true && lookedUp && selectedVehicleId);
 
-  const selectedCenter = SERVICE_CENTERS.find((c) => c.value === serviceCenter);
-
   const onSubmit = async (data: FormValues) => {
     if (data.captchaInput.trim().toUpperCase() !== captcha) {
       setCaptchaError(true);
@@ -635,6 +716,10 @@ export default function ServiceBookingForm() {
     setSubmitted(false);
     setHasVisitedBefore(null);
     setLookupPhone("");
+    setOtpSent(false);
+    setOtpInput("");
+    setOtpError(null);
+    setOtpResentNotice(false);
     setLookedUp(false);
     setSelectedVehicleId(null);
     setCaptcha(generateCaptcha());
@@ -665,12 +750,12 @@ export default function ServiceBookingForm() {
               <dt className="text-mhero-steel">{dict.forms.fullName}</dt>
               <dd className="font-semibold text-mhero-black">{values.firstName} {values.lastName}</dd>
             </div>
-            {selectedVehicle && (
-              <div className="flex justify-between border-b border-mhero-fog pb-2">
-                <dt className="text-mhero-steel">{sb.vehicleLabel}</dt>
-                <dd className="font-semibold text-mhero-black">{selectedVehicle.model}</dd>
-              </div>
-            )}
+            <div className="flex justify-between border-b border-mhero-fog pb-2">
+              <dt className="text-mhero-steel">{sb.vehicleLabel}</dt>
+              <dd className="font-semibold text-mhero-black">
+                {selectedVehicle ? selectedVehicle.model : `${values.plateCode} ${values.plateNumber}`}
+              </dd>
+            </div>
             <div className="flex justify-between border-b border-mhero-fog pb-2">
               <dt className="text-mhero-steel">{sb.serviceCenterLabel}</dt>
               <dd className="font-semibold text-mhero-black">{centerLabel}</dd>
@@ -690,11 +775,15 @@ export default function ServiceBookingForm() {
                   ? sb.serviceIntervalOptions[values.serviceInterval as keyof typeof sb.serviceIntervalOptions] ?? ""
                   : values.purpose === "collision"
                   ? sb.purposeCollision
-                  : sb.purposeReportIssue}
+                  : sb.purposeReportFault}
               </dd>
             </div>
+            <div className="flex justify-between border-b border-mhero-fog pb-2">
+              <dt className="text-mhero-steel">{sb.receptionLabel}</dt>
+              <dd className="font-semibold text-mhero-black">{values.waitAtReception ? dict.forms.yes : dict.forms.no}</dd>
+            </div>
             {values.pickupType !== "not-required" && (
-              <div className="flex justify-between pb-2">
+              <div className="flex justify-between border-b border-mhero-fog pb-2">
                 <dt className="text-mhero-steel">{sb.pickupDropoffHeading}</dt>
                 <dd className="font-semibold text-mhero-black">
                   {values.pickupType === "pickup"
@@ -705,11 +794,28 @@ export default function ServiceBookingForm() {
                 </dd>
               </div>
             )}
+            {values.pickupType !== "not-required" && transportCharge ? (
+              <div className="flex justify-between pb-2">
+                <dt className="text-mhero-steel">{sb.transportChargeTitle}</dt>
+                <dd className="font-semibold text-mhero-black">AED {transportCharge}</dd>
+              </div>
+            ) : null}
           </dl>
 
           <p className="mt-6 border border-mhero-primary bg-mhero-primary/15 p-3 text-xs text-mhero-black">
             {sb.sentNotice}
           </p>
+
+          <div className="mt-3 flex items-center justify-center gap-6 text-xs text-mhero-steel">
+            <span className="flex items-center gap-1.5">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-mhero-primary text-[9px] text-white">✓</span>
+              {sb.emailSent}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-mhero-primary text-[9px] text-white">✓</span>
+              {sb.whatsappSent}
+            </span>
+          </div>
 
           <button onClick={resetAll} className="btn-primary mt-6 w-full">
             {sb.done}
@@ -740,6 +846,10 @@ export default function ServiceBookingForm() {
             setHasVisitedBefore(v);
             setLookedUp(false);
             setLookupPhone("");
+            setOtpSent(false);
+            setOtpInput("");
+            setOtpError(null);
+            setOtpResentNotice(false);
             setSelectedVehicleId(null);
             if (!v) {
               setValue("title", "");
@@ -758,7 +868,7 @@ export default function ServiceBookingForm() {
         />
         <p className="mt-1.5 text-xs text-mhero-ash">{dict.forms.existingCustomerHint}</p>
 
-        {hasVisitedBefore === true && !lookedUp && (
+        {hasVisitedBefore === true && !otpSent && !lookedUp && (
           <div className="mt-4 border border-mhero-fog p-4">
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">{sb.verifyMobileTitle}</p>
             <div className="flex flex-wrap items-end gap-3">
@@ -778,13 +888,50 @@ export default function ServiceBookingForm() {
               </div>
               <button
                 type="button"
-                onClick={lookupCustomer}
-                disabled={lookingUp || !lookupPhone.trim()}
+                onClick={sendOtp}
+                disabled={sendingOtp || !lookupPhone.trim()}
                 className="btn-primary shrink-0"
               >
-                {lookingUp ? sb.verifying : sb.verify}
+                {sendingOtp ? sb.sendingOtp : sb.sendOtp}
               </button>
             </div>
+          </div>
+        )}
+
+        {hasVisitedBefore === true && otpSent && !lookedUp && (
+          <div className="mt-4 border border-mhero-fog p-4">
+            <p className="mb-1 text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">{sb.otpEnterTitle}</p>
+            <p className="mb-3 text-sm text-mhero-steel">{maskPhone(lookupPhone)}</p>
+            <div className="flex flex-wrap items-end gap-3">
+              <input
+                className="input-field-light max-w-[160px] tracking-[4px]"
+                inputMode="numeric"
+                maxLength={6}
+                placeholder={sb.otpPlaceholder}
+                value={otpInput}
+                onChange={(e) => {
+                  setOtpInput(e.target.value.replace(/[^0-9]/g, ""));
+                  setOtpError(null);
+                }}
+              />
+              <button
+                type="button"
+                onClick={verifyOtp}
+                disabled={verifyingOtp || !otpInput.trim()}
+                className="btn-primary shrink-0"
+              >
+                {verifyingOtp ? sb.verifyingOtp : sb.verifyOtp}
+              </button>
+              <button type="button" onClick={resendOtp} disabled={sendingOtp} className="link-underline shrink-0 text-sm font-semibold text-mhero-black">
+                {sb.resendOtp}
+              </button>
+              <button type="button" onClick={changeNumber} className="link-underline shrink-0 text-sm text-mhero-steel">
+                {sb.changeNumber}
+              </button>
+            </div>
+            {otpError === "invalid" && <p className="mt-2 text-xs text-mhero-accent-dark">{sb.otpInvalid}</p>}
+            {otpError === "incomplete" && <p className="mt-2 text-xs text-mhero-accent-dark">{sb.otpIncomplete}</p>}
+            {!otpError && otpResentNotice && <p className="mt-2 text-xs text-mhero-steel">{sb.otpResent}</p>}
           </div>
         )}
 
@@ -966,7 +1113,7 @@ export default function ServiceBookingForm() {
                   options={[
                     { value: "service", label: sb.purposeService },
                     { value: "collision", label: sb.purposeCollision },
-                    { value: "report-issue", label: sb.purposeReportIssue },
+                    { value: "report-fault", label: sb.purposeReportFault },
                   ]}
                 />
               </Field>
@@ -977,7 +1124,15 @@ export default function ServiceBookingForm() {
                     value={watch("serviceInterval") || ""}
                     onChange={(v) => setValue("serviceInterval", v, { shouldValidate: true })}
                     placeholder={sb.selectServiceInterval}
-                    options={SERVICE_INTERVAL_OPTIONS.map((k) => ({ value: k, label: sb.serviceIntervalOptions[k] }))}
+                    options={SERVICE_INTERVAL_OPTIONS.map((k) => {
+                      const completed = isMaskedLookup && !!selectedVehicle && SERVICE_INTERVAL_KMS[k] <= selectedVehicle.lastCompletedKm;
+                      return {
+                        value: k,
+                        label: sb.serviceIntervalOptions[k],
+                        disabled: completed,
+                        badge: completed ? sb.serviceIntervalCompleted : undefined,
+                      };
+                    })}
                   />
                 </Field>
               )}
@@ -986,7 +1141,9 @@ export default function ServiceBookingForm() {
                 <Field label={sb.pleaseSpecify} required error={errors.purposeDetails?.message}>
                   <textarea
                     className="input-field-light min-h-[90px]"
-                    placeholder={sb.pleaseSpecifyPlaceholder}
+                    placeholder={
+                      purpose === "collision" ? sb.pleaseSpecifyPlaceholderCollision : sb.pleaseSpecifyPlaceholderFault
+                    }
                     {...register("purposeDetails")}
                   />
                 </Field>
@@ -1019,7 +1176,7 @@ export default function ServiceBookingForm() {
                     disabled={!appointmentDate}
                     options={TIME_SLOTS.map((t) => ({ value: t, label: t }))}
                   />
-                  {(appointmentTime === "15:00" || appointmentTime === "15:30") && (
+                  {LATE_SLOTS.includes(appointmentTime) && (
                     <p className="mt-2 border border-mhero-primary bg-mhero-primary/15 px-3 py-2 text-xs text-mhero-black">
                       {sb.lateAppointmentNotice}
                     </p>
@@ -1027,16 +1184,13 @@ export default function ServiceBookingForm() {
                 </Field>
               </div>
 
-              <div>
-                <YesNoRow
-                  label={sb.waitAtReception}
-                  value={waitAtReception ?? false}
-                  onChange={(v) => setValue("waitAtReception", v, { shouldValidate: true })}
-                  yesLabel={dict.forms.yes}
-                  noLabel={dict.forms.no}
-                />
-                {errors.waitAtReception && <p className="mt-1.5 text-xs text-mhero-accent-dark">{errors.waitAtReception.message}</p>}
-              </div>
+              <YesNoRow
+                label={sb.waitAtReception}
+                value={waitAtReception}
+                onChange={(v) => setValue("waitAtReception", v, { shouldValidate: true })}
+                yesLabel={dict.forms.yes}
+                noLabel={dict.forms.no}
+              />
 
               <Field label={sb.additionalMessage}>
                 <textarea
@@ -1081,6 +1235,9 @@ export default function ServiceBookingForm() {
 
           {pickupType !== "not-required" && (
             <div className="mt-5">
+              <p className="mb-4 border border-mhero-primary bg-mhero-primary/15 px-3 py-2 text-xs text-mhero-black">
+                {sb.transportServiceNotice}
+              </p>
               <Checkbox checked={tcAcknowledged} onChange={(v) => setValue("tcAcknowledged", v, { shouldValidate: true })}>
                 {sb.tcAcknowledgePrefix}{" "}
                 <button type="button" onClick={() => setTcModalOpen(true)} className="link-underline font-semibold text-mhero-black">
@@ -1088,6 +1245,33 @@ export default function ServiceBookingForm() {
                 </button>
               </Checkbox>
               {errors.tcAcknowledged && <p className="mt-1.5 text-xs text-mhero-accent-dark">{errors.tcAcknowledged.message}</p>}
+            </div>
+          )}
+
+          {pickupType !== "not-required" && tcAcknowledged && centerCharges && (
+            <div className="mt-5 border border-mhero-fog bg-white p-6">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">{sb.transportChargeTitle}</p>
+              <dl className="space-y-2 text-sm">
+                {(pickupType === "pickup" || pickupType === "both") && (
+                  <div className="flex justify-between border-b border-mhero-fog pb-2">
+                    <dt className="text-mhero-steel">{sb.transportPickupChargeLabel}</dt>
+                    <dd className="font-semibold text-mhero-black">AED {centerCharges.pickup}</dd>
+                  </div>
+                )}
+                {(pickupType === "dropoff" || pickupType === "both") && (
+                  <div className="flex justify-between border-b border-mhero-fog pb-2">
+                    <dt className="text-mhero-steel">{sb.transportDropoffChargeLabel}</dt>
+                    <dd className="font-semibold text-mhero-black">AED {centerCharges.dropoff}</dd>
+                  </div>
+                )}
+                {pickupType === "both" && (
+                  <div className="flex justify-between pb-1">
+                    <dt className="font-semibold text-mhero-black">{sb.transportTotalChargeLabel}</dt>
+                    <dd className="font-bold text-mhero-black">AED {centerCharges.pickup + centerCharges.dropoff}</dd>
+                  </div>
+                )}
+              </dl>
+              <p className="mt-3 text-xs text-mhero-steel">{sb.transportChargeDisclaimer}</p>
             </div>
           )}
 
@@ -1100,8 +1284,8 @@ export default function ServiceBookingForm() {
                     <Field label={sb.pickUpAddress} required error={errors.pickUpAddress?.message}>
                       <input className="input-field-light" placeholder={sb.pickUpAddressPlaceholder} {...register("pickUpAddress")} />
                     </Field>
-                    <Field label={sb.dropOffAddress} hint={sb.autoFilledFromCenter}>
-                      <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={selectedCenter?.address ?? ""} />
+                    <Field label={sb.dropOffAddress} hint={sb.autoFilledFromCenter} error={errors.pickupSectionDropOffAddress?.message}>
+                      <input className="input-field-light" {...register("pickupSectionDropOffAddress")} />
                     </Field>
                   </div>
 

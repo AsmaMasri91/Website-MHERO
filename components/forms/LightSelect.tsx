@@ -32,7 +32,7 @@ export default function LightSelect({
 }: {
   value: string;
   onChange: (v: string) => void;
-  options: { value: string; label: string }[];
+  options: { value: string; label: string; disabled?: boolean; badge?: string }[];
   placeholder: string;
   disabled?: boolean;
 }) {
@@ -63,17 +63,26 @@ export default function LightSelect({
               <button
                 key={o.value}
                 type="button"
+                disabled={o.disabled}
                 onClick={() => {
+                  if (o.disabled) return;
                   onChange(o.value);
                   setOpen(false);
                 }}
-                className={`block w-full px-4 py-3 text-start text-sm transition-colors ${
-                  value === o.value
+                className={`flex w-full items-center justify-between px-4 py-3 text-start text-sm transition-colors ${
+                  o.disabled
+                    ? "cursor-not-allowed text-mhero-fog line-through"
+                    : value === o.value
                     ? "bg-mhero-primary text-mhero-black"
                     : "text-mhero-black hover:bg-mhero-primary/15"
                 }`}
               >
-                {o.label}
+                <span>{o.label}</span>
+                {o.badge && (
+                  <span className="ms-3 shrink-0 text-[10px] font-semibold uppercase tracking-widest2 text-mhero-steel">
+                    {o.badge}
+                  </span>
+                )}
               </button>
             ))}
           </div>
