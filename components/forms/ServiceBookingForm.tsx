@@ -256,7 +256,7 @@ function Accordion({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border border-mhero-fog bg-mhero-fog">
+    <div className="border border-mhero-fog bg-mhero-fog/45">
       <button
         type="button"
         onClick={onToggle}
@@ -383,16 +383,37 @@ function MapPlaceholder({ label }: { label: string }) {
   );
 }
 
-function TermsModal({ open, onClose, title, body, closeLabel }: { open: boolean; onClose: () => void; title: string; body: string; closeLabel: string }) {
+function TermsModal({
+  open,
+  onDecline,
+  onAcknowledge,
+  title,
+  body,
+  declineLabel,
+  acknowledgeLabel,
+}: {
+  open: boolean;
+  onDecline: () => void;
+  onAcknowledge: () => void;
+  title: string;
+  body: string;
+  declineLabel: string;
+  acknowledgeLabel: string;
+}) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4">
       <div className="max-h-[80vh] w-full max-w-[480px] overflow-y-auto border border-mhero-fog bg-white p-6">
         <h3 className="text-lg font-bold text-mhero-black">{title}</h3>
         <p className="mt-4 text-sm leading-relaxed text-mhero-steel">{body}</p>
-        <button type="button" onClick={onClose} className="btn-outline mt-6 w-full">
-          {closeLabel}
-        </button>
+        <div className="mt-6 flex gap-3">
+          <button type="button" onClick={onDecline} className="btn-outline flex-1">
+            {declineLabel}
+          </button>
+          <button type="button" onClick={onAcknowledge} className="btn-primary flex-1">
+            {acknowledgeLabel}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -1338,10 +1359,18 @@ export default function ServiceBookingForm() {
 
       <TermsModal
         open={tcModalOpen}
-        onClose={() => setTcModalOpen(false)}
+        onDecline={() => {
+          setValue("tcAcknowledged", false, { shouldValidate: true });
+          setTcModalOpen(false);
+        }}
+        onAcknowledge={() => {
+          setValue("tcAcknowledged", true, { shouldValidate: true });
+          setTcModalOpen(false);
+        }}
         title={sb.tcModalTitle}
         body={sb.tcModalBody}
-        closeLabel={sb.tcModalClose}
+        declineLabel={sb.tcModalDecline}
+        acknowledgeLabel={sb.tcModalAcknowledge}
       />
     </form>
   );

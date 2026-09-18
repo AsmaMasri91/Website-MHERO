@@ -599,6 +599,8 @@ const en = {
     tcModalBody:
       "Vehicle pick-up and drop-off is offered as a paid transport service. Charges vary based on the selected MHERO service center and your pick-up/drop-off location, and are shown before you confirm your booking. Pick-up and drop-off times are subject to the 1-hour transport buffer before your appointment time. A cancellation fee of AED 20 applies if a scheduled pick-up or drop-off is cancelled with less than 2 hours' notice. It is the customer's responsibility to ensure the vehicle is accessible at the address and time provided. MHERO drivers will contact you shortly before arrival.",
     tcModalClose: "Close",
+    tcModalDecline: "Decline",
+    tcModalAcknowledge: "Acknowledge",
     transportChargeTitle: "Transport Charges",
     transportPickupChargeLabel: "Vehicle Pick-Up Charge",
     transportDropoffChargeLabel: "Vehicle Drop-Off Charge",
