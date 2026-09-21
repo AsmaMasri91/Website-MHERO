@@ -1292,7 +1292,6 @@ export default function ServiceBookingForm() {
                         onChange={(v) => setValue("pickUpTime", v, { shouldValidate: true })}
                         placeholder={dict.forms.selectTime}
                         options={pickupTimeOptions}
-                        openUpward
                       />
                     </Field>
                   </div>
