@@ -29,12 +29,14 @@ export default function LightSelect({
   options,
   placeholder,
   disabled,
+  openUpward,
 }: {
   value: string;
   onChange: (v: string) => void;
   options: { value: string; label: string; disabled?: boolean; badge?: string }[];
   placeholder: string;
   disabled?: boolean;
+  openUpward?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const selected = options.find((o) => o.value === value);
@@ -58,7 +60,11 @@ export default function LightSelect({
       {open && !disabled && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute inset-x-0 top-full z-20 mt-1 max-h-64 overflow-y-auto border border-mhero-fog bg-white shadow-lg">
+          <div
+            className={`absolute inset-x-0 z-20 max-h-64 overflow-y-auto border border-mhero-fog bg-white shadow-lg ${
+              openUpward ? "bottom-full mb-1" : "top-full mt-1"
+            }`}
+          >
             {options.map((o) => (
               <button
                 key={o.value}
