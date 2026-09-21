@@ -189,15 +189,6 @@ const schema = z
 
 type FormValues = z.infer<typeof schema>;
 
-function LockIcon() {
-  return (
-    <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true" className="shrink-0">
-      <rect x="1" y="6" width="10" height="7" rx="1" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M3 6V4a3 3 0 116 0v2" stroke="currentColor" strokeWidth="1.3" />
-    </svg>
-  );
-}
-
 function ChevronIcon({ open }: { open: boolean }) {
   return (
     <svg
@@ -231,7 +222,7 @@ function Field({
       <label className="mb-2 flex items-center gap-1 text-xs font-medium uppercase tracking-widest2 text-mhero-ash">
         {label}
         {required && <span className="text-mhero-primary">*</span>}
-        {hint && <span className="ms-auto flex items-center gap-1 text-[10px] normal-case text-mhero-steel"><LockIcon />{hint}</span>}
+        {hint && <span className="ms-auto text-[10px] normal-case text-mhero-steel">{hint}</span>}
       </label>
       {children}
       {error && <p className="mt-1.5 text-xs text-mhero-accent-dark">{error}</p>}
