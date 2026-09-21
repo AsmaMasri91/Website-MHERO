@@ -1291,7 +1291,7 @@ export default function ServiceBookingForm() {
                     <Field label={sb.preferredPickUpDate}>
                       <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={formatDateDisplay(appointmentDate, locale)} />
                     </Field>
-                    <Field label={sb.preferredPickUpTime} required error={errors.pickUpTime?.message} hint={sb.pickupBufferHint}>
+                    <Field label={sb.preferredPickUpTime} required error={errors.pickUpTime?.message}>
                       <LightSelect
                         value={pickUpTime || ""}
                         onChange={(v) => setValue("pickUpTime", v, { shouldValidate: true })}

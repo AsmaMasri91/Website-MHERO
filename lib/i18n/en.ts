@@ -639,7 +639,6 @@ const en = {
     preferredPickUpDate: "Preferred Pick-Up Date",
     preferredPickUpTime: "Preferred Pick-Up Time",
     preferredDropOffDate: "Preferred Drop-Off Date",
-    pickupBufferHint: "Pick-up must be at least 1 hour before your appointment time.",
     mapPlaceholder: "Map preview",
     captchaLabel: "Enter the code shown above",
     captchaRefresh: "Generate a new code",

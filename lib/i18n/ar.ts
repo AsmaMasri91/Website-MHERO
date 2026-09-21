@@ -629,7 +629,6 @@ const ar: Dictionary = {
     preferredPickUpDate: "تاريخ الاستلام المفضل",
     preferredPickUpTime: "وقت الاستلام المفضل",
     preferredDropOffDate: "تاريخ التوصيل المفضل",
-    pickupBufferHint: "يجب أن يكون الاستلام قبل ساعة واحدة على الأقل من وقت موعدك.",
     mapPlaceholder: "معاينة الخريطة",
     captchaLabel: "أدخل الرمز الموضح أعلاه",
     captchaRefresh: "إنشاء رمز جديد",
