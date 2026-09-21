@@ -363,17 +363,31 @@ function Checkbox({
 
 function MapPlaceholder({ label }: { label: string }) {
   return (
-    <div className="flex h-48 items-center justify-center border border-mhero-fog bg-mhero-fog/30 text-xs uppercase tracking-widest2 text-mhero-steel lg:h-full lg:min-h-[220px]">
-      <div className="flex flex-col items-center gap-2">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M9 20l-6-2V6l6 2m0 12l6-2m-6 2V8m6 10l6 2V6l-6-2m0 16V6m0 0L9 8"
-            stroke="currentColor"
-            strokeWidth="1.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+    <div className="relative h-48 overflow-hidden border border-mhero-fog bg-mhero-black lg:h-full lg:min-h-[220px]">
+      <svg viewBox="0 0 280 220" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden="true">
+        <g stroke="#ffffff" strokeOpacity="0.08" strokeWidth="1">
+          <line x1="0" y1="40" x2="280" y2="55" />
+          <line x1="0" y1="100" x2="280" y2="90" />
+          <line x1="0" y1="165" x2="280" y2="150" />
+          <line x1="50" y1="0" x2="35" y2="220" />
+          <line x1="130" y1="0" x2="150" y2="220" />
+          <line x1="220" y1="0" x2="235" y2="220" />
+        </g>
+        <path
+          d="M55 175 C 90 150, 110 110, 150 95 S 210 55, 225 40"
+          fill="none"
+          stroke="#8fb5a6"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeDasharray="1 10"
+        />
+        <circle cx="225" cy="40" r="6" fill="#141416" stroke="#ffffff" strokeWidth="2" />
+        <g transform="translate(55,175)">
+          <path d="M0 -22 C 10 -22 17 -15 17 -6 C 17 6 0 22 0 22 C 0 22 -17 6 -17 -6 C -17 -15 -10 -22 0 -22Z" fill="#8fb5a6" />
+          <circle cx="0" cy="-6" r="5" fill="#141416" />
+        </g>
+      </svg>
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 py-2 text-[11px] uppercase tracking-widest2 text-white/70">
         {label}
       </div>
     </div>
