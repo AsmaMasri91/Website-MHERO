@@ -63,6 +63,7 @@ const TIME_SLOTS = [
 const LATE_SLOTS = ["15:00", "15:30", "16:00"];
 
 const PICKUP_BUFFER_MINS = 60;
+const PICKUP_EARLIEST_MINS = 6 * 60;
 
 const REGISTERED_VEHICLES = [
   { id: "v1", model: "MHERO I", country: "uae", city: "dubai", plateCode: "A", plateNumber: "12345", lastCompletedKm: 10000 },
@@ -563,18 +564,21 @@ export default function ServiceBookingForm() {
 
   const latestPickupMins = appointmentTime ? minutesFromTime(appointmentTime) - PICKUP_BUFFER_MINS : null;
   const pickupTimeOptions = useMemo(() => {
-    if (latestPickupMins === null) return [];
-    return TIME_SLOTS.filter((t) => minutesFromTime(t) <= latestPickupMins).map((t) => ({ value: t, label: t }));
+    if (latestPickupMins === null || latestPickupMins < PICKUP_EARLIEST_MINS) return [];
+    const opts: { value: string; label: string }[] = [];
+    for (let m = PICKUP_EARLIEST_MINS; m <= latestPickupMins; m += 30) {
+      const t = timeFromMinutes(m);
+      opts.push({ value: t, label: t });
+    }
+    return opts;
   }, [latestPickupMins]);
 
   useEffect(() => {
-    if (latestPickupMins === null) {
+    if (latestPickupMins === null || latestPickupMins < PICKUP_EARLIEST_MINS) {
       setValue("pickUpTime", "");
       return;
     }
-    const options = TIME_SLOTS.filter((t) => minutesFromTime(t) <= latestPickupMins);
-    const defaultTime = options.length > 0 ? options[options.length - 1] : "";
-    setValue("pickUpTime", defaultTime);
+    setValue("pickUpTime", timeFromMinutes(latestPickupMins));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appointmentTime]);
 
