@@ -19,8 +19,6 @@ export default function ComparePage() {
         title={dict.models.compareTitle}
         description={dict.models.compareDescription}
         imageLabel="Compare MHERO models"
-        backHref="/models"
-        backLabel={dict.common.backToModels}
       />
       <Section>
         <CompareDragDrop />

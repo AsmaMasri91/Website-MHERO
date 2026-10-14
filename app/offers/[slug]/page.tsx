@@ -40,8 +40,6 @@ export default function OfferDetailPage({
       <PageHero
         title={offer.title}
         imageLabel={offer.imageLabel}
-        backHref="/offers"
-        backLabel={dict.offers.backToOffers}
       />
 
       <Section eyebrow={dict.offers.detailsEyebrow} title={dict.offers.aboutThisOffer}>

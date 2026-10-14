@@ -23,8 +23,6 @@ export default function FinanceCalculatorPage({
         title={dict.finance.title}
         description={dict.finance.description}
         imageLabel="MHERO finance calculator"
-        backHref="/models"
-        backLabel={dict.common.backToModels}
       />
       <Section>
         <FinanceCalculator initialSlug={searchParams.model} />

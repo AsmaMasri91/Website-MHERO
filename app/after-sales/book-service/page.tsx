@@ -25,8 +25,6 @@ export default function BookServicePage() {
         title={dict.afterSales.bookServiceTitle}
         description={dict.afterSales.bookServiceHeroDescription}
         imageLabel="MHERO service centre appointment"
-        backHref="/after-sales"
-        backLabel={dict.afterSales.backToAfterSales}
       />
 
       <div className="border-b border-mhero-fog bg-white">

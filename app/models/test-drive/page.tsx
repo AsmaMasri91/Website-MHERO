@@ -25,8 +25,6 @@ export default function TestDrivePage() {
         title={dict.common.bookTestDrive}
         description={dict.testDrive.description}
         imageLabel="Book a MHERO test drive"
-        backHref="/models"
-        backLabel={dict.common.backToModels}
       />
 
       <div className="border-b border-mhero-fog bg-white">

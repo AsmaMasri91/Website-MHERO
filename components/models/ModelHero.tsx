@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import { formatCurrency } from "@/lib/financeMath";
 import { VehicleModel } from "@/lib/types";
 import { Dictionary } from "@/lib/i18n";
@@ -50,13 +51,7 @@ export default function ModelHero({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <Link
-            href="/models"
-            className="mb-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest2 text-white/70 hover:text-white"
-          >
-            <span aria-hidden="true" className="rtl:rotate-180">←</span>
-            {dict.common.backToModels}
-          </Link>
+          <Breadcrumbs current={model.name} />
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
