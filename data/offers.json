@@ -34,9 +34,15 @@
       {
         "heading": "5. Bank-Specific Offers",
         "items": [
-          { "text": "ADIB — Qualifying customers may be eligible for a 0% flat annual profit rate for up to 60 months, subject to ADIB's eligibility, credit approval and applicable campaign terms." },
-          { "text": "ENBD (UAE Nationals) — Qualifying UAE National customers may be eligible for 0% flat annual financing for up to 60 months, subject to ENBD's eligibility, credit approval and applicable campaign terms." },
-          { "text": "ENBD (Expatriate Customers) — Qualifying expatriate customers may be eligible for 0% flat annual financing for up to 36 or 48 months, depending on the applicable offer and eligibility. Financing beyond the applicable promotional tenure may be subject to the customer's applicable financing rate." },
+          {
+            "text": "ADIB — Qualifying customers may be eligible for a 0% flat annual profit rate for up to 60 months, subject to ADIB's eligibility, credit approval and applicable campaign terms."
+          },
+          {
+            "text": "ENBD (UAE Nationals) — Qualifying UAE National customers may be eligible for 0% flat annual financing for up to 60 months, subject to ENBD's eligibility, credit approval and applicable campaign terms."
+          },
+          {
+            "text": "ENBD (Expatriate Customers) — Qualifying expatriate customers may be eligible for 0% flat annual financing for up to 36 or 48 months, depending on the applicable offer and eligibility. Financing beyond the applicable promotional tenure may be subject to the customer's applicable financing rate."
+          },
           {
             "text": "DIB — Subject to DIB eligibility and approval:",
             "subItems": [
@@ -82,6 +88,13 @@
         "heading": "14. General",
         "body": "Images and vehicle specifications are for illustration purposes only. This Campaign Offer is subject to vehicle availability, customer eligibility, bank approval and applicable UAE laws and regulations."
       }
+    ],
+    "cardEyebrow": "MHERO I and MHERO II",
+    "cardTitle": "0% finance for up to five years",
+    "cardHighlights": [
+      "No down payment, subject to bank approval",
+      "Nothing to pay until 2027",
+      "Salaried applicants from AED 10,000"
     ]
   },
   {
@@ -119,9 +132,15 @@
       {
         "heading": "5. Bank-Specific Offers",
         "items": [
-          { "text": "ADIB — Qualifying customers may be eligible for a 0% flat annual profit rate for up to 60 months, subject to ADIB's eligibility, credit approval and applicable campaign terms." },
-          { "text": "ENBD (UAE Nationals) — Qualifying UAE National customers may be eligible for 0% flat annual financing for up to 60 months, subject to ENBD's eligibility, credit approval and applicable campaign terms." },
-          { "text": "ENBD (Expatriate Customers) — Qualifying expatriate customers may be eligible for 0% flat annual financing for up to 36 or 48 months, depending on the applicable offer and eligibility. Financing beyond the applicable promotional tenure may be subject to the customer's applicable financing rate." },
+          {
+            "text": "ADIB — Qualifying customers may be eligible for a 0% flat annual profit rate for up to 60 months, subject to ADIB's eligibility, credit approval and applicable campaign terms."
+          },
+          {
+            "text": "ENBD (UAE Nationals) — Qualifying UAE National customers may be eligible for 0% flat annual financing for up to 60 months, subject to ENBD's eligibility, credit approval and applicable campaign terms."
+          },
+          {
+            "text": "ENBD (Expatriate Customers) — Qualifying expatriate customers may be eligible for 0% flat annual financing for up to 36 or 48 months, depending on the applicable offer and eligibility. Financing beyond the applicable promotional tenure may be subject to the customer's applicable financing rate."
+          },
           {
             "text": "DIB — Subject to DIB eligibility and approval:",
             "subItems": [
@@ -167,6 +186,13 @@
         "heading": "14. General",
         "body": "Images and vehicle specifications are for illustration purposes only. This Campaign Offer is subject to vehicle availability, customer eligibility, bank approval and applicable UAE laws and regulations."
       }
+    ],
+    "cardEyebrow": "MHERO II",
+    "cardTitle": "0% finance for up to five years",
+    "cardHighlights": [
+      "No down payment, subject to bank approval",
+      "Nothing to pay until 2027",
+      "Salaried applicants from AED 10,000"
     ]
   }
 ]

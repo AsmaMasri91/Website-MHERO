@@ -132,6 +132,9 @@ export interface Offer {
   description: string;
   imageLabel: string;
   image?: string;
+  cardEyebrow?: string;
+  cardTitle?: string;
+  cardHighlights?: string[];
   validUntil: string;
   terms: string[];
   termsSections?: OfferTermsSection[];

@@ -4,7 +4,6 @@ import Link from "next/link";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import PageHero from "@/components/ui/PageHero";
 import Section from "@/components/ui/Section";
-import Card from "@/components/ui/Card";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getOffers } from "@/lib/i18n/data";
 
@@ -28,32 +27,47 @@ export default function OffersPage() {
       <Section>
         <div className="grid gap-8 md:grid-cols-2">
           {offers.map((offer) => (
-            <Card key={offer.slug}>
-              {offer.image ? (
-                <div className="relative aspect-square w-full overflow-hidden">
-                  <Image src={offer.image} alt={offer.imageLabel} fill className="object-cover" />
-                </div>
-              ) : (
-                <PlaceholderImage label={offer.imageLabel} aspect="aspect-square" tone="accent" />
-              )}
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-mhero-black">{offer.title}</h3>
-                <p className="mt-2 text-sm text-mhero-steel">{offer.shortDescription}</p>
-                <p className="mt-3 text-xs text-mhero-steel">
-                  {dict.offers.validUntil}{" "}
-                  {new Date(offer.validUntil).toLocaleDateString(
-                    locale === "ar" ? "ar-u-nu-latn" : "en-US",
-                    { year: "numeric", month: "long", day: "numeric" }
-                  )}
-                </p>
-                <Link
-                  href={`/offers/${offer.slug}`}
-                  className="link-underline mt-5 inline-block text-sm font-semibold text-mhero-black"
-                >
-                  {dict.common.viewOffer} <span className="inline-block rtl:rotate-180">→</span>
-                </Link>
+            <Link
+              key={offer.slug}
+              href={`/offers/${offer.slug}`}
+              className="group flex flex-col overflow-hidden border border-mhero-fog bg-white transition-shadow duration-300 hover:shadow-xl focus-visible:outline-offset-4"
+            >
+              <div className="relative aspect-square w-full overflow-hidden">
+                {offer.image ? (
+                  <Image
+                    src={offer.image}
+                    alt={offer.imageLabel}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
+                  />
+                ) : (
+                  <PlaceholderImage label={offer.imageLabel} aspect="aspect-square" tone="accent" />
+                )}
               </div>
-            </Card>
+              <div className="flex flex-1 flex-col p-8">
+                {offer.cardEyebrow && (
+                  <p className="text-sm font-semibold uppercase tracking-wide text-[#174D56]">
+                    {offer.cardEyebrow}
+                  </p>
+                )}
+                <h3 className="mt-4 text-2xl font-bold text-mhero-black">
+                  {offer.cardTitle ?? offer.title}
+                </h3>
+                <div className="mt-6 mb-auto space-y-4 text-base text-mhero-steel">
+                  {offer.cardHighlights ? (
+                    offer.cardHighlights.map((line) => <p key={line}>{line}</p>)
+                  ) : (
+                    <p>{offer.shortDescription}</p>
+                  )}
+                </div>
+                <span className="mt-8 inline-block text-sm font-semibold text-mhero-black">
+                  {dict.common.viewOffer}{" "}
+                  <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1">
+                    →
+                  </span>
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </Section>
