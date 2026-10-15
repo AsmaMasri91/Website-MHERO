@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import PageHero from "@/components/ui/PageHero";
+import OffersHeroForm from "@/components/forms/OffersHeroForm";
 import Section from "@/components/ui/Section";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getOffers } from "@/lib/i18n/data";
@@ -23,6 +24,7 @@ export default function OffersPage() {
         title={dict.offers.title}
         description={dict.offers.description}
         imageLabel="MHERO current offers"
+        aside={<OffersHeroForm />}
       />
       <Section>
         <div className="grid gap-8 md:grid-cols-2">

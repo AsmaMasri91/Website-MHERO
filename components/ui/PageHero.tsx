@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -11,15 +12,17 @@ export default function PageHero({
   description,
   imageLabel,
   image,
+  aside,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   imageLabel: string;
   image?: string;
+  aside?: ReactNode;
 }) {
   return (
-    <section className="relative flex h-[88vh] min-h-[500px] items-end overflow-hidden bg-mhero-black">
+    <section className="relative flex min-h-[88vh] items-end overflow-hidden bg-mhero-black">
       <motion.div
         initial={{ opacity: 0, scale: 1.08 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -37,7 +40,12 @@ export default function PageHero({
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/5" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
 
-      <div className="container-mhero relative pb-20 text-white">
+      <div
+        className={`container-mhero relative pb-20 text-white ${
+          aside ? "grid items-end gap-10 pt-32 lg:grid-cols-[1fr_440px] lg:gap-16" : ""
+        }`}
+      >
+        <div>
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -62,6 +70,16 @@ export default function PageHero({
           >
             {description}
           </motion.p>
+        )}
+        </div>
+        {aside && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+          >
+            {aside}
+          </motion.div>
         )}
       </div>
     </section>
