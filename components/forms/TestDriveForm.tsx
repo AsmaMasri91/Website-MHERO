@@ -274,17 +274,28 @@ export default function TestDriveForm() {
         </p>
       </div>
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
-        <div className="w-full self-center overflow-hidden bg-mhero-fog/40">
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-mhero-fog/40 lg:aspect-auto lg:min-h-[420px]">
           {selectedModel && (
-            <Image
-              key={selectedColour?.image ?? selectedModel.slug}
-              src={selectedColour?.image ?? carImages[selectedModel.slug]}
-              alt={selectedColour ? `${selectedModel.name} — ${selectedColour.name}` : selectedModel.name}
-              width={0}
-              height={0}
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="h-auto w-full"
-            />
+            <>
+              {/* Soft blurred copy of the photo fills the frame; the sharp photo sits on top uncropped. */}
+              <Image
+                key={`bg-${selectedColour?.image ?? selectedModel.slug}`}
+                src={selectedColour?.image ?? carImages[selectedModel.slug]}
+                alt=""
+                aria-hidden="true"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="scale-110 object-cover blur-2xl"
+              />
+              <Image
+                key={selectedColour?.image ?? selectedModel.slug}
+                src={selectedColour?.image ?? carImages[selectedModel.slug]}
+                alt={selectedColour ? `${selectedModel.name} — ${selectedColour.name}` : selectedModel.name}
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-contain"
+              />
+            </>
           )}
         </div>
         <div className="flex flex-col gap-4">
