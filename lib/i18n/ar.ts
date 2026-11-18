@@ -151,6 +151,8 @@ const ar: Dictionary = {
     bestPrice: "أفضل سعر",
     variant: "الفئة",
     selectVariant: "اختر الفئة",
+    selectColour: "اختر اللون",
+    colourLabel: "اللون",
     selectedVariant: "الفئة المحددة",
     price: "السعر",
     bookTestDriveFor: "احجز تجربة قيادة",

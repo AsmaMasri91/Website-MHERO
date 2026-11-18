@@ -155,6 +155,8 @@ const en = {
     bestPrice: "Best Price",
     variant: "Variant",
     selectVariant: "Select variant",
+    selectColour: "Select colour",
+    colourLabel: "Colour",
     selectedVariant: "Selected Variant",
     price: "Price",
     bookTestDriveFor: "Book a Test Drive",

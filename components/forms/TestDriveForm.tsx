@@ -61,6 +61,7 @@ const schema = z
   .object({
     model: z.string().min(1),
     variant: z.string().optional(),
+    colour: z.string().optional(),
     showroom: z.string().min(1),
     date: z.string().min(1),
     time: z.string().min(1),
@@ -173,6 +174,7 @@ export default function TestDriveForm() {
     defaultValues: {
       model: models[0]?.slug ?? "",
       variant: models[0]?.variants[0]?.id ?? "",
+      colour: models[0]?.colours[0]?.name ?? "",
       showroom: "",
       date: "",
       time: "",
@@ -189,10 +191,12 @@ export default function TestDriveForm() {
 
   const selectedModelSlug = watch("model");
   const selectedVariantId = watch("variant");
+  const selectedColourName = watch("colour");
   const selectedTime = watch("time");
   const selectedShowroom = watch("showroom");
   const selectedDate = watch("date");
   const selectedModel = models.find((m) => m.slug === selectedModelSlug) ?? models[0];
+  const selectedColour = selectedModel?.colours.find((c) => c.name === selectedColourName);
 
   // Pre-select model/variant when arriving from the compare page (?model=...&variant=...).
   useEffect(() => {
@@ -202,6 +206,8 @@ export default function TestDriveForm() {
     setValue("model", m.slug);
     const v = m.variants.find((x) => x.id === params.get("variant")) ?? m.variants[0];
     setValue("variant", v?.id ?? "");
+    const c = m.colours.find((x) => x.name === params.get("colour")) ?? m.colours[0];
+    setValue("colour", c?.name ?? "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -218,6 +224,7 @@ export default function TestDriveForm() {
     reset({
       model: models[0]?.slug ?? "",
       variant: models[0]?.variants[0]?.id ?? "",
+      colour: models[0]?.colours[0]?.name ?? "",
       showroom: "",
       date: "",
       time: "",
@@ -267,14 +274,16 @@ export default function TestDriveForm() {
         </p>
       </div>
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-mhero-fog/40 lg:aspect-auto">
+        <div className="w-full self-center overflow-hidden bg-mhero-fog/40">
           {selectedModel && (
             <Image
-              key={selectedModel.slug}
-              src={carImages[selectedModel.slug]}
-              alt={selectedModel.name}
-              fill
-              className="object-cover"
+              key={selectedColour?.image ?? selectedModel.slug}
+              src={selectedColour?.image ?? carImages[selectedModel.slug]}
+              alt={selectedColour ? `${selectedModel.name} — ${selectedColour.name}` : selectedModel.name}
+              width={0}
+              height={0}
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="h-auto w-full"
             />
           )}
         </div>
@@ -288,6 +297,7 @@ export default function TestDriveForm() {
                 onClick={() => {
                   setValue("model", m.slug);
                   setValue("variant", m.variants[0]?.id ?? "");
+                  setValue("colour", m.colours[0]?.name ?? "");
                 }}
                 className={`flex items-center gap-3 border p-3 text-start transition-colors ${
                   isActive ? "border-mhero-black bg-mhero-fog/30" : "border-mhero-fog hover:border-mhero-black/40"
@@ -310,6 +320,35 @@ export default function TestDriveForm() {
               </button>
             );
           })}
+          {selectedModel && selectedModel.colours.length > 0 && (
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-widest2 text-mhero-steel">
+                {dict.models.colourLabel}
+                {selectedColour && (
+                  <span className="ms-2 normal-case tracking-normal text-mhero-black">{selectedColour.name}</span>
+                )}
+              </p>
+              <div className="flex items-center gap-3" role="group" aria-label={dict.models.selectColour}>
+                {selectedModel.colours.map((c) => {
+                  const active = c.name === selectedColourName;
+                  return (
+                    <button
+                      key={c.name}
+                      type="button"
+                      title={c.name}
+                      aria-label={c.name}
+                      aria-pressed={active}
+                      onClick={() => setValue("colour", c.name)}
+                      className={`h-8 w-8 rounded-full border border-mhero-fog transition-shadow ${
+                        active ? "ring-2 ring-mhero-black ring-offset-2" : "hover:ring-2 hover:ring-mhero-steel hover:ring-offset-2"
+                      }`}
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
           {selectedModel && selectedModel.variants.length > 0 && (
             <div>
               <p className="mb-2 text-xs font-medium uppercase tracking-widest2 text-mhero-steel">

@@ -21,6 +21,7 @@ function comparePrice(model: VehicleModel): number {
 interface SlotEntry {
   model: VehicleModel;
   variantId: string;
+  colourName: string;
 }
 
 type Slot = SlotEntry | null;
@@ -33,8 +34,14 @@ function entryPrice(entry: SlotEntry): number {
   return comparePrice(entry.model) + (variantOf(entry)?.priceDelta ?? 0);
 }
 
+function colourOf(entry: SlotEntry) {
+  return entry.model.colours.find((c) => c.name === entry.colourName) ?? entry.model.colours[0];
+}
+
 function testDriveHref(entry: SlotEntry): string {
-  return `/models/test-drive?model=${entry.model.slug}&variant=${entry.variantId}`;
+  const colour = colourOf(entry);
+  const base = `/models/test-drive?model=${entry.model.slug}&variant=${entry.variantId}`;
+  return colour ? `${base}&colour=${encodeURIComponent(colour.name)}` : base;
 }
 
 interface SpecRow {
@@ -63,7 +70,11 @@ export default function CompareDragDrop() {
   const placeInSlot = (model: VehicleModel, index: number) => {
     setEntries((prev) => {
       const next = [...prev];
-      next[index] = { model, variantId: model.variants[0]?.id ?? "" };
+      next[index] = {
+        model,
+        variantId: model.variants[0]?.id ?? "",
+        colourName: model.colours[0]?.name ?? "",
+      };
       return next;
     });
   };
@@ -73,6 +84,15 @@ export default function CompareDragDrop() {
       const next = [...prev];
       const current = next[index];
       if (current) next[index] = { ...current, variantId };
+      return next;
+    });
+  };
+
+  const setColour = (index: number, colourName: string) => {
+    setEntries((prev) => {
+      const next = [...prev];
+      const current = next[index];
+      if (current) next[index] = { ...current, colourName };
       return next;
     });
   };
@@ -107,6 +127,10 @@ export default function CompareDragDrop() {
       {
         label: dict.models.variant,
         values: entries.map((e) => (e ? variantOf(e)?.name ?? null : null)),
+      },
+      {
+        label: dict.models.colourLabel,
+        values: entries.map((e) => (e ? colourOf(e)?.name ?? null : null)),
       },
       {
         label: dict.models.price,
@@ -234,6 +258,7 @@ export default function CompareDragDrop() {
                 dropLabel={dict.models.dropCarHere.replace("{n}", String(index + 1))}
                 bestPrice={lowestPrice !== null && entry !== null && entryPrice(entry) === lowestPrice}
                 onVariantChange={(id) => setVariant(index, id)}
+                onColourChange={(name) => setColour(index, name)}
                 bestPriceLabel={dict.models.bestPrice}
                 removeLabel={dict.models.remove}
                 onDragOver={() => setDragOverSlot(index)}
@@ -384,6 +409,7 @@ function DropSlot({
   onDrop,
   onClear,
   onVariantChange,
+  onColourChange,
 }: {
   index: number;
   entry: Slot;
@@ -398,10 +424,12 @@ function DropSlot({
   onDrop: (slug: string) => void;
   onClear: () => void;
   onVariantChange: (id: string) => void;
+  onColourChange: (name: string) => void;
 }) {
   const { dict } = useLocale();
   const model = entry?.model ?? null;
   const variant = entry ? variantOf(entry) : undefined;
+  const colour = entry ? colourOf(entry) : undefined;
 
   return (
     <div
@@ -435,22 +463,43 @@ function DropSlot({
 
       {model ? (
         <div className="flex flex-1 flex-col text-mhero-black">
-          <div className="relative aspect-[16/10] w-full overflow-hidden">
-            <Image src={modelImages[model.slug]} alt={model.name} fill className="object-cover" />
+          <div className="relative aspect-[16/9] w-full overflow-hidden">
+            <Image
+              key={colour?.image ?? model.slug}
+              src={colour?.image ?? modelImages[model.slug]}
+              alt={colour ? `${model.name} — ${colour.name}` : model.name}
+              fill
+              className="object-cover"
+            />
           </div>
           <h3 className="mt-4 text-lg font-bold">{model.name}</h3>
           <p className="text-sm text-mhero-steel">{model.tagline}</p>
 
-          {model.colours.length > 0 && (
-            <div className="mt-3 flex items-center gap-2">
-              {model.colours.map((c) => (
-                <span
-                  key={c.name}
-                  title={c.name}
-                  className="h-4 w-4 rounded-full border border-mhero-fog"
-                  style={{ backgroundColor: c.hex }}
-                />
-              ))}
+          {model.colours.length > 0 && entry && (
+            <div className="mt-3">
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest2 text-mhero-steel">
+                {dict.models.selectColour}
+                {colour && <span className="ms-2 normal-case tracking-normal text-mhero-black">{colour.name}</span>}
+              </p>
+              <div className="flex items-center gap-3" role="group" aria-label={dict.models.selectColour}>
+                {model.colours.map((c) => {
+                  const active = c.name === entry.colourName;
+                  return (
+                    <button
+                      key={c.name}
+                      type="button"
+                      title={c.name}
+                      aria-label={c.name}
+                      aria-pressed={active}
+                      onClick={() => onColourChange(c.name)}
+                      className={`h-7 w-7 rounded-full border border-mhero-fog transition-shadow ${
+                        active ? "ring-2 ring-mhero-black ring-offset-2" : "hover:ring-2 hover:ring-mhero-steel hover:ring-offset-2"
+                      }`}
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  );
+                })}
+              </div>
             </div>
           )}
 
