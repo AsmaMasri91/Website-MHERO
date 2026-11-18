@@ -11,12 +11,6 @@ import ModelsMegaMenu from "@/components/layout/ModelsMegaMenu";
 import SocialIcons from "@/components/layout/SocialIcons";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 
-const mobileModelImages: Record<string, string> = {
-  "/models/mhero-1": "/images/models/mhero-1-campaign.png",
-  "/models/mhero-2": "/images/models/mhero-2-campaign.png",
-  "/models/mhero-2-terrain": "/images/models/mhero-2-campaign.png",
-};
-
 export default function Navbar() {
   const { dict } = useLocale();
   const pathname = usePathname();
@@ -246,18 +240,10 @@ export default function Navbar() {
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
                       aria-current={pathname === link.href ? "page" : undefined}
-                      className="flex items-center gap-4 border border-white/10 p-2 text-white/90 transition-colors hover:border-white/30 hover:text-white"
+                      className="flex items-center justify-between border border-white/10 px-5 py-4 text-base font-semibold text-white/90 transition-colors hover:border-white/30 hover:text-white"
                     >
-                      <span className="relative h-14 w-14 shrink-0 overflow-hidden bg-mhero-charcoal">
-                        <Image
-                          src={mobileModelImages[link.href]}
-                          alt=""
-                          fill
-                          sizes="56px"
-                          className="object-cover"
-                        />
-                      </span>
-                      <span className="text-base font-semibold">{link.label}</span>
+                      {link.label}
+                      <span aria-hidden="true" className="rtl:rotate-180">→</span>
                     </Link>
                   ))}
                   <div className="mt-2 flex flex-col gap-2">

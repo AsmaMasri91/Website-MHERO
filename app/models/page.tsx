@@ -61,6 +61,18 @@ export default function ModelsOverviewPage() {
                     {formatCurrency(model.startingPrice, model.currency)}
                   </span>
                 </p>
+                {model.variants.length > 0 && (
+                  <ul className="mt-4 flex flex-wrap gap-2" aria-label={dict.models.variant}>
+                    {model.variants.map((v) => (
+                      <li
+                        key={v.id}
+                        className="border border-white/30 bg-black/40 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm"
+                      >
+                        {v.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </Link>
           ))}
