@@ -274,7 +274,7 @@ export default function TestDriveForm() {
         </p>
       </div>
       <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
-        <div className="relative aspect-[16/9] w-full self-start overflow-hidden bg-mhero-fog/40 lg:aspect-square">
+        <div className="relative aspect-[16/9] w-full self-start overflow-hidden bg-white lg:aspect-square">
           {selectedModel && (
             <Image
               key={selectedColour?.image ?? selectedModel.slug}
