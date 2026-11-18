@@ -243,7 +243,6 @@ export default function Navbar() {
                       className="flex items-center justify-between border border-white/10 px-5 py-4 text-base font-semibold text-white/90 transition-colors hover:border-white/30 hover:text-white"
                     >
                       {link.label}
-                      <span aria-hidden="true" className="rtl:rotate-180">→</span>
                     </Link>
                   ))}
                   <div className="mt-2 flex flex-col gap-2">
