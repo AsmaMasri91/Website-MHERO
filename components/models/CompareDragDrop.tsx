@@ -39,9 +39,7 @@ function colourOf(entry: SlotEntry) {
 }
 
 function testDriveHref(entry: SlotEntry): string {
-  const colour = colourOf(entry);
-  const base = `/models/test-drive?model=${entry.model.slug}&variant=${entry.variantId}`;
-  return colour ? `${base}&colour=${encodeURIComponent(colour.name)}` : base;
+  return `/models/test-drive?model=${entry.model.slug}&variant=${entry.variantId}`;
 }
 
 interface SpecRow {
