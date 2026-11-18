@@ -12,7 +12,19 @@ export default function FeaturedNews() {
   const news = getNews(locale).slice(0, 3);
 
   return (
-    <Section eyebrow={dict.home.newsEyebrow} title={dict.home.newsTitle} light>
+    <Section
+      eyebrow={dict.home.newsEyebrow}
+      title={dict.home.newsTitle}
+      light
+      action={
+        <Link
+          href="/discover/news"
+          className="link-underline inline-block text-sm font-semibold text-mhero-black md:text-base"
+        >
+          {dict.common.viewAll} <span className="inline-block rtl:rotate-180">→</span>
+        </Link>
+      }
+    >
       <div className="grid gap-8 md:grid-cols-3">
         {news.map((article) => (
           <Card key={article.slug}>

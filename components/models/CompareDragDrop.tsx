@@ -18,7 +18,24 @@ function comparePrice(model: VehicleModel): number {
   return model.startingPrice;
 }
 
-type Slot = VehicleModel | null;
+interface SlotEntry {
+  model: VehicleModel;
+  variantId: string;
+}
+
+type Slot = SlotEntry | null;
+
+function variantOf(entry: SlotEntry) {
+  return entry.model.variants.find((v) => v.id === entry.variantId) ?? entry.model.variants[0];
+}
+
+function entryPrice(entry: SlotEntry): number {
+  return comparePrice(entry.model) + (variantOf(entry)?.priceDelta ?? 0);
+}
+
+function testDriveHref(entry: SlotEntry): string {
+  return `/models/test-drive?model=${entry.model.slug}&variant=${entry.variantId}`;
+}
 
 interface SpecRow {
   label: string;
@@ -35,45 +52,50 @@ export default function CompareDragDrop() {
   const models = getModels(locale);
   const slotCount = Math.min(models.length, 3);
 
-  const [slots, setSlots] = useState<Slot[]>(
+  const [entries, setEntries] = useState<Slot[]>(
     Array.from({ length: slotCount }, () => null)
   );
+  // Model-level view of the slots; variant-level data comes from `entries`.
+  const slots: (VehicleModel | null)[] = entries.map((e) => e?.model ?? null);
   const [dragOverSlot, setDragOverSlot] = useState<number | null>(null);
   const [showDifferencesOnly, setShowDifferencesOnly] = useState(false);
 
   const placeInSlot = (model: VehicleModel, index: number) => {
-    setSlots((prev) => {
+    setEntries((prev) => {
       const next = [...prev];
-      next[index] = model;
+      next[index] = { model, variantId: model.variants[0]?.id ?? "" };
+      return next;
+    });
+  };
+
+  const setVariant = (index: number, variantId: string) => {
+    setEntries((prev) => {
+      const next = [...prev];
+      const current = next[index];
+      if (current) next[index] = { ...current, variantId };
       return next;
     });
   };
 
   const clearSlot = (index: number) => {
-    setSlots((prev) => {
+    setEntries((prev) => {
       const next = [...prev];
       next[index] = null;
       return next;
     });
   };
 
+  // Tapping a model always fills the next free slot, so the same model can be added
+  // more than once to compare its variants side by side.
   const handleCardClick = (model: VehicleModel) => {
-    const filledIndex = slots.findIndex((s) => s?.slug === model.slug);
-    if (filledIndex !== -1) {
-      clearSlot(filledIndex);
-      return;
-    }
-    const emptyIndex = slots.findIndex((s) => s === null);
-    if (emptyIndex !== -1) {
-      placeInSlot(model, emptyIndex);
-    } else {
-      placeInSlot(model, slots.length - 1);
-    }
+    const emptyIndex = entries.findIndex((s) => s === null);
+    placeInSlot(model, emptyIndex !== -1 ? emptyIndex : entries.length - 1);
   };
 
-  const activeSlots = slots.filter((s) => s !== null) as VehicleModel[];
+  const activeEntries = entries.filter((e): e is SlotEntry => e !== null);
+  const activeSlots = activeEntries.map((e) => e.model);
 
-  const prices = activeSlots.map((m) => comparePrice(m));
+  const prices = activeEntries.map((e) => entryPrice(e));
   const lowestPrice = prices.length > 1 ? Math.min(...prices) : null;
 
   // Build spec groups: Pricing & Body (synthetic) + each spec group from data (assumed aligned across models)
@@ -83,8 +105,12 @@ export default function CompareDragDrop() {
     label: dict.models.pricingAndBody,
     rows: [
       {
-        label: dict.common.startingFrom,
-        values: slots.map((s) => (s ? formatCurrency(comparePrice(s), s.currency) : null)),
+        label: dict.models.variant,
+        values: entries.map((e) => (e ? variantOf(e)?.name ?? null : null)),
+      },
+      {
+        label: dict.models.price,
+        values: entries.map((e) => (e ? formatCurrency(entryPrice(e), e.model.currency) : null)),
       },
       {
         label: dict.models.overview,
@@ -102,7 +128,15 @@ export default function CompareDragDrop() {
       const itemLabel = slots.find((s) => s?.specs[g]?.items[i])?.specs[g]?.items[i]?.label ?? "";
       rows.push({
         label: itemLabel,
-        values: slots.map((s) => (!s ? null : s?.specs[g]?.items[i]?.value ?? null)),
+        values: entries.map((e) => {
+          if (!e) return null;
+          // Horsepower (Performance group, item 2) and Range (Range & Battery group, item 0)
+          // depend on the selected variant; everything else is model-level.
+          const v = variantOf(e);
+          if (v && g === 0 && i === 2) return v.powerHp;
+          if (v && g === 1 && i === 0) return v.rangeKm;
+          return e.model.specs[g]?.items[i]?.value ?? null;
+        }),
       });
     }
     groups.push({ label: groupLabel, rows });
@@ -190,15 +224,16 @@ export default function CompareDragDrop() {
           <p className="eyebrow mb-1">{dict.models.compareUpTo.replace("{n}", String(slotCount))}</p>
           <p className="mb-4 text-xs text-mhero-steel">{dict.models.compareHint}</p>
           <div className={`grid gap-4 ${slotCount === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
-            {slots.map((model, index) => (
+            {entries.map((entry, index) => (
               <DropSlot
                 key={index}
                 index={index}
-                model={model}
+                entry={entry}
                 isDragOver={dragOverSlot === index}
                 label={index === 0 ? dict.models.yourModel : dict.models.compareWith.replace("{n}", String(index))}
                 dropLabel={dict.models.dropCarHere.replace("{n}", String(index + 1))}
-                bestPrice={lowestPrice !== null && model !== null && comparePrice(model) === lowestPrice}
+                bestPrice={lowestPrice !== null && entry !== null && entryPrice(entry) === lowestPrice}
+                onVariantChange={(id) => setVariant(index, id)}
                 bestPriceLabel={dict.models.bestPrice}
                 removeLabel={dict.models.remove}
                 onDragOver={() => setDragOverSlot(index)}
@@ -243,13 +278,20 @@ export default function CompareDragDrop() {
             <table className="w-full min-w-[560px] border-collapse text-start text-sm text-mhero-black">
               <thead>
                 <tr className="border-b border-mhero-fog">
-                  <th className="w-40 py-4 text-xs font-medium uppercase tracking-widest2 text-mhero-steel">
+                  <th className="w-40 px-4 py-4 text-start text-xs font-medium uppercase tracking-widest2 text-mhero-steel">
                     {dict.models.specification}
                   </th>
-                  {slots.map((s, i) => (
-                    <th key={i} className="py-4 align-bottom">
-                      {s ? (
-                        <span className="font-semibold">{s.name}</span>
+                  {entries.map((e, i) => (
+                    <th key={i} className="px-4 py-4 text-start align-bottom">
+                      {e ? (
+                        <span className="font-semibold">
+                          {e.model.name}
+                          {variantOf(e) && (
+                            <span className="block text-xs font-normal text-mhero-steel">
+                              {variantOf(e).name}
+                            </span>
+                          )}
+                        </span>
                       ) : (
                         <span className="text-mhero-steel">—</span>
                       )}
@@ -263,21 +305,21 @@ export default function CompareDragDrop() {
                     <tr>
                       <td
                         colSpan={slots.length + 1}
-                        className="bg-mhero-fog/50 py-2 text-xs font-semibold uppercase tracking-widest2 text-mhero-steel"
+                        className="bg-mhero-fog/50 px-4 py-2 text-xs font-semibold uppercase tracking-widest2 text-mhero-steel"
                       >
                         {group.label}
                       </td>
                     </tr>
                     {group.rows.map((row) => (
                       <tr key={`${group.label}-${row.label}`} className="border-b border-mhero-fog">
-                        <td className="py-4 text-mhero-steel">{row.label}</td>
+                        <td className="px-4 py-4 text-start text-mhero-steel">{row.label}</td>
                         {row.values.map((v, i) => (
                           <td
                             key={i}
-                            className={`py-4 font-semibold text-mhero-black ${
+                            className={`px-4 py-4 text-start font-semibold text-mhero-black ${
                               lowestPrice !== null &&
-                              row.label === dict.common.startingFrom &&
-                              (slots[i] ? comparePrice(slots[i] as VehicleModel) : null) === lowestPrice
+                              row.label === dict.models.price &&
+                              (entries[i] ? entryPrice(entries[i] as SlotEntry) : null) === lowestPrice
                                 ? "underline decoration-2 underline-offset-4"
                                 : ""
                             }`}
@@ -300,14 +342,18 @@ export default function CompareDragDrop() {
           </p>
 
           <div className={`mt-8 grid gap-4 ${slotCount === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
-            {slots.map((m, i) =>
-              m ? (
-                <div key={m.slug} className="flex flex-col gap-2">
-                  <Link href={`/models/${m.slug}`} className="btn-outline w-full">
-                    {dict.common.exploreModel} — {m.name}
+            {entries.map((e, i) =>
+              e ? (
+                <div key={i} className="flex flex-col gap-2">
+                  <Link href={testDriveHref(e)} className="btn-dark w-full">
+                    {dict.models.bookTestDriveFor} — {e.model.name}
+                    {variantOf(e) ? ` · ${variantOf(e).name}` : ""}
+                  </Link>
+                  <Link href={`/models/${e.model.slug}`} className="btn-outline w-full">
+                    {dict.common.exploreModel} — {e.model.name}
                   </Link>
                   <Link
-                    href={`/models/finance-calculator?model=${m.slug}`}
+                    href={`/models/finance-calculator?model=${e.model.slug}`}
                     className="link-underline text-center text-sm font-semibold text-mhero-black"
                   >
                     {dict.nav.calculateFinance} <span className="inline-block rtl:rotate-180">→</span>
@@ -326,7 +372,7 @@ export default function CompareDragDrop() {
 
 function DropSlot({
   index,
-  model,
+  entry,
   isDragOver,
   label,
   dropLabel,
@@ -337,9 +383,10 @@ function DropSlot({
   onDragLeave,
   onDrop,
   onClear,
+  onVariantChange,
 }: {
   index: number;
-  model: Slot;
+  entry: Slot;
   isDragOver: boolean;
   label: string;
   dropLabel: string;
@@ -350,8 +397,11 @@ function DropSlot({
   onDragLeave: () => void;
   onDrop: (slug: string) => void;
   onClear: () => void;
+  onVariantChange: (id: string) => void;
 }) {
-  const { locale, dict } = useLocale();
+  const { dict } = useLocale();
+  const model = entry?.model ?? null;
+  const variant = entry ? variantOf(entry) : undefined;
 
   return (
     <div
@@ -404,6 +454,39 @@ function DropSlot({
             </div>
           )}
 
+          {model.variants.length > 0 && entry && (
+            <div className="mt-4">
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest2 text-mhero-steel">
+                {dict.models.selectVariant}
+              </p>
+              <div className="flex flex-wrap gap-2" role="group" aria-label={dict.models.selectVariant}>
+                {model.variants.map((v) => {
+                  const active = v.id === entry.variantId;
+                  return (
+                    <button
+                      key={v.id}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => onVariantChange(v.id)}
+                      className={`border px-3 py-2 text-xs font-semibold transition-colors ${
+                        active
+                          ? "border-mhero-black bg-mhero-black text-white"
+                          : "border-mhero-fog bg-white text-mhero-black hover:border-mhero-black"
+                      }`}
+                    >
+                      {v.name}
+                    </button>
+                  );
+                })}
+              </div>
+              {variant && (
+                <p className="mt-2 text-xs text-mhero-steel">
+                  {variant.powerHp} · {variant.rangeKm}
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="mt-4 flex items-center gap-2">
             {bestPrice && (
               <span className="bg-mhero-black px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest2 text-white">
@@ -411,9 +494,10 @@ function DropSlot({
               </span>
             )}
             <p className="text-sm font-semibold">
-              {dict.common.startingFrom} {formatCurrency(comparePrice(model), model.currency)}
+              {entry ? formatCurrency(entryPrice(entry), model.currency) : ""}
             </p>
           </div>
+
         </div>
       ) : (
         <div className="flex flex-1 items-center justify-center text-center">

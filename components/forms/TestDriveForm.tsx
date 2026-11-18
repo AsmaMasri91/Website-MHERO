@@ -60,6 +60,7 @@ const carImages: Record<string, string> = {
 const schema = z
   .object({
     model: z.string().min(1),
+    variant: z.string().optional(),
     showroom: z.string().min(1),
     date: z.string().min(1),
     time: z.string().min(1),
@@ -171,6 +172,7 @@ export default function TestDriveForm() {
     resolver: zodResolver(schema),
     defaultValues: {
       model: models[0]?.slug ?? "",
+      variant: models[0]?.variants[0]?.id ?? "",
       showroom: "",
       date: "",
       time: "",
@@ -186,10 +188,22 @@ export default function TestDriveForm() {
   });
 
   const selectedModelSlug = watch("model");
+  const selectedVariantId = watch("variant");
   const selectedTime = watch("time");
   const selectedShowroom = watch("showroom");
   const selectedDate = watch("date");
   const selectedModel = models.find((m) => m.slug === selectedModelSlug) ?? models[0];
+
+  // Pre-select model/variant when arriving from the compare page (?model=...&variant=...).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const m = models.find((x) => x.slug === params.get("model"));
+    if (!m) return;
+    setValue("model", m.slug);
+    const v = m.variants.find((x) => x.id === params.get("variant")) ?? m.variants[0];
+    setValue("variant", v?.id ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const isPrivateViewing = selectedShowroom === "Private Viewing";
   const visibleTimeSlots = isPrivateViewing ? PRIVATE_VIEWING_TIME_SLOTS : TIME_SLOTS;
@@ -203,6 +217,7 @@ export default function TestDriveForm() {
     setSubmitted(true);
     reset({
       model: models[0]?.slug ?? "",
+      variant: models[0]?.variants[0]?.id ?? "",
       showroom: "",
       date: "",
       time: "",
@@ -270,7 +285,10 @@ export default function TestDriveForm() {
               <button
                 type="button"
                 key={m.slug}
-                onClick={() => setValue("model", m.slug)}
+                onClick={() => {
+                  setValue("model", m.slug);
+                  setValue("variant", m.variants[0]?.id ?? "");
+                }}
                 className={`flex items-center gap-3 border p-3 text-start transition-colors ${
                   isActive ? "border-mhero-black bg-mhero-fog/30" : "border-mhero-fog hover:border-mhero-black/40"
                 }`}
@@ -292,6 +310,33 @@ export default function TestDriveForm() {
               </button>
             );
           })}
+          {selectedModel && selectedModel.variants.length > 0 && (
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-widest2 text-mhero-steel">
+                {dict.models.variant}
+              </p>
+              <div className="flex flex-wrap gap-2" role="group" aria-label={dict.models.variant}>
+                {selectedModel.variants.map((v) => {
+                  const active = v.id === selectedVariantId;
+                  return (
+                    <button
+                      key={v.id}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => setValue("variant", v.id)}
+                      className={`border px-4 py-2.5 text-sm font-semibold transition-colors ${
+                        active
+                          ? "border-mhero-black bg-mhero-black text-white"
+                          : "border-mhero-fog bg-white text-mhero-black hover:border-mhero-black"
+                      }`}
+                    >
+                      {v.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
