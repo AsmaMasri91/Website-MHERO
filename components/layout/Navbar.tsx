@@ -3,13 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SearchBox from "@/components/layout/SearchBox";
 import LanguageToggle from "@/components/layout/LanguageToggle";
 import ModelsMegaMenu from "@/components/layout/ModelsMegaMenu";
 import SocialIcons from "@/components/layout/SocialIcons";
 import { useLocale } from "@/components/i18n/LocaleProvider";
+
+const mobileModelImages: Record<string, string> = {
+  "/models/mhero-1": "/images/models/mhero-1-campaign.png",
+  "/models/mhero-2": "/images/models/mhero-2-campaign.png",
+  "/models/mhero-2-terrain": "/images/models/mhero-2-campaign.png",
+};
 
 export default function Navbar() {
   const { dict } = useLocale();
@@ -18,7 +24,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileModelsOpen, setMobileModelsOpen] = useState(false);
-  const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
   const [mobileDiscoverOpen, setMobileDiscoverOpen] = useState(false);
   const [mobileSupportOpen, setMobileSupportOpen] = useState(false);
   const [modelsMenuOpen, setModelsMenuOpen] = useState(false);
@@ -47,23 +52,20 @@ export default function Navbar() {
     { label: dict.nav.modelsLinks.model2Terrain, href: "/models/mhero-2-terrain" },
   ];
 
+  const modelsCtas = [
+    { label: dict.nav.financeCalculator, href: "/models/finance-calculator", primary: false },
+    { label: dict.nav.compareModels, href: "/models/compare", primary: false },
+    { label: dict.nav.bookTestDrive, href: "/models/test-drive", primary: true },
+  ];
+
   const topLevelLinks = [
     { label: dict.nav.offers, href: "/offers" },
     { label: dict.nav.afterSales, href: "/after-sales" },
     { label: dict.nav.preOwned, href: "/pre-owned" },
   ];
 
-  const exploreLinks = [
-    { label: dict.nav.offers, href: "/offers" },
-    { label: dict.nav.preOwned, href: "/pre-owned" },
-    { label: dict.nav.bookTestDrive, href: "/models/test-drive" },
-    { label: dict.nav.compareModels, href: "/models/compare" },
-    { label: dict.nav.financeCalculator, href: "/models/finance-calculator" },
-  ];
-
   const discoverLinks = [
     { label: dict.nav.discoverLinks.about, href: "/discover/about" },
-    { label: dict.nav.afterSales, href: "/after-sales" },
     { label: dict.afterSales.bookService, href: "/after-sales/book-service" },
     { label: dict.nav.discoverLinks.news, href: "/discover/news" },
     { label: dict.nav.discoverLinks.blog, href: "/discover/blog" },
@@ -235,16 +237,63 @@ export default function Navbar() {
                 label={dict.nav.models}
                 open={mobileModelsOpen}
                 setOpen={setMobileModelsOpen}
-                links={modelsLinks}
                 onNavigate={() => setMobileOpen(false)}
-              />
-              <MobileAccordion
-                label={dict.footer.explore}
-                open={mobileExploreOpen}
-                setOpen={setMobileExploreOpen}
-                links={exploreLinks}
-                onNavigate={() => setMobileOpen(false)}
-              />
+              >
+                <div className="flex flex-col gap-2 pb-4">
+                  {modelsLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      aria-current={pathname === link.href ? "page" : undefined}
+                      className="flex items-center gap-4 border border-white/10 p-2 text-white/90 transition-colors hover:border-white/30 hover:text-white"
+                    >
+                      <span className="relative h-14 w-14 shrink-0 overflow-hidden bg-mhero-charcoal">
+                        <Image
+                          src={mobileModelImages[link.href]}
+                          alt=""
+                          fill
+                          sizes="56px"
+                          className="object-cover"
+                        />
+                      </span>
+                      <span className="text-base font-semibold">{link.label}</span>
+                    </Link>
+                  ))}
+                  <div className="mt-2 flex flex-col gap-2">
+                    {modelsCtas.map((cta) => (
+                      <Link
+                        key={cta.href}
+                        href={cta.href}
+                        onClick={() => setMobileOpen(false)}
+                        className={
+                          cta.primary
+                            ? "btn-primary w-full justify-between"
+                            : "flex w-full items-center justify-between border border-white/15 px-5 py-3.5 text-sm font-semibold text-white/90 transition-colors hover:border-white hover:text-white"
+                        }
+                      >
+                        {cta.label}
+                        <span aria-hidden="true" className="rtl:rotate-180">→</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </MobileAccordion>
+
+              {topLevelLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className={`block border-b border-white/10 py-4 text-lg font-medium ${
+                    isActive(link.href) ? "text-white" : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
               <MobileAccordion
                 label={dict.footer.discover}
                 open={mobileDiscoverOpen}
@@ -302,14 +351,16 @@ function MobileAccordion({
   label,
   open,
   setOpen,
-  links,
+  links = [],
   onNavigate,
+  children,
 }: {
   label: string;
   open: boolean;
   setOpen: (v: boolean) => void;
-  links: { label: string; href: string }[];
+  links?: { label: string; href: string }[];
   onNavigate: () => void;
+  children?: ReactNode;
 }) {
   return (
     <div className="border-b border-white/10">
@@ -333,18 +384,20 @@ function MobileAccordion({
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="flex flex-col gap-1 pb-4 ps-4">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={onNavigate}
-                  className="py-2 text-base text-white/70 hover:text-white"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+            {children ?? (
+              <div className="flex flex-col gap-1 pb-4 ps-4">
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={onNavigate}
+                    className="py-2 text-base text-white/70 hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
