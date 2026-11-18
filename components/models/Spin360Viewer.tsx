@@ -44,7 +44,7 @@ export default function Spin360Viewer({
       </button>
 
       {overlay && (
-        <div className="absolute inset-x-0 bottom-0 flex justify-center bg-gradient-to-t from-mhero-fog via-mhero-fog/90 to-transparent px-6 pb-5 pt-10">
+        <div className="absolute inset-x-0 bottom-0 flex justify-center bg-gradient-to-t from-mhero-fog via-mhero-fog/90 to-transparent px-4 pb-3 pt-8">
           {overlay}
         </div>
       )}

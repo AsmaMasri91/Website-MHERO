@@ -60,7 +60,7 @@ export default function ModelDetailPage({
       <ModelHero model={model} dict={dict} />
 
       {/* Colours */}
-      <Section eyebrow={dict.models.customize} title={dict.models.availableColours}>
+      <Section compact eyebrow={dict.models.customize} title={dict.models.availableColours}>
         <ColourSwatches
           exteriorColours={model.colours}
           interiorColours={model.interiorColours}

@@ -27,8 +27,8 @@ export default function ColourSwatches({
   };
 
   return (
-    <div>
-      <div className="mb-8 flex gap-8 border-b border-mhero-fog">
+    <div className="mx-auto max-w-3xl">
+      <div className="mb-5 flex gap-8 border-b border-mhero-fog">
         <button
           type="button"
           onClick={() => selectTab("exterior")}
@@ -59,22 +59,22 @@ export default function ColourSwatches({
         frames={colour.image ? [colour.image] : []}
         alt={`${modelName} in ${colour.name}`}
         overlay={
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3">
             {colours.map((c, i) => (
               <button
                 key={c.name}
                 onClick={() => setActive(i)}
-                className="flex flex-col items-center gap-2"
+                className="flex flex-col items-center gap-1"
                 aria-label={`Select colour ${c.name}`}
                 aria-current={i === active}
               >
                 <span
-                  className={`h-10 w-10 rounded-full border-2 transition-all ${
+                  className={`h-7 w-7 rounded-full border-2 transition-all ${
                     i === active ? "border-mhero-black scale-110" : "border-white/60"
                   }`}
                   style={{ backgroundColor: c.hex }}
                 />
-                <span className="text-xs font-medium text-mhero-black">{c.name}</span>
+                <span className="text-[11px] font-medium text-mhero-black">{c.name}</span>
               </button>
             ))}
           </div>
