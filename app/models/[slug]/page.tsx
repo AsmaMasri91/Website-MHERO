@@ -101,7 +101,7 @@ export default function ModelDetailPage({
       {/* Interactive exterior highlights */}
       <div className="container-mhero flex flex-wrap items-end justify-between gap-6 pt-16">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight md:text-5xl">{d.highlightsTitle}</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">{d.highlightsTitle}</h2>
         </div>
       </div>
       <div className="mt-8">
@@ -181,7 +181,7 @@ export default function ModelDetailPage({
 
       {/* Final CTA */}
       <Section light={false} className="text-center">
-        <h2 className="!text-center text-3xl font-bold tracking-tight md:text-5xl">
+        <h2 className="!text-center text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
           {locale === "ar" ? `جاهز لتجربة ${model.name}؟` : `Ready to experience ${model.name}?`}
         </h2>
         <div className="mt-8 flex flex-wrap justify-center gap-4">

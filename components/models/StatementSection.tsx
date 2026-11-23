@@ -35,7 +35,7 @@ export default function StatementSection({
   return (
     <section className="bg-white py-20 md:py-28">
       <div className="container-mhero">
-        <h2 className="max-w-3xl text-3xl font-bold tracking-tight text-mhero-black md:text-5xl">
+        <h2 className="max-w-3xl text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-mhero-black">
           {headline}
         </h2>
         <p className="mt-6 max-w-2xl text-base text-mhero-steel md:text-lg">{body}</p>

@@ -39,7 +39,7 @@ export default function AfterSalesPage() {
       </Section>
 
       <Section light={false} className="text-center">
-        <h2 className="!text-center text-3xl font-bold tracking-tight md:text-5xl">
+        <h2 className="!text-center text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
           {dict.afterSales.bookServiceCtaTitle}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-white/70">

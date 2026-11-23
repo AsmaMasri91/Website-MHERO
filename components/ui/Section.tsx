@@ -35,9 +35,7 @@ export default function Section({
             <div className="max-w-2xl text-start">
               {title && (
                 <h2
-                  className={`text-start font-bold tracking-tight ${
-                    compact ? "text-2xl md:text-3xl" : "text-3xl md:text-5xl"
-                  }`}
+                  className="text-start text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl"
                 >
                   {title}
                 </h2>

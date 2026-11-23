@@ -19,7 +19,7 @@ export default function AlGhurairSection() {
           />
         </div>
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-mhero-black md:text-5xl">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-mhero-black">
             {dict.discover.alGhurairTitle}
           </h2>
           <div className="mt-6 space-y-5 text-lg text-mhero-steel">

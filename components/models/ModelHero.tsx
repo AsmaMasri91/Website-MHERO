@@ -72,7 +72,7 @@ export default function ModelHero({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-          className="max-w-2xl text-3xl font-extrabold uppercase leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl"
+          className="max-w-3xl text-4xl font-extrabold uppercase leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl"
         >
           {d.heroHeadline}
         </motion.h1>
