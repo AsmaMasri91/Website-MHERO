@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -54,6 +56,8 @@ export default function ModelDetailPage({
   if (!model) notFound();
 
   const d = model.detailPage;
+  const brochureHref = `/brochures/${model.slug}.pdf`;
+  const hasBrochure = fs.existsSync(path.join(process.cwd(), "public", "brochures", `${model.slug}.pdf`));
 
   return (
     <>
@@ -62,7 +66,28 @@ export default function ModelDetailPage({
       <ModelSpecStrip model={model} />
 
       {/* Colours */}
-      <Section compact eyebrow={dict.models.customize} title={dict.models.availableColours}>
+      <Section
+        compact
+        eyebrow={dict.models.customize}
+        title={dict.models.availableColours}
+        action={
+          hasBrochure ? (
+            <a href={brochureHref} download className="btn-primary">
+              {dict.common.downloadBrochure}
+            </a>
+          ) : (
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              title="Brochure coming soon"
+              className="btn-primary cursor-not-allowed opacity-60 hover:scale-100"
+            >
+              {dict.common.downloadBrochure}
+            </button>
+          )
+        }
+      >
         <ColourSwatches
           exteriorColours={model.colours}
           interiorColours={model.interiorColours}
@@ -78,9 +103,6 @@ export default function ModelDetailPage({
         <div>
           <h2 className="text-3xl font-bold tracking-tight md:text-5xl">{d.highlightsTitle}</h2>
         </div>
-        <button className="btn-outline shrink-0" disabled title="Sample brochure — connect a real PDF">
-          {dict.common.downloadBrochure}
-        </button>
       </div>
       <div className="mt-8">
         <HotspotFeature

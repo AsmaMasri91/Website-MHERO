@@ -93,7 +93,10 @@ export default function ModelsMegaMenu({
                   />
                 </div>
                 <div className="p-4">
-                  <h4 className="text-base font-bold">{mhero1.name}</h4>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-base font-bold">{mhero1.name}</h4>
+                    {mhero1.powertrain && <PowertrainTag value={mhero1.powertrain} />}
+                  </div>
                   <p className="mt-1 text-xs text-white/50">{mhero1.shortDescription}</p>
                 </div>
               </Link>
@@ -110,7 +113,10 @@ export default function ModelsMegaMenu({
                   />
                 </div>
                 <div className="p-4">
-                  <h4 className="text-base font-bold">MHERO II</h4>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-base font-bold">MHERO II</h4>
+                    {mhero2Prime.powertrain && <PowertrainTag value={mhero2Prime.powertrain} />}
+                  </div>
                   <p className="mt-1 text-xs text-white/50">
                     {locale === "ar" ? "اختر الفئة" : "Choose your variant"}
                   </p>
@@ -137,6 +143,14 @@ export default function ModelsMegaMenu({
         </div>
       </div>
     </div>
+  );
+}
+
+function PowertrainTag({ value }: { value: string }) {
+  return (
+    <span className="bg-[#8fb5a6] px-2 py-0.5 text-[10px] font-bold tracking-widest2 text-mhero-black">
+      {value}
+    </span>
   );
 }
 

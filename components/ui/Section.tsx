@@ -30,7 +30,7 @@ export default function Section({
       <div className="container-mhero">
         {(title || description) && (
           <div
-            className={`flex items-end justify-between gap-6 ${compact ? "mb-6 md:mb-8" : "mb-12 md:mb-16"}`}
+            className={`flex flex-wrap items-end justify-between gap-x-6 gap-y-4 ${compact ? "mb-6 md:mb-8" : "mb-12 md:mb-16"}`}
           >
             <div className="max-w-2xl text-start">
               {title && (

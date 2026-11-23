@@ -10,9 +10,11 @@ import LanguageToggle from "@/components/layout/LanguageToggle";
 import ModelsMegaMenu from "@/components/layout/ModelsMegaMenu";
 import SocialIcons from "@/components/layout/SocialIcons";
 import { useLocale } from "@/components/i18n/LocaleProvider";
+import { getModels } from "@/lib/i18n/data";
 
 export default function Navbar() {
-  const { dict } = useLocale();
+  const { locale, dict } = useLocale();
+  const powertrainBySlug = Object.fromEntries(getModels(locale).map((m) => [m.slug, m.powertrain]));
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
   const [scrolled, setScrolled] = useState(false);
@@ -240,9 +242,14 @@ export default function Navbar() {
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
                       aria-current={pathname === link.href ? "page" : undefined}
-                      className="flex items-center justify-between border border-white/10 px-5 py-4 text-base font-semibold text-white/90 transition-colors hover:border-white/30 hover:text-white"
+                      className="flex items-center justify-between gap-3 border border-white/10 px-5 py-4 text-base font-semibold text-white/90 transition-colors hover:border-white/30 hover:text-white"
                     >
                       {link.label}
+                      {powertrainBySlug[link.href.split("/").pop() ?? ""] && (
+                        <span className="bg-[#8fb5a6] px-2 py-0.5 text-[10px] font-bold tracking-widest2 text-mhero-black">
+                          {powertrainBySlug[link.href.split("/").pop() ?? ""]}
+                        </span>
+                      )}
                     </Link>
                   ))}
                   <div className="mt-2 flex flex-col gap-2">
