@@ -27,7 +27,7 @@ export default function ColourSwatches({
   };
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-6xl">
       <div className="mb-5 flex gap-8 border-b border-mhero-fog">
         <button
           type="button"
@@ -69,7 +69,7 @@ export default function ColourSwatches({
                 aria-current={i === active}
               >
                 <span
-                  className={`h-9 w-9 rounded-full transition-all ${
+                  className={`h-11 w-11 rounded-full transition-all ${
                     i === active ? "scale-110 ring-2 ring-mhero-black ring-offset-2" : "hover:scale-105"
                   }`}
                   style={{
