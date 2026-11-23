@@ -81,7 +81,7 @@ export default function ModelDetailPage({
               disabled
               aria-disabled="true"
               title="Brochure coming soon"
-              className="btn-primary cursor-not-allowed opacity-60 hover:scale-100"
+              className="btn-primary cursor-default hover:scale-100"
             >
               {dict.common.downloadBrochure}
             </button>
