@@ -59,7 +59,7 @@ export default function ColourSwatches({
         frames={colour.image ? [colour.image] : []}
         alt={`${modelName} in ${colour.name}`}
         overlay={
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-6">
             {colours.map((c, i) => (
               <button
                 key={c.name}
@@ -80,12 +80,7 @@ export default function ColourSwatches({
                       "0 6px 10px rgba(0,0,0,0.35), inset 0 -4px 6px rgba(0,0,0,0.35), inset 0 3px 4px rgba(255,255,255,0.55)",
                   }}
                 />
-                <span
-                  className="text-[11px] font-semibold text-mhero-black"
-                  style={{ WebkitTextStroke: "3px rgba(255,255,255,0.9)", paintOrder: "stroke fill" }}
-                >
-                  {c.name}
-                </span>
+                <span className="text-xs font-medium text-mhero-black">{c.name}</span>
               </button>
             ))}
           </div>
