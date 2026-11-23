@@ -45,7 +45,7 @@ export default function Spin360Viewer({
 
       {overlay && (
         <div className="absolute bottom-4 start-4">
-          <div className="bg-white/85 px-5 py-3 shadow-lg backdrop-blur-md">{overlay}</div>
+          <div>{overlay}</div>
         </div>
       )}
 
