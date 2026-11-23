@@ -25,7 +25,7 @@ export default function Spin360Viewer({
   const fallbackSrc = `https://picsum.photos/seed/${slugify(alt)}/1600/1000`;
 
   return (
-    <div className={`group relative w-full select-none ${src ? "" : "aspect-[16/9] overflow-hidden bg-white"} ${overlay ? "mb-16" : ""}`}>
+    <div className={`group relative w-full select-none ${src ? "" : "aspect-[16/9] overflow-hidden bg-white"} ${overlay ? "mb-12" : ""}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src || fallbackSrc}
@@ -44,7 +44,7 @@ export default function Spin360Viewer({
       </button>
 
       {overlay && (
-        <div className="absolute inset-x-0 top-full flex -translate-y-[28px] justify-center">
+        <div className="absolute inset-x-0 top-full flex -translate-y-[18px] justify-center">
           <div>{overlay}</div>
         </div>
       )}
