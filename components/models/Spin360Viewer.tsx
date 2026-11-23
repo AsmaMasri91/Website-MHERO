@@ -25,12 +25,12 @@ export default function Spin360Viewer({
   const fallbackSrc = `https://picsum.photos/seed/${slugify(alt)}/1600/1000`;
 
   return (
-    <div className="group relative aspect-[16/9] w-full select-none overflow-hidden rounded-2xl bg-mhero-fog">
+    <div className={`group relative w-full select-none overflow-hidden ${src ? "" : "aspect-[16/9] bg-white"}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src || fallbackSrc}
         alt={alt}
-        className="absolute inset-0 h-full w-full object-contain"
+        className={src ? "block h-auto w-full" : "absolute inset-0 h-full w-full object-contain"}
         draggable={false}
       />
 
@@ -44,8 +44,8 @@ export default function Spin360Viewer({
       </button>
 
       {overlay && (
-        <div className="absolute inset-x-0 bottom-0 flex justify-center bg-gradient-to-t from-mhero-fog via-mhero-fog/90 to-transparent px-4 pb-3 pt-8">
-          {overlay}
+        <div className="absolute bottom-4 start-4">
+          <div className="bg-white/85 px-5 py-3 shadow-lg backdrop-blur-md">{overlay}</div>
         </div>
       )}
 

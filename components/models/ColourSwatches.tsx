@@ -69,10 +69,16 @@ export default function ColourSwatches({
                 aria-current={i === active}
               >
                 <span
-                  className={`h-7 w-7 rounded-full border-2 transition-all ${
-                    i === active ? "border-mhero-black scale-110" : "border-white/60"
+                  className={`h-9 w-9 rounded-full transition-all ${
+                    i === active ? "scale-110 ring-2 ring-mhero-black ring-offset-2" : "hover:scale-105"
                   }`}
-                  style={{ backgroundColor: c.hex }}
+                  style={{
+                    backgroundColor: c.hex,
+                    backgroundImage:
+                      "radial-gradient(circle at 32% 28%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 42%), radial-gradient(circle at 72% 78%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 58%)",
+                    boxShadow:
+                      "0 6px 10px rgba(0,0,0,0.35), inset 0 -4px 6px rgba(0,0,0,0.35), inset 0 3px 4px rgba(255,255,255,0.55)",
+                  }}
                 />
                 <span className="text-[11px] font-medium text-mhero-black">{c.name}</span>
               </button>
