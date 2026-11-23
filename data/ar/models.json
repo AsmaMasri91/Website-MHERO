@@ -1,6 +1,7 @@
 [
   {
     "slug": "mhero-1",
+    "powertrain": "REEV",
     "name": "MHERO I",
     "tagline": "تحكّم في كل تضاريس",
     "shortDescription": "سيارة SUV رائدة للطرق الوعرة، صُممت لقوة وحضور ودقة هندسية لا تُضاهى.",
@@ -341,6 +342,7 @@
   },
   {
     "slug": "mhero-2",
+    "powertrain": "PHEV",
     "name": "MHERO II - Prime",
     "tagline": "دقة بلا حدود",
     "shortDescription": "سيدان فاخرة عالية الأداء صُممت لتقديم قوة سلسة وأناقة يومية متطورة.",
@@ -677,6 +679,7 @@
   },
   {
     "slug": "mhero-2-terrain",
+    "powertrain": "PHEV",
     "name": "MHERO II - Terrain",
     "tagline": "صُنعت لطريق لم يُطرق بعد",
     "shortDescription": "سيارة SUV فاخرة عالية الأداء بقدرة تحمل التضاريس الوعرة، لمن يحتاج المدينة والطريق المفتوح معًا.",

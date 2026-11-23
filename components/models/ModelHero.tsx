@@ -53,6 +53,21 @@ export default function ModelHero({
         >
           <Breadcrumbs current={model.name} />
         </motion.div>
+        {model.powertrain && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="mb-5 inline-flex items-stretch border border-white/30 bg-black/30 backdrop-blur-sm"
+          >
+            <span className="bg-[#8fb5a6] px-3 py-2 text-xs font-bold tracking-widest2 text-mhero-black">
+              {model.powertrain}
+            </span>
+            <span className="px-4 py-2 text-sm text-white">
+              {dict.models.powertrainNames[model.powertrain]}
+            </span>
+          </motion.div>
+        )}
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

@@ -93,6 +93,7 @@ export interface ModelDetailPage {
 
 export interface VehicleModel {
   slug: string;
+  powertrain?: "REEV" | "PHEV";
   name: string;
   tagline: string;
   shortDescription: string;

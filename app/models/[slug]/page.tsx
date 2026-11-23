@@ -6,6 +6,7 @@ import { VehicleModel } from "@/lib/types";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import Section from "@/components/ui/Section";
 import ModelHero from "@/components/models/ModelHero";
+import ModelSpecStrip from "@/components/models/ModelSpecStrip";
 import StatsBar from "@/components/models/StatsBar";
 import HotspotFeature from "@/components/models/HotspotFeature";
 import CabinTabs from "@/components/models/CabinTabs";
@@ -58,6 +59,7 @@ export default function ModelDetailPage({
     <>
       {/* Hero */}
       <ModelHero model={model} dict={dict} />
+      <ModelSpecStrip model={model} />
 
       {/* Colours */}
       <Section compact eyebrow={dict.models.customize} title={dict.models.availableColours}>
