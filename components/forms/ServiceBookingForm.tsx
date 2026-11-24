@@ -42,8 +42,8 @@ const CITIES_BY_COUNTRY: Record<string, Loc[]> = {
 };
 
 const SERVICE_CENTERS = [
-  { value: "al-quoz", labelKey: "centerAlQuoz" as const, address: "MHERO Service Center — Al Quoz, Dubai" },
-  { value: "abu-dhabi", labelKey: "centerAbuDhabi" as const, address: "MHERO Service Center — Abu Dhabi" },
+  { value: "al-quoz", labelKey: "centerAlQuoz" as const, address: "MHERO Service Center — Al Quoz, Dubai", addressAr: "مركز خدمة MHERO - القوز، دبي" },
+  { value: "abu-dhabi", labelKey: "centerAbuDhabi" as const, address: "MHERO Service Center — Abu Dhabi", addressAr: "مركز خدمة MHERO - أبو ظبي" },
 ];
 
 const SERVICE_INTERVAL_OPTIONS = ["km5000", "km10000", "km20000", "km30000", "km40000", "km50000"] as const;
@@ -82,7 +82,7 @@ const ARRIVAL_WINDOWS: Record<string, { start: string; end: string }> = {
 
 function formatTime12h(t: string, locale: string): string {
   const [h, m] = t.split(":").map(Number);
-  const period = h < 12 ? (locale === "ar" ? "ص" : "AM") : locale === "ar" ? "م" : "PM";
+  const period = h < 12 ? (locale === "ar" ? "صباحاً" : "AM") : locale === "ar" ? "مساءً" : "PM";
   const h12 = h % 12 === 0 ? 12 : h % 12;
   return `${h12}:${pad2(m)} ${period}`;
 }
@@ -556,11 +556,12 @@ export default function ServiceBookingForm() {
       (pickupType === "pickup" || pickupType === "both") &&
       (!pickupSectionDropOffAddress || pickupSectionDropOffAddress === autoFilledDropOffRef.current)
     ) {
-      autoFilledDropOffRef.current = selectedCenter.address;
-      setValue("pickupSectionDropOffAddress", selectedCenter.address);
+      const centerAddress = locale === "ar" ? selectedCenter.addressAr : selectedCenter.address;
+      autoFilledDropOffRef.current = centerAddress;
+      setValue("pickupSectionDropOffAddress", centerAddress);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pickupType, selectedCenter?.address]);
+  }, [pickupType, selectedCenter?.address, locale]);
 
   const latestPickupMins = appointmentTime ? minutesFromTime(appointmentTime) - PICKUP_BUFFER_MINS : null;
   const pickupTimeOptions = useMemo(() => {
@@ -911,8 +912,16 @@ export default function ServiceBookingForm() {
         {hasVisitedBefore === true && lookedUp && selectedVehicleId && selectedVehicle && (
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-mhero-primary bg-mhero-primary/15 p-4">
             <p className="text-sm text-mhero-black">
-              <span className="font-semibold">{sb.vehicleSelectedBanner}</span>{" "}
-              {selectedVehicle.model} — {selectedVehicle.plateCode} {selectedVehicle.plateNumber}
+              {(() => {
+                const vehicle = `${selectedVehicle.model} — ${selectedVehicle.plateCode} ${selectedVehicle.plateNumber}`;
+                return sb.vehicleSelectedBanner.includes("{vehicle}") ? (
+                  <span className="font-semibold">{sb.vehicleSelectedBanner.replace("{vehicle}", vehicle)}</span>
+                ) : (
+                  <>
+                    <span className="font-semibold">{sb.vehicleSelectedBanner}</span> {vehicle}
+                  </>
+                );
+              })()}
             </p>
             <button type="button" onClick={changeVehicle} className="link-underline shrink-0 text-sm font-semibold text-mhero-black">
               {sb.change}
@@ -1316,7 +1325,7 @@ export default function ServiceBookingForm() {
                 <div className="space-y-5">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Field label={sb.pickUpAddress}>
-                      <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={selectedCenter?.address ?? ""} />
+                      <input className="input-field-light cursor-not-allowed bg-mhero-fog/20 text-mhero-steel" readOnly value={(locale === "ar" ? selectedCenter?.addressAr : selectedCenter?.address) ?? ""} />
                     </Field>
                     <Field label={sb.dropOffAddress} required error={errors.dropOffAddress?.message}>
                       <input className="input-field-light" placeholder={sb.dropOffAddressPlaceholder} {...register("dropOffAddress")} />
