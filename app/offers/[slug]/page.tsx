@@ -5,7 +5,6 @@ import Link from "next/link";
 import offersData from "@/data/offers.json";
 import { Offer } from "@/lib/types";
 import PageHero from "@/components/ui/PageHero";
-import Section from "@/components/ui/Section";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getOffers } from "@/lib/i18n/data";
@@ -34,29 +33,39 @@ export default function OfferDetailPage({
   const { locale, dict } = getServerDictionary();
   const offer = getOffers(locale).find((o) => o.slug === params.slug);
   if (!offer) notFound();
+  const heroDescription = offer.description.split(", arranged")[0].replace(/\.$/, "") + ".";
 
   return (
     <>
       <PageHero
+        compact
         title={offer.title}
+        description={heroDescription}
+        image={offer.image}
         imageLabel={offer.imageLabel}
       />
 
-      <Section eyebrow={dict.offers.detailsEyebrow} title={dict.offers.aboutThisOffer}>
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start">
-          <div>
-          <p className="text-lg text-mhero-steel">{offer.description}</p>
+      <section className="bg-white py-20">
+        <div className="container-mhero grid gap-16 lg:grid-cols-[1fr_560px] lg:items-start">
+          <div className="flex flex-col gap-6">
+            <p className="text-xs font-semibold uppercase leading-[1.4] tracking-[3px] text-mhero-steel">
+              {dict.offers.detailsEyebrow}
+            </p>
+            <h2 className="text-4xl font-bold leading-[1.2] tracking-[-0.9px] text-mhero-black">
+              {dict.offers.aboutThisOffer}
+            </h2>
+            <p className="text-lg leading-[1.6] text-mhero-steel">{offer.description}</p>
 
-            <div className="mt-10">
-              <h3 className="text-lg font-bold text-mhero-black">{dict.offers.termsAndConditions}</h3>
+            <div className="flex flex-col gap-6">
+              <h3 className="text-2xl font-bold leading-[1.3] text-mhero-black">{dict.offers.termsAndConditions}</h3>
 
               {offer.termsSections ? (
-                <div className="mt-4 space-y-6">
+                <div className="flex flex-col gap-6">
                   {offer.termsSections.map((section) => (
                     <div key={section.heading}>
-                      <h4 className="text-sm font-bold text-mhero-black">{section.heading}</h4>
+                      <h4 className="text-sm font-semibold leading-[1.4] text-mhero-black">{section.heading}</h4>
                       {section.body && (
-                        <p className="mt-2 text-sm leading-relaxed text-mhero-steel">{section.body}</p>
+                        <p className="mt-1.5 text-sm text-mhero-steel">{section.body}</p>
                       )}
                       {section.items && (
                         <ul className="mt-2 space-y-3">
@@ -95,33 +104,32 @@ export default function OfferDetailPage({
               )}
             </div>
 
-            <p className="mt-10 text-sm text-mhero-steel">
+            <p className="text-sm font-semibold leading-[1.4] text-mhero-black">
               {dict.offers.validUntil}{" "}
-              <span className="font-semibold text-mhero-black">
-                {new Date(offer.validUntil).toLocaleDateString(
-                  locale === "ar" ? "ar-u-nu-latn" : "en-US",
-                  { year: "numeric", month: "long", day: "numeric" }
-                )}
-              </span>
+              {new Date(offer.validUntil).toLocaleDateString(
+                locale === "ar" ? "ar-u-nu-latn" : "en-US",
+                { year: "numeric", month: "long", day: "numeric" }
+              )}
             </p>
 
+            <div>
+              <Link href="/models/test-drive" className="btn-primary">
+                {dict.common.bookTestDrive}
+              </Link>
+            </div>
           </div>
 
           <div className="lg:sticky lg:top-28 lg:self-start">
             {offer.image ? (
               <div className="relative aspect-square w-full overflow-hidden">
-                <Image src={offer.image} alt={offer.imageLabel} fill className="object-cover" />
+                <Image src={offer.image} alt={offer.imageLabel} fill sizes="560px" className="object-cover" />
               </div>
             ) : (
               <PlaceholderImage label={offer.imageLabel} aspect="aspect-square" showLabel={false} />
             )}
-
-            <Link href="/models/test-drive" className="btn-primary mt-6 w-full">
-              {dict.common.bookTestDrive}
-            </Link>
           </div>
         </div>
-      </Section>
+      </section>
     </>
   );
 }
