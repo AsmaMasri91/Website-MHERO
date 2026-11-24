@@ -1,7 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
+
+// Photos supplied in the Figma design, keyed by accessory name.
+const ACCESSORY_IMAGES: Record<string, string> = {
+  "Roof-Mount Expedition Rack": "/images/models/accessory-roof-rack.webp",
+  "2.5t Towing System": "/images/models/accessory-towing.webp",
+  "Expansion Roof Platform": "/images/models/accessory-roof-platform.webp",
+  "Expansion Roof Platform*": "/images/models/accessory-roof-platform.webp",
+  "Side-Mounted Cargo Net": "/images/models/accessory-cargo-net.webp",
+  "Electronic Winches": "/images/models/accessory-cargo-net.webp",
+};
 
 interface AccessoriesGridProps {
   accessories: string[];
@@ -56,7 +67,13 @@ export default function AccessoriesGrid({
             key={name}
             className="overflow-hidden border border-mhero-fog bg-white transition-all duration-500 ease-premium hover:-translate-y-1 hover:shadow-md"
           >
-            <PlaceholderImage label={name} aspect="aspect-auto h-[232px]" className="h-[232px]" tone="light" />
+            {ACCESSORY_IMAGES[name] ? (
+              <div className="relative h-[232px] w-full">
+                <Image src={ACCESSORY_IMAGES[name]} alt={name} fill sizes="(min-width: 768px) 25vw, 50vw" className="object-cover" />
+              </div>
+            ) : (
+              <PlaceholderImage label={name} aspect="aspect-auto h-[232px]" className="h-[232px]" tone="light" />
+            )}
             <p className="p-6 text-lg font-bold leading-[1.35] text-mhero-black">{name}</p>
           </div>
         ))}

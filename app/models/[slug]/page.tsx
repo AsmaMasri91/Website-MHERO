@@ -156,7 +156,7 @@ export default function ModelDetailPage({
         title={d.cabinTitle}
         description={d.cabinIntro}
       >
-        <CabinTabs tabs={d.cabinTabs} />
+        <CabinTabs tabs={d.cabinTabs} image="/images/models/cabin-premium.webp" />
       </Section>
 
       {/* Utility (not shown on MHERO I) */}
