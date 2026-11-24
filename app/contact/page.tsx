@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
-import Section from "@/components/ui/Section";
 import ContactForm from "@/components/forms/ContactForm";
 import { getServerDictionary } from "@/lib/i18n/server";
 
@@ -11,47 +10,41 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   const { dict } = getServerDictionary();
+  const rows = [
+    [dict.contact.headOffice, dict.contact.headOfficeAddress],
+    [dict.contact.phone, dict.contact.phoneValue],
+    [dict.contact.emailLabel, dict.contact.emailValue],
+    [dict.contact.whatsapp, dict.contact.whatsappMessage],
+    [dict.contact.warranty, dict.contact.warrantyValue],
+  ];
 
   return (
     <>
-      <PageHero title={dict.contact.heroTitle} imageLabel="MHERO showroom" />
-      <Section>
-        <div className="grid gap-12 lg:grid-cols-2">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-mhero-black md:text-3xl">
+      <PageHero
+        compact
+        title={dict.contact.heroTitle}
+        description={dict.contact.intro}
+        image="/images/heroes/contact-hero.webp"
+        imageLabel="MHERO off-road"
+      />
+      <section className="bg-white py-20">
+        <div className="container-mhero flex flex-col gap-16 lg:flex-row">
+          <div className="flex w-full flex-col gap-6 lg:w-[420px] lg:shrink-0">
+            <h2 className="text-2xl font-bold leading-[1.3] text-mhero-black">
               {dict.contact.salesServiceEnquiries}
             </h2>
-
-            <dl className="mt-10 space-y-6 text-sm">
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">
-                  {dict.contact.phone}
-                </dt>
-                <dd className="mt-1.5 font-medium text-mhero-black">600 540045</dd>
+            {rows.map(([label, value]) => (
+              <div key={label} className="flex flex-col gap-1 border-b border-mhero-fog py-3">
+                <p className="text-xs font-semibold uppercase leading-[1.4] tracking-[3px] text-mhero-steel">{label}</p>
+                <p className="text-base text-mhero-black">{value}</p>
               </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">
-                  {dict.contact.whatsapp}
-                </dt>
-                <dd className="mt-1.5 font-medium text-mhero-black">{dict.contact.whatsappMessage}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">
-                  {dict.contact.warranty}
-                </dt>
-                <dd className="mt-1.5 font-medium text-mhero-black">{dict.contact.warrantyValue}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-widest2 text-mhero-ash">
-                  {dict.contact.location}
-                </dt>
-                <dd className="mt-1.5 font-medium text-mhero-black">{dict.contact.headOfficeAddress}</dd>
-              </div>
-            </dl>
+            ))}
           </div>
-          <ContactForm />
+          <div className="min-w-0 flex-1">
+            <ContactForm />
+          </div>
         </div>
-      </Section>
+      </section>
     </>
   );
 }

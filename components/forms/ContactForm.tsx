@@ -7,36 +7,17 @@ import { useState } from "react";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
 
-const LOCATIONS = [
-  { value: "dubai-al-ittihad", en: "Dubai Al Ittihad", ar: "دبي الاتحاد" },
-  { value: "sharjah", en: "Sharjah", ar: "الشارقة" },
-  { value: "ras-al-khaimah", en: "Ras Al Khaimah", ar: "رأس الخيمة" },
-  { value: "abu-dhabi-mussafah", en: "Abu Dhabi Mussafah", ar: "أبوظبي مصفح" },
-];
-
 const schema = z.object({
-  title: z.string().min(1),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   email: z.string().email(),
   phone: z.string().optional(),
-  model: z.string().min(1),
-  location: z.string().min(1),
-  message: z.string().min(10),
+  model: z.string().optional(),
+  subject: z.string().optional(),
+  message: z.string().min(1),
 });
 
 type FormValues = z.infer<typeof schema>;
-
-function SectionHeader({ index, title }: { index: number; title: string }) {
-  return (
-    <div className="mb-6 flex items-center gap-3 border-b border-mhero-fog pb-4">
-      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-mhero-black text-xs font-bold text-white">
-        {index}
-      </span>
-      <h3 className="text-sm font-semibold uppercase tracking-widest2 text-mhero-black">{title}</h3>
-    </div>
-  );
-}
 
 function Field({
   label,
@@ -51,7 +32,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-xs font-medium uppercase tracking-widest2 text-mhero-ash">
+      <label className="mb-1.5 block text-xs font-medium uppercase leading-[1.4] tracking-[3px] text-mhero-steel">
         {label}
         {required && " *"}
       </label>
@@ -91,87 +72,50 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="border border-mhero-fog bg-white p-8 md:p-10" noValidate>
-      <h3 className="text-xl font-bold text-mhero-black">{dict.contact.sendMessage}</h3>
-      <p className="mt-2 text-sm text-mhero-steel">{dict.contact.sendMessageDescription}</p>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
+      <h2 className="text-4xl font-bold leading-[1.2] tracking-[-0.9px] text-mhero-black">{dict.contact.sendMessage}</h2>
+      <p className="text-base text-mhero-steel">{dict.contact.sendMessageDescription}</p>
 
-      <div className="mt-8">
-        <SectionHeader index={1} title={dict.contact.yourDetails} />
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div className="sm:col-span-2 sm:max-w-xs">
-            <Field label={dict.forms.title} required error={errors.title?.message}>
-              <select className="input-field-light" {...register("title")}>
-                <option value="">—</option>
-                <option value="mr">{dict.forms.titleMr}</option>
-                <option value="mrs">{dict.forms.titleMrs}</option>
-                <option value="ms">{dict.forms.titleMs}</option>
-                <option value="dr">{dict.forms.titleDr}</option>
-              </select>
-            </Field>
-          </div>
-          <Field label={dict.forms.firstName} required error={errors.firstName?.message}>
-            <input className="input-field-light" {...register("firstName")} />
-          </Field>
-          <Field label={dict.forms.lastName} required error={errors.lastName?.message}>
-            <input className="input-field-light" {...register("lastName")} />
-          </Field>
-          <Field label={dict.forms.emailAddress} required error={errors.email?.message}>
-            <input className="input-field-light" type="email" {...register("email")} />
-          </Field>
-          <Field label={dict.forms.phoneNumber}>
-            <div className="flex">
-              <span className="flex items-center border border-e-0 border-mhero-fog bg-mhero-fog/40 px-3 text-sm text-mhero-steel">
-                🇦🇪 +971
-              </span>
-              <input className="input-field-light" type="tel" placeholder="50 123 4567" {...register("phone")} />
-            </div>
-          </Field>
-        </div>
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field label={dict.forms.firstName} required error={errors.firstName?.message}>
+          <input className="input-field-light" placeholder={locale === "ar" ? "الاسم الأول" : "First name"} {...register("firstName")} />
+        </Field>
+        <Field label={dict.forms.lastName} required error={errors.lastName?.message}>
+          <input className="input-field-light" placeholder={locale === "ar" ? "اسم العائلة" : "Last name"} {...register("lastName")} />
+        </Field>
+        <Field label={dict.forms.email} required error={errors.email?.message}>
+          <input className="input-field-light" type="email" placeholder="name@example.com" {...register("email")} />
+        </Field>
+        <Field label={dict.forms.phoneNumber}>
+          <input className="input-field-light" type="tel" placeholder="+971 50 123 4567" {...register("phone")} />
+        </Field>
+        <Field label={dict.contact.selectModel} error={errors.model?.message}>
+          <select className="input-field-light" {...register("model")}>
+            {models.map((m) => (
+              <option key={m.slug} value={m.slug}>
+                {m.name}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field label={dict.contact.subject}>
+          <input className="input-field-light" defaultValue={dict.contact.subjectGeneral} {...register("subject")} />
+        </Field>
       </div>
-
-      <div className="mt-10">
-        <SectionHeader index={2} title={dict.contact.enquiryDetails} />
-        <div className="space-y-5">
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field label={dict.contact.selectModel} required error={errors.model?.message}>
-              <select className="input-field-light" {...register("model")}>
-                <option value="">{dict.contact.selectModel}</option>
-                {models.map((m) => (
-                  <option key={m.slug} value={m.slug}>
-                    {m.name}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field label={dict.forms.location} required error={errors.location?.message}>
-              <select className="input-field-light" {...register("location")}>
-                <option value="">{dict.forms.selectLocation}</option>
-                {LOCATIONS.map((l) => (
-                  <option key={l.value} value={l.value}>
-                    {locale === "ar" ? l.ar : l.en}
-                  </option>
-                ))}
-              </select>
-            </Field>
-          </div>
-          <Field label={dict.forms.message} required error={errors.message?.message}>
-            <textarea
-              className="input-field-light min-h-[120px]"
-              placeholder={
-                locale === "ar" ? "شاركنا بعض التفاصيل وسيتواصل معك فريقنا." : "Share a few details and our team will get back to you."
-              }
-              {...register("message")}
-            />
-          </Field>
-        </div>
-      </div>
-
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-mhero-fog pt-6">
-        <p className="max-w-sm text-xs text-mhero-ash">{dict.contact.responseNote}</p>
-        <button type="submit" disabled={isSubmitting} className="btn-primary shrink-0">
+      <Field label={dict.forms.message} required error={errors.message?.message}>
+        <textarea
+          className="input-field-light min-h-[56px]"
+          rows={1}
+          placeholder={locale === "ar" ? "كيف يمكننا مساعدتك؟" : "How can we help?"}
+          {...register("message")}
+        />
+      </Field>
+      <div>
+        <button type="submit" disabled={isSubmitting} className="btn-primary">
           {isSubmitting ? dict.forms.sending : dict.forms.sendMessage}
         </button>
       </div>
+      <p className="text-xs text-mhero-steel">{dict.contact.responseNote}</p>
     </form>
   );
 }
