@@ -199,6 +199,8 @@ const en = {
   afterSales: {
     eyebrow: "Ownership",
     title: "After Sales Care",
+    servicesTitle: "Service, Parts & Care",
+    servicesDescription: "Genuine parts, scheduled maintenance, and warranty care from a nationwide service network.",
     description: "Everything you need to keep your MHERO performing at its best.",
     scheduleEyebrow: "Schedule",
     bookService: "Book a Service",

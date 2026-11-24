@@ -192,6 +192,8 @@ const ar: Dictionary = {
     monthsAbbrev: "شهر",
   },
   afterSales: {
+    servicesTitle: "الخدمة وقطع الغيار والعناية",
+    servicesDescription: "قطع غيار أصلية وصيانة دورية وعناية بالضمان من شبكة خدمة تغطي الدولة.",
     eyebrow: "الملكية",
     title: "رعاية ما بعد البيع",
     description: "كل ما تحتاجه للحفاظ على أداء سيارتك MHERO في أفضل حالاته.",
