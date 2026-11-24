@@ -71,7 +71,7 @@
   }
 
   .input-field-light {
-    @apply w-full rounded-none border border-mhero-fog bg-white px-4 py-3 text-sm text-mhero-black outline-none transition-colors placeholder:text-mhero-ash focus:border-mhero-black;
+    @apply w-full rounded-none border border-mhero-fog bg-white px-4 py-[14px] text-sm text-mhero-black outline-none transition-colors placeholder:text-mhero-ash focus:border-mhero-black;
   }
 
   .checkbox-field-light {

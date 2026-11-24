@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
-import Section from "@/components/ui/Section";
 import TestDriveForm from "@/components/forms/TestDriveForm";
 import { getServerDictionary } from "@/lib/i18n/server";
 
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 export default function TestDrivePage() {
   const { dict } = getServerDictionary();
 
-  const stats = [
+  const steps = [
     { title: dict.testDrive.privateSessionTitle, body: dict.testDrive.privateSessionBody },
     { title: dict.testDrive.preferredModelTitle, body: dict.testDrive.preferredModelBody },
     { title: dict.testDrive.showroomTitle, body: dict.testDrive.showroomBody },
@@ -21,33 +20,34 @@ export default function TestDrivePage() {
   return (
     <>
       <PageHero
-        eyebrow={dict.testDrive.eyebrow}
+        compact
         title={dict.common.bookTestDrive}
         description={dict.testDrive.description}
+        image="/images/heroes/test-drive-hero.webp"
         imageLabel="Book a MHERO test drive"
       />
 
       <div className="border-b border-mhero-fog bg-white">
-        <div className="container-mhero grid gap-8 py-12 sm:grid-cols-3">
-          {stats.map((stat, i) => (
-            <div key={stat.title} className="flex gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-mhero-black text-xs font-bold text-white">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <p className="text-sm font-semibold text-mhero-black">{stat.title}</p>
-                <p className="mt-1 text-sm text-mhero-steel">{stat.body}</p>
+        <div className="container-mhero grid gap-12 py-12 sm:grid-cols-3">
+          {steps.map((step, i) => (
+            <div key={step.title} className="flex flex-col gap-1.5">
+              <div className="flex items-center gap-3">
+                <span className="bg-mhero-black px-2 py-1 text-[11px] font-medium uppercase leading-[1.4] tracking-widest2 text-white">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="text-sm font-semibold leading-[1.4] text-mhero-black">{step.title}</p>
               </div>
+              <p className="text-sm text-mhero-steel">{step.body}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <Section light title={dict.testDrive.requestPrivateDrive} description={dict.testDrive.requestPrivateDriveDescription}>
-        <div className="mx-auto max-w-3xl">
+      <section className="bg-white py-[72px]">
+        <div className="container-mhero">
           <TestDriveForm />
         </div>
-      </Section>
+      </section>
     </>
   );
 }
