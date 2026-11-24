@@ -281,6 +281,7 @@ const en = {
     price: "Price",
   },
   discover: {
+    blogDescription: "Stories, guides and insights from the MHERO team.",
     aboutEyebrow: "Our Story",
     aboutTitle: "About MHERO",
     aboutBody1:

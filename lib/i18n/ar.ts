@@ -275,6 +275,7 @@ const ar: Dictionary = {
     price: "السعر",
   },
   discover: {
+    blogDescription: "قصص وأدلة ورؤى من فريق MHERO.",
     aboutEyebrow: "قصتنا",
     aboutTitle: "عن MHERO",
     aboutBody1:

@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import PageHero from "@/components/ui/PageHero";
-import Section from "@/components/ui/Section";
-import Card from "@/components/ui/Card";
+import ArticleCard from "@/components/ui/ArticleCard";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getBlog } from "@/lib/i18n/data";
 
 export const metadata: Metadata = {
   title: "Blog",
   description: "Stories, guides, and insights from the MHERO team.",
+};
+
+// Photos supplied in the Figma design.
+const POST_IMAGES: Record<string, string> = {
+  "life-with-mhero-model-1": "/images/gallery/blog-life-with-mhero.webp",
+  "understanding-battery-care": "/images/gallery/blog-battery-care.webp",
+  "design-philosophy-behind-mhero": "/images/gallery/blog-design-philosophy.webp",
 };
 
 export default function BlogListPage() {
@@ -19,35 +23,32 @@ export default function BlogListPage() {
   return (
     <>
       <PageHero
-        eyebrow={dict.discover.blogEyebrow}
+        compact
         title={dict.discover.blogTitle}
+        description={dict.discover.blogDescription}
+        image="/images/heroes/blog-hero.webp"
         imageLabel="MHERO blog"
       />
-      <Section>
-        <div className="grid gap-8 md:grid-cols-3">
+      <section className="bg-white py-20">
+        <div className="container-mhero grid gap-6 md:grid-cols-3">
           {posts.map((post) => (
-            <Card key={post.slug}>
-              <PlaceholderImage label={post.imageLabel} aspect="aspect-[4/3]" showLabel={false} />
-              <div className="p-6">
-                <p className="text-xs font-medium uppercase tracking-widest2 text-mhero-steel">
-                  {new Date(post.date).toLocaleDateString(
-                    locale === "ar" ? "ar-u-nu-latn" : "en-US",
-                    { year: "numeric", month: "long", day: "numeric" }
-                  )}
-                </p>
-                <h3 className="mt-3 text-lg font-bold text-mhero-black">{post.title}</h3>
-                <p className="mt-2 text-sm text-mhero-steel">{post.excerpt}</p>
-                <Link
-                  href={`/discover/blog/${post.slug}`}
-                  className="link-underline mt-5 inline-block text-xs font-semibold uppercase tracking-widest2 text-mhero-black"
-                >
-                  {dict.common.readMore} ›
-                </Link>
-              </div>
-            </Card>
+            <ArticleCard
+              key={post.slug}
+              href={`/discover/blog/${post.slug}`}
+              image={POST_IMAGES[post.slug]}
+              imageLabel={post.imageLabel}
+              meta={`${new Date(post.date).toLocaleDateString(locale === "ar" ? "ar-u-nu-latn" : "en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })} · ${post.author}`}
+              title={post.title}
+              excerpt={post.excerpt}
+              cta={dict.common.readMore}
+            />
           ))}
         </div>
-      </Section>
+      </section>
     </>
   );
 }
