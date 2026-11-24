@@ -68,9 +68,10 @@ export default function PreOwnedPage() {
   return (
     <>
       <PageHero
-        eyebrow={dict.preOwned.eyebrow}
+        compact
         title={dict.preOwned.title}
         description={dict.preOwned.description}
+        image="/images/heroes/legal-hero.webp"
         imageLabel="Certified pre-owned MHERO vehicles"
       />
       <Section>

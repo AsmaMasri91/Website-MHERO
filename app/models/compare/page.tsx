@@ -15,9 +15,10 @@ export default function ComparePage() {
   return (
     <>
       <PageHero
-        eyebrow={dict.models.eyebrow}
+        compact
         title={dict.models.compareTitle}
         description={dict.models.compareDescription}
+        image="/images/heroes/contact-hero.webp"
         imageLabel="Compare MHERO models"
       />
       <Section>

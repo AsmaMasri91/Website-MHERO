@@ -21,9 +21,10 @@ export default function BookServicePage() {
   return (
     <>
       <PageHero
-        eyebrow={dict.afterSales.scheduleEyebrow}
+        compact
         title={dict.afterSales.bookServiceTitle}
         description={dict.afterSales.bookServiceHeroDescription}
+        image="/images/heroes/book-service-hero.webp"
         imageLabel="MHERO service centre appointment"
       />
 

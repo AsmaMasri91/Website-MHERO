@@ -25,8 +25,8 @@ export default function TermsPage() {
 
   return (
     <>
-      <PageHero eyebrow={dict.legal.eyebrow} title={dict.legal.terms} imageLabel="MHERO legal" />
-      <Section>
+      <PageHero compact title={dict.legal.terms} image="/images/heroes/legal-hero.webp" imageLabel="MHERO legal" />
+      <Section className="!py-20">
         <TabbedPolicy
           introTitle="Introduction"
           introBlocks={[{ type: "p", text: dict.legal.termsIntro }]}

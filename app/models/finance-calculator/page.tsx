@@ -19,9 +19,10 @@ export default function FinanceCalculatorPage({
   return (
     <>
       <PageHero
-        eyebrow={dict.finance.eyebrow}
+        compact
         title={dict.finance.title}
         description={dict.finance.description}
+        image="/images/models/cabin-premium.webp"
         imageLabel="MHERO finance calculator"
       />
       <Section>

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import PageHero from "@/components/ui/PageHero";
 import Section from "@/components/ui/Section";
 import LogoStoryHero from "@/components/discover/LogoStoryHero";
@@ -19,8 +18,9 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        eyebrow={dict.discover.aboutEyebrow}
+        compact
         title={dict.discover.aboutTitle}
+        image="/images/heroes/about-hero.webp"
         imageLabel="MHERO brand studio"
       />
 
@@ -53,11 +53,9 @@ export default function AboutPage() {
           <p>{dict.discover.alGhurairBody3}</p>
         </div>
         <div className="mt-12">
-          <PlaceholderImage
-            label="Night exterior lighting signature"
-            aspect="aspect-[21/9]"
-            showLabel={false}
-          />
+          <div className="relative aspect-[21/9] w-full overflow-hidden">
+            <Image src="/images/gallery/night-exterior.webp" alt="Night exterior lighting signature" fill className="object-cover" />
+          </div>
         </div>
       </Section>
 
