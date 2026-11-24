@@ -113,6 +113,7 @@ const en = {
   models: {
     eyebrow: "Models",
     listingTitle: "Our Models",
+    listingDescription: "Explore the full MHERO range.",
     compareTitle: "Compare Models",
     compareDescription:
       "Drag a car into a slot, or tap to add it, and see how they stack up.",

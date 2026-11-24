@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PageHero from "@/components/ui/PageHero";
-import Section from "@/components/ui/Section";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import { formatCurrency } from "@/lib/financeMath";
 import { getServerDictionary } from "@/lib/i18n/server";
@@ -20,64 +19,73 @@ export default function ModelsOverviewPage() {
   return (
     <>
       <PageHero
-        eyebrow={dict.models.eyebrow}
+        compact
         title={dict.models.listingTitle}
+        description={dict.models.listingDescription}
+        image="/images/heroes/models-hero.png"
         imageLabel="MHERO model range"
       />
-      <Section
-        light={false}
-        eyebrow={dict.home.rangeEyebrow}
-        title={dict.home.rangeTitle}
-        description={dict.home.rangeDescription}
-      >
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {models.map((model) => (
-            <Link
-              key={model.slug}
-              href={`/models/${model.slug}`}
-              className="group relative block aspect-square overflow-hidden border border-white/10"
-            >
-              {model.heroImage ? (
-                <Image
-                  src={model.heroImage}
-                  alt={model.heroImageLabel}
-                  fill
-                  className="object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
-                />
-              ) : (
-                <PlaceholderImage
-                  label={model.heroImageLabel}
-                  aspect="aspect-square"
-                  className="transition-transform duration-700 ease-premium group-hover:scale-105"
-                />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6">
-                <h3 className="text-xl font-bold text-white">{model.name}</h3>
-                <p className="mt-1 text-sm text-white/70">{model.tagline}</p>
-                <p className="mt-2 text-sm text-white/70">
-                  {dict.common.startingFrom}{" "}
-                  <span className="font-semibold text-white">
-                    {formatCurrency(model.startingPrice, model.currency)}
+      <section className="bg-[#0c0c0d] py-24 text-white">
+        <div className="container-mhero">
+          <div className="mb-10 flex flex-col gap-2.5 text-start">
+            <p className="text-xs font-semibold uppercase leading-[1.4] tracking-[3px]">
+              {dict.home.rangeEyebrow}
+            </p>
+            <h2 className="text-4xl font-bold leading-[1.2] tracking-[-0.9px]">{dict.home.rangeTitle}</h2>
+            <p className="max-w-[640px] text-base">{dict.home.rangeDescription}</p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {models.map((model) => (
+              <Link
+                key={model.slug}
+                href={`/models/${model.slug}`}
+                className="group relative flex h-[440px] flex-col items-start justify-end gap-2 overflow-hidden p-6"
+              >
+                <div aria-hidden className="pointer-events-none absolute inset-0">
+                  {model.heroImage ? (
+                    <Image
+                      src={model.heroImage}
+                      alt=""
+                      fill
+                      className="object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
+                    />
+                  ) : (
+                    <PlaceholderImage
+                      label={model.heroImageLabel}
+                      aspect="aspect-auto"
+                      className="h-full w-full transition-transform duration-700 ease-premium group-hover:scale-105"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/85" />
+                </div>
+                {model.powertrain && (
+                  <span className="relative bg-mhero-primary px-3 py-2 text-xs font-semibold uppercase leading-[1.4] tracking-[3px] text-mhero-black">
+                    {model.powertrain}
                   </span>
+                )}
+                <h3 className="relative text-2xl font-bold leading-[1.3] text-white">{model.name}</h3>
+                <p className="relative text-sm text-white">{model.tagline}</p>
+                <p className="relative text-sm text-white">
+                  {dict.common.startingFrom} {formatCurrency(model.startingPrice, model.currency)}
                 </p>
                 {model.variants.length > 0 && (
-                  <ul className="mt-4 flex flex-wrap gap-2" aria-label={dict.models.variant}>
+                  <ul className="relative flex gap-2" aria-label={dict.models.variant}>
                     {model.variants.map((v) => (
                       <li
                         key={v.id}
-                        className="border border-white/30 bg-black/40 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm"
+                        className="border border-mhero-fog bg-white px-4 py-2.5 text-sm font-semibold leading-[1.4] text-mhero-black"
                       >
                         {v.name}
                       </li>
                     ))}
                   </ul>
                 )}
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
-      </Section>
+      </section>
     </>
   );
 }

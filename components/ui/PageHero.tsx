@@ -13,6 +13,7 @@ export default function PageHero({
   imageLabel,
   image,
   aside,
+  compact,
 }: {
   eyebrow?: string;
   title: string;
@@ -20,9 +21,13 @@ export default function PageHero({
   imageLabel: string;
   image?: string;
   aside?: ReactNode;
+  /** Figma "Hero/Page" layout: 560px visible below the header, photo fills with object-cover. */
+  compact?: boolean;
 }) {
   return (
-    <section className="relative flex min-h-[88vh] items-end overflow-hidden bg-mhero-black">
+    <section
+      className={`relative flex items-end overflow-hidden bg-mhero-black ${compact ? "min-h-[640px]" : "min-h-[88vh]"}`}
+    >
       <motion.div
         initial={{ opacity: 0, scale: 1.08 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -31,17 +36,29 @@ export default function PageHero({
       >
         {image ? (
           <div className="relative h-full w-full bg-mhero-black">
-            <Image src={image} alt={imageLabel} fill className="object-contain" priority />
+            <Image
+              src={image}
+              alt={imageLabel}
+              fill
+              className={compact ? "object-cover" : "object-contain"}
+              priority
+            />
           </div>
         ) : (
           <PlaceholderImage label={imageLabel} aspect="aspect-auto" className="h-full w-full" />
         )}
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/5" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
+      {compact ? (
+        <div className="absolute inset-0 bg-gradient-to-r from-black/[0.78] to-black/10" />
+      ) : (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/5" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
+        </>
+      )}
 
       <div
-        className={`container-mhero relative pb-20 text-white ${
+        className={`container-mhero relative text-white ${compact ? "pb-[72px]" : "pb-20"} ${
           aside ? "grid items-end gap-10 pt-32 lg:grid-cols-[1fr_440px] lg:gap-16" : ""
         }`}
       >
@@ -66,7 +83,7 @@ export default function PageHero({
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
-            className="mt-4 max-w-xl text-white/70"
+            className={`mt-4 ${compact ? "max-w-[640px] text-lg text-white" : "max-w-xl text-white/70"}`}
           >
             {description}
           </motion.p>

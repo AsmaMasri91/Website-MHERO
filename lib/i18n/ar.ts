@@ -110,6 +110,7 @@ const ar: Dictionary = {
   models: {
     eyebrow: "الموديلات",
     listingTitle: "موديلاتنا",
+    listingDescription: "استكشف الفئة الكاملة من MHERO.",
     compareTitle: "قارن الموديلات",
     compareDescription: "اسحب سيارة إلى إحدى الخانتين، أو انقر لإضافتها، وشاهد المقارنة.",
     dragHint: "اسحب سيارة إلى إحدى الخانتين أدناه",
