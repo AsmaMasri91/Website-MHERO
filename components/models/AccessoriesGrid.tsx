@@ -50,14 +50,14 @@ export default function AccessoriesGrid({
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
         {items.map((name) => (
           <div
             key={name}
-            className="overflow-hidden rounded-2xl border border-mhero-fog bg-white shadow-sm transition-all duration-500 ease-premium hover:-translate-y-1 hover:shadow-md"
+            className="overflow-hidden border border-mhero-fog bg-white transition-all duration-500 ease-premium hover:-translate-y-1 hover:shadow-md"
           >
-            <PlaceholderImage label={name} aspect="aspect-square" tone="light" />
-            <p className="p-4 text-sm font-medium text-mhero-black">{name}</p>
+            <PlaceholderImage label={name} aspect="aspect-auto h-[232px]" className="h-[232px]" tone="light" />
+            <p className="p-6 text-lg font-bold leading-[1.35] text-mhero-black">{name}</p>
           </div>
         ))}
       </div>

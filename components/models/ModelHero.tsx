@@ -19,7 +19,7 @@ export default function ModelHero({
   const d = model.detailPage;
 
   return (
-    <section className="relative flex h-[88vh] min-h-[640px] items-end overflow-hidden bg-mhero-black">
+    <section className="relative flex h-[88vh] min-h-[640px] items-end overflow-hidden bg-mhero-black md:h-[800px]">
       <motion.div
         initial={{ opacity: 0, scale: 1.08 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -42,10 +42,9 @@ export default function ModelHero({
           />
         )}
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/5" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-black/85" />
 
-      <div className="container-mhero relative pb-20 text-white">
+      <div className="container-mhero relative pb-24 text-white">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -58,9 +57,9 @@ export default function ModelHero({
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="mb-5 inline-flex items-stretch border border-white/30 bg-black/30 backdrop-blur-sm"
+            className="mb-5 inline-flex items-stretch border border-white"
           >
-            <span className="bg-[#8fb5a6] px-3 py-2 text-xs font-bold tracking-widest2 text-mhero-black">
+            <span className="bg-mhero-primary px-3 py-2 text-xs font-semibold uppercase tracking-[3px] text-mhero-black">
               {model.powertrain}
             </span>
             <span className="px-4 py-2 text-sm text-white">
@@ -72,7 +71,7 @@ export default function ModelHero({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-          className="max-w-3xl text-4xl font-extrabold uppercase leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl"
+          className="max-w-[900px] text-4xl font-extrabold uppercase leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl"
         >
           {d.heroHeadline}
         </motion.h1>
@@ -80,7 +79,7 @@ export default function ModelHero({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
-          className="mt-4 max-w-xl text-white/70"
+          className="mt-5 max-w-[680px] text-lg leading-[1.6] text-white"
         >
           {d.heroSubcopy}
         </motion.p>
@@ -107,7 +106,7 @@ export default function ModelHero({
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
-          className="mt-6 text-sm uppercase tracking-widest2 text-white/50"
+          className="mt-5 text-xs font-semibold uppercase tracking-[3px] text-white"
         >
           {dict.common.startingFrom} {formatCurrency(model.startingPrice, model.currency)}
         </motion.p>

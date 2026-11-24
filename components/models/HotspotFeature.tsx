@@ -27,7 +27,7 @@ export default function HotspotFeature({
   };
 
   return (
-    <div className="relative aspect-[16/9] w-full overflow-hidden bg-mhero-charcoal md:aspect-[21/9]">
+    <div className="relative aspect-[16/9] w-full overflow-hidden bg-mhero-charcoal md:aspect-auto md:h-[747px]">
       {image ? (
         <Image src={image} alt={imageLabel} fill className="object-cover" priority />
       ) : (

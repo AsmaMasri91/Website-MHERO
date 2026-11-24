@@ -68,6 +68,7 @@ export default function ModelDetailPage({
       {/* Colours */}
       <Section
         compact
+        showEyebrow
         eyebrow={dict.models.customize}
         title={dict.models.availableColours}
         action={
@@ -99,18 +100,16 @@ export default function ModelDetailPage({
       <StatsBar eyebrow={d.statsEyebrow} stats={d.stats} />
 
       {/* Interactive exterior highlights */}
-      <div className="container-mhero flex flex-wrap items-end justify-between gap-6 pt-16">
-        <div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">{d.highlightsTitle}</h2>
+      <section className="bg-white py-[72px]">
+        <div className="container-mhero">
+          <h2 className="mb-10 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">{d.highlightsTitle}</h2>
+          <HotspotFeature
+            image={hotspotImages[model.slug]}
+            imageLabel={d.exteriorImageLabel}
+            features={d.highlights}
+          />
         </div>
-      </div>
-      <div className="mt-8">
-        <HotspotFeature
-          image={hotspotImages[model.slug]}
-          imageLabel={d.exteriorImageLabel}
-          features={d.highlights}
-        />
-      </div>
+      </section>
 
       {/* Box highlighting exterior features (e.g. all-terrain performance) */}
       {d.terrainItems && d.terrainItems.length > 0 && (
@@ -151,6 +150,8 @@ export default function ModelDetailPage({
       {/* Cabin */}
       <Section
         light={false}
+        showEyebrow
+        className="!bg-[#0c0c0d] !py-20"
         eyebrow={d.cabinEyebrow}
         title={d.cabinTitle}
         description={d.cabinIntro}
@@ -171,7 +172,7 @@ export default function ModelDetailPage({
       </Section>
 
       {/* Accessories */}
-      <Section eyebrow={dict.models.details} title={d.accessoriesTitle}>
+      <Section showEyebrow className="!py-20" eyebrow={dict.models.details} title={d.accessoriesTitle}>
         <AccessoriesGrid
           accessories={d.accessories}
           factoryOptionalEquipment={d.factoryOptionalEquipment}
@@ -180,7 +181,7 @@ export default function ModelDetailPage({
       </Section>
 
       {/* Final CTA */}
-      <Section light={false} className="text-center">
+      <Section className="!bg-mhero-white !py-24 text-center">
         <h2 className="!text-center text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
           {locale === "ar" ? `جاهز لتجربة ${model.name}؟` : `Ready to experience ${model.name}?`}
         </h2>
@@ -188,13 +189,7 @@ export default function ModelDetailPage({
           <Link href="/models/test-drive" className="btn-primary">
             {dict.common.bookTestDrive}
           </Link>
-          <Link
-            href={`/models/finance-calculator?model=${model.slug}`}
-            className="btn-outline-light"
-          >
-            {dict.nav.calculateFinance}
-          </Link>
-          <Link href="/models/compare" className="btn-outline-light">
+          <Link href="/models/compare" className="btn-outline">
             {dict.nav.compareModels}
           </Link>
         </div>

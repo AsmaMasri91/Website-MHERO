@@ -10,6 +10,8 @@ interface SectionProps {
   light?: boolean;
   action?: ReactNode;
   compact?: boolean;
+  /** Render the eyebrow label above the title (Figma section header). */
+  showEyebrow?: boolean;
 }
 
 export default function Section({
@@ -21,6 +23,8 @@ export default function Section({
   light = true,
   action,
   compact = false,
+  eyebrow,
+  showEyebrow = false,
 }: SectionProps) {
   return (
     <section
@@ -33,6 +37,15 @@ export default function Section({
             className={`flex flex-wrap items-end justify-between gap-x-6 gap-y-4 ${compact ? "mb-6 md:mb-8" : "mb-12 md:mb-16"}`}
           >
             <div className="max-w-2xl text-start">
+              {showEyebrow && eyebrow && (
+                <p
+                  className={`mb-2.5 text-xs font-semibold uppercase leading-[1.4] tracking-[3px] ${
+                    light ? "text-mhero-steel" : "text-white"
+                  }`}
+                >
+                  {eyebrow}
+                </p>
+              )}
               {title && (
                 <h2
                   className="text-start text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl"

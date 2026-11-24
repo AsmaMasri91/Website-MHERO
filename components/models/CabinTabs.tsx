@@ -9,7 +9,7 @@ export default function CabinTabs({ tabs }: { tabs: CabinTab[] }) {
   const tab = tabs[active];
 
   return (
-    <div className="grid gap-6 md:grid-cols-[240px_1fr] md:items-start">
+    <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-start">
       {/* Vertical pill tabs */}
       <div className="flex gap-2 overflow-x-auto md:flex-col md:overflow-visible">
         {tabs.map((t, i) => (
@@ -17,10 +17,10 @@ export default function CabinTabs({ tabs }: { tabs: CabinTab[] }) {
             key={t.label}
             onClick={() => setActive(i)}
             aria-current={i === active}
-            className={`shrink-0 rounded-full px-5 py-3 text-start text-sm font-semibold transition-colors ${
+            className={`shrink-0 px-5 py-3 text-start text-sm font-semibold transition-colors ${
               i === active
                 ? "bg-white text-mhero-black"
-                : "bg-white/5 text-white/70 hover:bg-white/10"
+                : "bg-mhero-graphite text-white hover:bg-white/10"
             }`}
           >
             {t.label}
@@ -29,11 +29,11 @@ export default function CabinTabs({ tabs }: { tabs: CabinTab[] }) {
       </div>
 
       {/* Image with overlaid caption */}
-      <div className="relative overflow-hidden rounded-2xl">
-        <PlaceholderImage label={tab.imageLabel} aspect="aspect-[16/9]" showLabel={false} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-          <h3 className="text-xl font-bold text-white md:text-2xl">{tab.heading}</h3>
+      <div className="relative h-[560px] overflow-hidden">
+        <PlaceholderImage label={tab.imageLabel} aspect="aspect-auto h-full" className="h-full" showLabel={false} />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/85" />
+        <div className="absolute inset-x-0 bottom-0 p-8">
+          <h3 className="text-2xl font-bold leading-[1.3] text-white">{tab.heading}</h3>
           <p className="mt-2 max-w-xl text-white/80">{tab.body}</p>
         </div>
       </div>

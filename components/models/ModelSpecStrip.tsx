@@ -99,10 +99,10 @@ export default function ModelSpecStrip({ model }: { model: VehicleModel }) {
         <dl
           role="tabpanel"
           aria-labelledby={`spec-tab-${variant.id}`}
-          className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5"
+          className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5"
         >
           {stats.map((s) => (
-            <div key={s.label}>
+            <div key={s.label} className="p-6">
               <dt className="text-[11px] font-medium uppercase tracking-widest2 text-white/60 md:text-xs">
                 {s.label}
               </dt>
