@@ -14,6 +14,7 @@ export default function PageHero({
   image,
   aside,
   compact,
+  tall,
 }: {
   eyebrow?: string;
   title: string;
@@ -23,10 +24,12 @@ export default function PageHero({
   aside?: ReactNode;
   /** Figma "Hero/Page" layout: 560px visible below the header, photo fills with object-cover. */
   compact?: boolean;
+  /** Figma Offers hero: 760px below the header with the form aside. */
+  tall?: boolean;
 }) {
   return (
     <section
-      className={`relative flex items-end overflow-hidden bg-mhero-black ${compact ? "min-h-[640px]" : "min-h-[88vh]"}`}
+      className={`relative flex items-end overflow-hidden bg-mhero-black ${tall ? "min-h-[840px]" : compact ? "min-h-[640px]" : "min-h-[88vh]"}`}
     >
       <motion.div
         initial={{ opacity: 0, scale: 1.08 }}
@@ -40,7 +43,7 @@ export default function PageHero({
               src={image}
               alt={imageLabel}
               fill
-              className={compact ? "object-cover" : "object-contain"}
+              className={compact || tall ? "object-cover" : "object-contain"}
               priority
             />
           </div>
@@ -48,7 +51,9 @@ export default function PageHero({
           <PlaceholderImage label={imageLabel} aspect="aspect-auto" className="h-full w-full" />
         )}
       </motion.div>
-      {compact ? (
+      {tall ? (
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/[0.15]" />
+      ) : compact ? (
         <div className="absolute inset-0 bg-gradient-to-r from-black/[0.78] to-black/10" />
       ) : (
         <>
@@ -58,7 +63,7 @@ export default function PageHero({
       )}
 
       <div
-        className={`container-mhero relative text-white ${compact ? "pb-[72px]" : "pb-20"} ${
+        className={`container-mhero relative text-white ${compact && !tall ? "pb-[72px]" : "pb-20"} ${
           aside ? "grid items-end gap-10 pt-32 lg:grid-cols-[1fr_440px] lg:gap-16" : ""
         }`}
       >
@@ -83,7 +88,7 @@ export default function PageHero({
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
-            className={`mt-4 ${compact ? "max-w-[640px] text-lg text-white" : "max-w-xl text-white/70"}`}
+            className={`mt-4 ${compact || tall ? "max-w-[640px] text-lg text-white" : "max-w-xl text-white/70"}`}
           >
             {description}
           </motion.p>
