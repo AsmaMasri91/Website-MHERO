@@ -55,6 +55,7 @@ const en = {
     viewDetails: "View Details",
     startingFrom: "Starting from",
     readMore: "Read More",
+    back: "Back",
     enquireNow: "Enquire Now",
     downloadBrochure: "Download Brochure",
     backToModels: "Back to Models",
@@ -282,6 +283,7 @@ const en = {
   },
   discover: {
     blogDescription: "Stories, guides and insights from the MHERO team.",
+    newsDescription: "The latest news and announcements from MHERO.",
     aboutEyebrow: "Our Story",
     aboutTitle: "About MHERO",
     aboutBody1:

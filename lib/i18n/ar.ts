@@ -56,6 +56,7 @@ const ar: Dictionary = {
     viewDetails: "عرض التفاصيل",
     startingFrom: "يبدأ من",
     readMore: "اقرأ المزيد",
+    back: "رجوع",
     enquireNow: "استفسر الآن",
     downloadBrochure: "تحميل الكتيب",
     backToModels: "العودة إلى الموديلات",
@@ -276,6 +277,7 @@ const ar: Dictionary = {
   },
   discover: {
     blogDescription: "قصص وأدلة ورؤى من فريق MHERO.",
+    newsDescription: "آخر الأخبار والإعلانات من MHERO.",
     aboutEyebrow: "قصتنا",
     aboutTitle: "عن MHERO",
     aboutBody1:

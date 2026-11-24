@@ -1,15 +1,19 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
 import blogData from "@/data/blog.json";
 import { BlogPost } from "@/lib/types";
-import PlaceholderImage from "@/components/ui/PlaceholderImage";
-import Section from "@/components/ui/Section";
-import ShareButtons from "@/components/discover/ShareButtons";
+import ArticleLayout from "@/components/discover/ArticleLayout";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getBlog } from "@/lib/i18n/data";
 
 const postsEn = blogData as BlogPost[];
+
+// Hero photos from the Figma design (the first article uses the photo drawn in its frame).
+const POST_HERO_IMAGES: Record<string, string> = {
+  "life-with-mhero-model-1": "/images/gallery/blog-battery-care.webp",
+  "understanding-battery-care": "/images/gallery/blog-battery-care.webp",
+  "design-philosophy-behind-mhero": "/images/gallery/blog-design-philosophy.webp",
+};
 
 export function generateStaticParams() {
   return postsEn.map((p) => ({ slug: p.slug }));
@@ -35,37 +39,19 @@ export default function BlogDetailPage({
   if (!post) notFound();
 
   return (
-    <div className="pt-32">
-      <Section>
-        <Link href="/discover/blog" className="text-sm text-mhero-steel hover:text-mhero-black">
-          {locale === "ar" ? "→" : "←"} {dict.discover.backToBlog}
-        </Link>
-        <div className="mx-auto mt-8 max-w-3xl">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest2 text-mhero-steel md:text-sm">
-            {post.author} ·{" "}
-            {new Date(post.date).toLocaleDateString(
-              locale === "ar" ? "ar-u-nu-latn" : "en-US",
-              { year: "numeric", month: "long", day: "numeric" }
-            )}
-          </p>
-          <h1 className="text-3xl font-bold tracking-tight text-mhero-black md:text-5xl">
-            {post.title}
-          </h1>
-          <PlaceholderImage
-            label={post.imageLabel}
-            aspect="aspect-[16/9]"
-            className="my-8 rounded-2xl"
-          />
-          <div className="space-y-5 text-lg text-mhero-steel">
-            {post.body.map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
-          </div>
-          <div className="mt-10 border-t border-mhero-fog pt-6">
-            <ShareButtons title={post.title} />
-          </div>
-        </div>
-      </Section>
-    </div>
+    <ArticleLayout
+      title={post.title}
+      meta={`${new Date(post.date).toLocaleDateString(locale === "ar" ? "ar-u-nu-latn" : "en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })} · ${post.author}`}
+      image={POST_HERO_IMAGES[post.slug]}
+      imageLabel={post.imageLabel}
+      body={post.body}
+      backHref="/discover/blog"
+      backLabel={dict.common.back}
+      rtl={locale === "ar"}
+    />
   );
 }

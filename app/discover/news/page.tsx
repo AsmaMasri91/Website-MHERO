@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import PlaceholderImage from "@/components/ui/PlaceholderImage";
 import PageHero from "@/components/ui/PageHero";
-import Section from "@/components/ui/Section";
-import Card from "@/components/ui/Card";
+import ArticleCard from "@/components/ui/ArticleCard";
 import { getServerDictionary } from "@/lib/i18n/server";
 import { getNews } from "@/lib/i18n/data";
 
 export const metadata: Metadata = {
   title: "News",
   description: "The latest news and announcements from MHERO.",
+};
+
+// Photo from the Figma news article frame.
+const NEWS_IMAGES: Record<string, string> = {
+  "mhero-opens-flagship-showroom": "/images/gallery/blog-life-with-mhero.webp",
 };
 
 export default function NewsListPage() {
@@ -19,35 +21,32 @@ export default function NewsListPage() {
   return (
     <>
       <PageHero
-        eyebrow={dict.discover.newsEyebrow}
+        compact
         title={dict.discover.newsTitle}
+        description={dict.discover.newsDescription}
+        image="/images/gallery/blog-life-with-mhero.webp"
         imageLabel="MHERO newsroom"
       />
-      <Section>
-        <div className="grid gap-8 md:grid-cols-3">
+      <section className="bg-white py-20">
+        <div className="container-mhero grid gap-6 md:grid-cols-3">
           {news.map((article) => (
-            <Card key={article.slug}>
-              <PlaceholderImage label={article.imageLabel} aspect="aspect-[4/3]" showLabel={false} />
-              <div className="p-6">
-                <p className="text-xs font-medium uppercase tracking-widest2 text-mhero-steel">
-                  {new Date(article.date).toLocaleDateString(
-                    locale === "ar" ? "ar-u-nu-latn" : "en-US",
-                    { year: "numeric", month: "long", day: "numeric" }
-                  )}
-                </p>
-                <h3 className="mt-3 text-lg font-bold text-mhero-black">{article.title}</h3>
-                <p className="mt-2 text-sm text-mhero-steel">{article.excerpt}</p>
-                <Link
-                  href={`/discover/news/${article.slug}`}
-                  className="link-underline mt-5 inline-block text-xs font-semibold uppercase tracking-widest2 text-mhero-black"
-                >
-                  {dict.common.readMore} ›
-                </Link>
-              </div>
-            </Card>
+            <ArticleCard
+              key={article.slug}
+              href={`/discover/news/${article.slug}`}
+              image={NEWS_IMAGES[article.slug]}
+              imageLabel={article.imageLabel}
+              meta={new Date(article.date).toLocaleDateString(locale === "ar" ? "ar-u-nu-latn" : "en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+              title={article.title}
+              excerpt={article.excerpt}
+              cta={dict.common.readMore}
+            />
           ))}
         </div>
-      </Section>
+      </section>
     </>
   );
 }
