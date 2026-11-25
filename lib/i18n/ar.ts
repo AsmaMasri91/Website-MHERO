@@ -668,7 +668,7 @@ const ar: Dictionary = {
     submitting: "جارٍ الإرسال…",
     bookingConfirmed: "تم تأكيد الحجز",
     bookingReference: "رقم مرجع الحجز",
-    sentNotice: "تم إرسال تفاصيل موعد الخدمة إلى بريدك الإلكتروني وواتساب.",
+    sentNotice: "تم إرسال تفاصيل موعد الخدمة إلى بريدك الإلكتروني وعبر واتساب.",
     emailSent: "تم إرسال التأكيد عبر البريد الإلكتروني",
     whatsappSent: "تم إرسال إشعار واتساب",
     vehicleLabel: "السيارة",
