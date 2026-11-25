@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocalizedResolver } from "@/lib/forms/localizedResolver";
 import { z } from "zod";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
@@ -464,6 +464,7 @@ export default function ServiceBookingForm() {
   const [captcha, setCaptcha] = useState(generateCaptcha);
   const [captchaError, setCaptchaError] = useState(false);
 
+  const resolver = useLocalizedResolver(schema);
   const {
     register,
     handleSubmit,
@@ -472,7 +473,7 @@ export default function ServiceBookingForm() {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver,
     defaultValues: {
       title: "",
       firstName: "",

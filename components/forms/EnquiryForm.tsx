@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocalizedResolver } from "@/lib/forms/localizedResolver";
 import { z } from "zod";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -21,12 +21,13 @@ export default function EnquiryForm({ subject }: { subject: string }) {
   const { locale, dict } = useLocale();
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const resolver = useLocalizedResolver(schema);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+  } = useForm<FormValues>({ resolver });
 
   const onSubmit = async () => {
     await new Promise((r) => setTimeout(r, 600));

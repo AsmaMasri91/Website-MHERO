@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocalizedResolver } from "@/lib/forms/localizedResolver";
 import { z } from "zod";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getOffers } from "@/lib/i18n/data";
@@ -47,13 +47,14 @@ export default function OffersHeroForm() {
   const { locale, dict } = useLocale();
   const offers = getOffers(locale);
   const [submitted, setSubmitted] = useState(false);
+  const resolver = useLocalizedResolver(schema);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver,
     defaultValues: { consent: false },
   });
 

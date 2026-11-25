@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocalizedResolver } from "@/lib/forms/localizedResolver";
 import { z } from "zod";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -161,6 +161,7 @@ export default function TestDriveForm() {
     return () => clearInterval(id);
   }, []);
 
+  const resolver = useLocalizedResolver(schema);
   const {
     register,
     handleSubmit,
@@ -169,7 +170,7 @@ export default function TestDriveForm() {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver,
     defaultValues: {
       model: models[0]?.slug ?? "",
       variant: models[0]?.variants[0]?.id ?? "",
