@@ -702,19 +702,28 @@ const en = {
     title: "Register Interest",
   },
   showrooms: {
-    title: "Our showrooms in the Emirates",
-    description: "Visit an MHERO by Al Ghurair showroom for a private consultation or a test drive.",
+    title: "Showrooms and service centre in the Emirates",
+    description: "Visit an MHERO by Al Ghurair showroom for a private consultation or a test drive, or our service centre for aftersales support.",
     callPrefix: "Call",
-    hours: "Mon–Sat 9AM–8PM · Sun 12–8PM",
     getDirections: "Get directions",
+    filterLabel: "Filter locations",
+    filters: { all: "All", showroom: "Showrooms", service: "Service Centre" },
+    types: { showroom: "Showroom", service: "Service Centre" },
     locations: {
       abuDhabi: {
         name: "MHERO by Al Ghurair Showroom - Abu Dhabi",
         address: "Dar Al Salam building - Al Danah - Zone 1 - Abu Dhabi",
+        hours: "Mon–Sat 9AM–8PM · Sun 12–8PM",
       },
       dubai: {
         name: "MHERO Showroom by Al Ghurair",
         address: "Al Maktoum Rd - Deira - Dubai",
+        hours: "Mon–Sat 9AM–8PM · Sun 12–8PM",
+      },
+      alQuoz: {
+        name: "MHERO by Al Ghurair - Service Center",
+        address: "Al Qouz Ind.second - Al Quoz - Dubai",
+        hours: "Mon–Thu & Sat 8AM–5PM · Fri 8AM–12PM, 2–5PM · Sun closed",
       },
     },
   },

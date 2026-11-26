@@ -46,7 +46,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-      <ShowroomsSection dict={dict} />
+      <ShowroomsSection />
     </>
   );
 }
