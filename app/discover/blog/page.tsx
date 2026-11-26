@@ -29,7 +29,7 @@ export default function BlogListPage() {
         image="/images/heroes/blog-hero.webp"
         imageLabel="MHERO blog"
       />
-      <section className="bg-white py-20">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero grid gap-6 md:grid-cols-3">
           {posts.map((post) => (
             <ArticleCard

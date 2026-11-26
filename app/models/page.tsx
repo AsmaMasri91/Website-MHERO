@@ -25,7 +25,7 @@ export default function ModelsOverviewPage() {
         image="/images/heroes/models-hero.png"
         imageLabel="MHERO model range"
       />
-      <section className="bg-[#0c0c0d] py-24 text-white">
+      <section data-tone="dark" className="section-y bg-[#0c0c0d] text-white">
         <div className="container-mhero">
           <div className="mb-10 flex flex-col gap-2.5 text-start">
             <p className="text-xs font-semibold uppercase leading-[1.4] tracking-[3px]">

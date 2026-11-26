@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/ui/PageHero";
 import ContactForm from "@/components/forms/ContactForm";
+import ShowroomsSection from "@/components/contact/ShowroomsSection";
 import { getServerDictionary } from "@/lib/i18n/server";
 
 export const metadata: Metadata = {
@@ -27,7 +28,7 @@ export default function ContactPage() {
         image="/images/heroes/contact-hero.webp"
         imageLabel="MHERO off-road"
       />
-      <section className="bg-white py-20">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero flex flex-col gap-16 lg:flex-row">
           <div className="flex w-full flex-col gap-6 lg:w-[420px] lg:shrink-0">
             <h2 className="text-2xl font-bold leading-[1.3] text-mhero-black">
@@ -45,6 +46,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      <ShowroomsSection dict={dict} />
     </>
   );
 }

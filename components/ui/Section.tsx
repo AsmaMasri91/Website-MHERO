@@ -9,7 +9,9 @@ interface SectionProps {
   description?: string;
   light?: boolean;
   action?: ReactNode;
-  compact?: boolean;
+  /** Background family, used to collapse the gap between same-colour neighbours.
+   *  Set it when className overrides the background. */
+  tone?: "light" | "dark" | "tint";
   /** Render the eyebrow label above the title (Figma section header). */
   showEyebrow?: boolean;
 }
@@ -22,20 +24,19 @@ export default function Section({
   description,
   light = true,
   action,
-  compact = false,
+  tone,
   eyebrow,
   showEyebrow = false,
 }: SectionProps) {
   return (
     <section
       id={id}
-      className={`${compact ? "py-10 md:py-14" : "py-20 md:py-28"} ${light ? "bg-white text-mhero-black" : "bg-mhero-black text-white"} ${className}`}
+      data-tone={tone ?? (light ? "light" : "dark")}
+      className={`section-y ${light ? "bg-white text-mhero-black" : "bg-mhero-black text-white"} ${className}`}
     >
       <div className="container-mhero">
         {(title || description) && (
-          <div
-            className={`flex flex-wrap items-end justify-between gap-x-6 gap-y-4 ${compact ? "mb-6 md:mb-8" : "mb-12 md:mb-16"}`}
-          >
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 md:mb-16">
             <div className="max-w-2xl text-start">
               {showEyebrow && eyebrow && (
                 <p

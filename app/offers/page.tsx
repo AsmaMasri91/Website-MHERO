@@ -26,7 +26,7 @@ export default function OffersPage() {
         imageLabel="MHERO current offers"
         aside={<OffersHeroForm />}
       />
-      <section className="bg-white py-24">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero grid gap-8 md:grid-cols-2">
           {offers.map((offer) => (
             <Link

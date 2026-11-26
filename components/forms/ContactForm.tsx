@@ -6,38 +6,48 @@ import { z } from "zod";
 import { useState } from "react";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
+import LightSelect from "@/components/forms/LightSelect";
+import PhoneField from "@/components/forms/PhoneField";
+import { FormField } from "@/components/forms/TestDriveForm";
+
+const required = z.string().trim().min(1, "Required");
 
 const schema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  email: z.string().email(),
-  phone: z.string().optional(),
-  model: z.string().optional(),
-  subject: z.string().optional(),
-  message: z.string().min(1),
+  title: z.string(),
+  firstName: required,
+  lastName: required,
+  email: z.string().trim().email(),
+  dialCode: z.string(),
+  phone: required.refine((v) => /^[\d\s-]{6,15}$/.test(v), "Please enter a valid phone number"),
+  model: required,
+  location: required,
+  message: required,
 });
 
 type FormValues = z.infer<typeof schema>;
 
-function Field({
-  label,
-  required,
-  error,
-  children,
-}: {
-  label: string;
-  required?: boolean;
-  error?: string;
-  children: React.ReactNode;
-}) {
+const defaultValues: FormValues = {
+  title: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  dialCode: "+971",
+  phone: "",
+  model: "",
+  location: "",
+  message: "",
+};
+
+function StepHeading({ index, title }: { index: number; title: string }) {
   return (
-    <div>
-      <label className="mb-1.5 block text-xs font-medium uppercase leading-[1.4] tracking-[3px] text-mhero-steel">
-        {label}
-        {required && " *"}
-      </label>
-      {children}
-      {error && <p className="mt-1.5 text-xs text-mhero-accent-dark">{error}</p>}
+    <div className="flex items-center gap-3">
+      <span
+        aria-hidden="true"
+        className="flex h-7 w-7 items-center justify-center rounded-full bg-mhero-black text-xs font-semibold text-mhero-primary"
+      >
+        {index}
+      </span>
+      <h3 className="text-base font-semibold text-mhero-black">{title}</h3>
     </div>
   );
 }
@@ -50,9 +60,11 @@ export default function ContactForm() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<FormValues>({ resolver });
+  } = useForm<FormValues>({ resolver, defaultValues });
 
   const onSubmit = async () => {
     await new Promise((r) => setTimeout(r, 600));
@@ -62,7 +74,7 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="border border-mhero-fog bg-white p-10 text-center">
+      <div className="border border-mhero-fog bg-white p-10 text-center shadow-[0_20px_60px_rgba(20,20,22,0.07)]">
         <h3 className="text-2xl font-bold text-mhero-black">{dict.forms.messageSent}</h3>
         <p className="mt-3 text-mhero-steel">{dict.forms.messageSentThankYou}</p>
         <button onClick={() => setSubmitted(false)} className="btn-outline mt-6">
@@ -72,51 +84,101 @@ export default function ContactForm() {
     );
   }
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
-      <h2 className="text-4xl font-bold leading-[1.2] tracking-[-0.9px] text-mhero-black">{dict.contact.sendMessage}</h2>
-      <p className="text-base text-mhero-steel">{dict.contact.sendMessageDescription}</p>
+  const select = (name: "title" | "model" | "location") => ({
+    value: watch(name),
+    onChange: (v: string) => setValue(name, v, { shouldValidate: !!errors[name] }),
+  });
 
-      <div className="grid gap-6 sm:grid-cols-2">
-        <Field label={dict.forms.firstName} required error={errors.firstName?.message}>
-          <input className="input-field-light" placeholder={locale === "ar" ? "الاسم الأول" : "First name"} {...register("firstName")} />
-        </Field>
-        <Field label={dict.forms.lastName} required error={errors.lastName?.message}>
-          <input className="input-field-light" placeholder={locale === "ar" ? "اسم العائلة" : "Last name"} {...register("lastName")} />
-        </Field>
-        <Field label={dict.forms.email} required error={errors.email?.message}>
-          <input className="input-field-light" type="email" placeholder="name@example.com" {...register("email")} />
-        </Field>
-        <Field label={dict.forms.phoneNumber}>
-          <input className="input-field-light" type="tel" placeholder="+971 50 123 4567" {...register("phone")} />
-        </Field>
-        <Field label={dict.contact.selectModel} error={errors.model?.message}>
-          <select className="input-field-light" {...register("model")}>
-            {models.map((m) => (
-              <option key={m.slug} value={m.slug}>
-                {m.name}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field label={dict.contact.subject}>
-          <input className="input-field-light" defaultValue={dict.contact.subjectGeneral} {...register("subject")} />
-        </Field>
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-8 border border-mhero-fog bg-white p-6 shadow-[0_20px_60px_rgba(20,20,22,0.07)] sm:p-10"
+      noValidate
+    >
+      <div className="flex flex-col gap-2 border-b border-mhero-fog pb-8">
+        <h2 className="text-2xl font-bold leading-[1.3] text-mhero-black md:text-3xl">{dict.contact.sendMessage}</h2>
+        <p className="text-base text-mhero-steel">{dict.contact.sendMessageDescription}</p>
       </div>
-      <Field label={dict.forms.message} required error={errors.message?.message}>
-        <textarea
-          className="input-field-light min-h-[56px]"
-          rows={1}
-          placeholder={locale === "ar" ? "كيف يمكننا مساعدتك؟" : "How can we help?"}
-          {...register("message")}
-        />
-      </Field>
-      <div>
-        <button type="submit" disabled={isSubmitting} className="btn-primary">
+
+      <div className="flex flex-col gap-5">
+        <StepHeading index={1} title={dict.contact.yourDetails} />
+        <div className="grid gap-5 sm:grid-cols-[120px_1fr_1fr]">
+          <FormField label={dict.forms.title}>
+            <LightSelect
+              {...select("title")}
+              placeholder="—"
+              options={[
+                { value: "mr", label: dict.forms.titleMr },
+                { value: "mrs", label: dict.forms.titleMrs },
+                { value: "ms", label: dict.forms.titleMs },
+                { value: "dr", label: dict.forms.titleDr },
+              ]}
+            />
+          </FormField>
+          <FormField label={dict.forms.firstName} required error={errors.firstName?.message}>
+            <input className="input-field-light" autoComplete="given-name" {...register("firstName")} />
+          </FormField>
+          <FormField label={dict.forms.lastName} required error={errors.lastName?.message}>
+            <input className="input-field-light" autoComplete="family-name" {...register("lastName")} />
+          </FormField>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <FormField label={dict.forms.emailAddress} required error={errors.email?.message}>
+            <input className="input-field-light" type="email" autoComplete="email" {...register("email")} />
+          </FormField>
+          <FormField label={dict.forms.phoneNumber} required error={errors.phone?.message}>
+            <PhoneField
+              dialCode={watch("dialCode")}
+              dialCodeLabel={dict.contact.countryCode}
+              dialCodeProps={register("dialCode")}
+              {...register("phone")}
+            />
+          </FormField>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-5">
+        <StepHeading index={2} title={dict.contact.enquiryDetails} />
+        <div className="grid gap-5 sm:grid-cols-2">
+          <FormField label={dict.contact.model} required error={errors.model?.message}>
+            <LightSelect
+              {...select("model")}
+              placeholder={dict.contact.selectModel}
+              options={models.map((m) => ({ value: m.slug, label: m.name }))}
+            />
+          </FormField>
+          <FormField label={dict.contact.location} required error={errors.location?.message}>
+            <LightSelect
+              {...select("location")}
+              placeholder={dict.forms.selectLocation}
+              options={[
+                { value: "abu-dhabi", label: dict.contact.locationAbuDhabi },
+                { value: "dubai", label: dict.contact.locationDubai },
+              ]}
+            />
+          </FormField>
+        </div>
+        <FormField label={dict.forms.message} required error={errors.message?.message}>
+          <textarea
+            className="input-field-light min-h-[140px] resize-y"
+            rows={5}
+            placeholder={dict.contact.messagePlaceholder}
+            {...register("message")}
+          />
+        </FormField>
+      </div>
+
+      <div className="flex flex-col items-start gap-5 border-t border-mhero-fog pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-xs text-sm text-mhero-steel">
+          {dict.contact.responseNote}{" "}
+          <a href="tel:80064376" className="link-underline whitespace-nowrap font-semibold text-mhero-black">
+            <bdi>{dict.contact.phoneValue}</bdi>
+          </a>
+        </p>
+        <button type="submit" disabled={isSubmitting} className="btn-primary w-full shrink-0 sm:w-auto">
           {isSubmitting ? dict.forms.sending : dict.forms.sendMessage}
         </button>
       </div>
-      <p className="text-xs text-mhero-steel">{dict.contact.responseNote}</p>
     </form>
   );
 }

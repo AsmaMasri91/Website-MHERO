@@ -38,6 +38,18 @@
     @apply mx-auto w-full max-w-8xl px-6 md:px-10 lg:px-14;
   }
 
+  /* One vertical rhythm for every content section: 64px mobile, 80px desktop.
+     When two neighbouring sections share a background, the second drops its
+     top padding so the visible gap never doubles. */
+  .section-y {
+    @apply py-16 md:py-20;
+  }
+
+  .section-y[data-tone="light"] + .section-y[data-tone="light"],
+  .section-y[data-tone="dark"] + .section-y[data-tone="dark"] {
+    padding-top: 0;
+  }
+
   .eyebrow {
     @apply text-xs md:text-sm font-semibold uppercase tracking-widest2 text-mhero-ash;
   }

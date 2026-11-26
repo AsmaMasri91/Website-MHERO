@@ -24,7 +24,7 @@ export default function ArticleLayout({
   return (
     <>
       <PageHero compact title={title} description={meta} image={image} imageLabel={imageLabel} />
-      <section className="bg-white py-20">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero">
           <div className="mx-auto flex max-w-[880px] flex-col items-start gap-6">
             {body.map((para, i) => (

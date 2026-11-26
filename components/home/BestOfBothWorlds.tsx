@@ -70,7 +70,6 @@ export default function BestOfBothWorlds() {
       light={false}
       eyebrow={dict.home.rangeEyebrow}
       title={dict.home.bestOfBothTitle}
-      className="!py-8 md:!py-10"
     >
       {/* Car select */}
       <div className="flex justify-center gap-1">

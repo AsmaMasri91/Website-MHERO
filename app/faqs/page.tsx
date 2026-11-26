@@ -17,7 +17,7 @@ export default function FaqsPage() {
         image="/images/heroes/contact-hero.webp"
         imageLabel="MHERO support"
       />
-      <section className="bg-white py-20">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero">
           <div className="mx-auto max-w-[880px]">
             {dict.faqs.items.map((faq, i) => (

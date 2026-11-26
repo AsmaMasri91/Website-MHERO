@@ -26,7 +26,7 @@ export default function CookiesPolicyPage() {
   return (
     <>
       <PageHero compact title={dict.legal.cookies} image="/images/heroes/legal-hero.webp" imageLabel="MHERO legal" />
-      <Section className="!py-20">
+      <Section>
         <TabbedPolicy
           introTitle="Introduction"
           introBlocks={[{ type: "p", text: dict.legal.cookiesIntro }]}

@@ -27,7 +27,7 @@ export default function NewsListPage() {
         image="/images/gallery/blog-life-with-mhero.webp"
         imageLabel="MHERO newsroom"
       />
-      <section className="bg-white py-20">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero grid gap-6 md:grid-cols-3">
           {news.map((article) => (
             <ArticleCard

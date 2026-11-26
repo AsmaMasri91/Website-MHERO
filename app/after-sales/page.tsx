@@ -30,7 +30,7 @@ export default function AfterSalesPage() {
         imageLabel="MHERO after sales service centre"
       />
 
-      <section className="bg-white py-20">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero flex flex-col gap-8">
           <div className="flex flex-col gap-2.5 text-start">
             <p className="text-xs font-semibold uppercase leading-[1.4] tracking-[3px] text-mhero-steel">
@@ -66,7 +66,7 @@ export default function AfterSalesPage() {
         </div>
       </section>
 
-      <section className="bg-[#0c0c0d] py-24 text-center text-white">
+      <section data-tone="dark" className="section-y bg-[#0c0c0d] text-center text-white">
         <div className="container-mhero flex flex-col items-center gap-5">
           <h2 className="text-4xl font-bold leading-[1.2] tracking-[-0.9px]">{dict.afterSales.bookServiceCtaTitle}</h2>
           <p className="text-lg leading-[1.6]">{dict.afterSales.bookServiceCtaDescription}</p>

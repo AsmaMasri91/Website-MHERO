@@ -33,7 +33,7 @@ export default function StatementSection({
   }, [next, cycle]);
 
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section data-tone="light" className="section-y bg-white">
       <div className="container-mhero">
         <h2 className="max-w-3xl text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-mhero-black">
           {headline}

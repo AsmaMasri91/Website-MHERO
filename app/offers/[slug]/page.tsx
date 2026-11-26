@@ -45,7 +45,7 @@ export default function OfferDetailPage({
         imageLabel={offer.imageLabel}
       />
 
-      <section className="bg-white py-20">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero grid gap-16 lg:grid-cols-[1fr_560px] lg:items-start">
           <div className="flex flex-col gap-6">
             <p className="text-xs font-semibold uppercase leading-[1.4] tracking-[3px] text-mhero-steel">

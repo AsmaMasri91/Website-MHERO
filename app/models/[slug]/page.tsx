@@ -67,7 +67,6 @@ export default function ModelDetailPage({
 
       {/* Colours */}
       <Section
-        compact
         showEyebrow
         eyebrow={dict.models.customize}
         title={dict.models.availableColours}
@@ -100,7 +99,7 @@ export default function ModelDetailPage({
       <StatsBar eyebrow={d.statsEyebrow} stats={d.stats} />
 
       {/* Interactive exterior highlights */}
-      <section className="bg-white py-[72px]">
+      <section data-tone="light" className="section-y bg-white">
         <div className="container-mhero">
           <h2 className="mb-10 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">{d.highlightsTitle}</h2>
           <HotspotFeature
@@ -151,7 +150,7 @@ export default function ModelDetailPage({
       <Section
         light={false}
         showEyebrow
-        className="!bg-[#0c0c0d] !py-20"
+        className="!bg-[#0c0c0d]"
         eyebrow={d.cabinEyebrow}
         title={d.cabinTitle}
         description={d.cabinIntro}
@@ -161,7 +160,7 @@ export default function ModelDetailPage({
 
       {/* Utility (not shown on MHERO I) */}
       {model.slug !== "mhero-1" && (
-        <Section light={false} eyebrow={dict.models.details} title={d.utilityTitle} description={d.utilityIntro} className="pt-0">
+        <Section light={false} eyebrow={dict.models.details} title={d.utilityTitle} description={d.utilityIntro} className="!bg-[#0c0c0d]">
           <UtilitySpecs specs={d.utilitySpecs} />
         </Section>
       )}
@@ -172,7 +171,7 @@ export default function ModelDetailPage({
       </Section>
 
       {/* Accessories */}
-      <Section showEyebrow className="!py-20" eyebrow={dict.models.details} title={d.accessoriesTitle}>
+      <Section showEyebrow eyebrow={dict.models.details} title={d.accessoriesTitle}>
         <AccessoriesGrid
           accessories={d.accessories}
           factoryOptionalEquipment={d.factoryOptionalEquipment}
@@ -181,7 +180,7 @@ export default function ModelDetailPage({
       </Section>
 
       {/* Final CTA */}
-      <Section className="!bg-mhero-white !py-24 text-center">
+      <Section tone="tint" className="!bg-mhero-white text-center">
         <h2 className="!text-center text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
           {locale === "ar" ? `جاهز لتجربة ${model.name}؟` : `Ready to experience ${model.name}?`}
         </h2>
