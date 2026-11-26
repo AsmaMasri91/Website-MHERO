@@ -228,8 +228,8 @@ export function getBotReply(rawText: string, ctx: BotContext): BotReply {
   if (/\b(contact|phone|number|location|address|showroom|where)\b/.test(t) || /(تواصل|هاتف|عنوان|موقع|معرض)/.test(rawText)) {
     return {
       text: isAr
-        ? "يمكنك التواصل معنا على 800 MHERO أو زيارة صالتي العرض في ديرة بدبي والدانة بأبوظبي. تجد العناوين والاتجاهات في صفحة اتصل بنا."
-        : "You can reach us on 800 MHERO or visit our showrooms in Deira, Dubai and Al Danah, Abu Dhabi. The Contact Us page has addresses and directions.",
+        ? "يمكنك التواصل معنا على 800 MHER0 أو زيارة صالتي العرض في ديرة بدبي والدانة بأبوظبي. تجد العناوين والاتجاهات في صفحة اتصل بنا."
+        : "You can reach us on 800 MHER0 or visit our showrooms in Deira, Dubai and Al Danah, Abu Dhabi. The Contact Us page has addresses and directions.",
       quickReplies: defaultQuick,
     };
   }

@@ -460,7 +460,7 @@ const en = {
     whatsappMessage: "Message Us Directly",
     warranty: "Warranty",
     warrantyValue: "10 years / Unlimited km, 5 years Roadside assistance, 1 year Service contract",
-    phoneValue: "800 MHERO",
+    phoneValue: "800 MHER0",
     emailValue: "support.mhero@al-ghurair.com",
     subject: "Subject",
     subjectGeneral: "General enquiry",

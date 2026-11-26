@@ -17,7 +17,7 @@ const LOCATIONS = [
 
 const FILTERS: Filter[] = ["all", "showroom", "service"];
 
-const PHONE_HREF = "tel:80064376"; // 800 MHERO
+const PHONE_HREF = "tel:80064370"; // 800 MHER0
 
 export default function ShowroomsSection() {
   const { dict } = useLocale();

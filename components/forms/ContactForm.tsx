@@ -207,7 +207,7 @@ export default function ContactForm() {
       <div className="flex flex-col items-start gap-5 border-t border-mhero-fog pt-8 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-xs text-sm text-mhero-steel">
           {dict.contact.responseNote}{" "}
-          <a href="tel:80064376" className="link-underline whitespace-nowrap font-semibold text-mhero-black">
+          <a href="tel:80064370" className="link-underline whitespace-nowrap font-semibold text-mhero-black">
             <bdi>{dict.contact.phoneValue}</bdi>
           </a>
         </p>

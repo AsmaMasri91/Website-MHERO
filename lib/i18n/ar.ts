@@ -453,7 +453,7 @@ const ar: Dictionary = {
     whatsappMessage: "راسلنا مباشرة",
     warranty: "الضمان",
     warrantyValue: "10 سنوات / كم غير محدود، 5 سنوات مساعدة على الطريق، سنة عقد صيانة",
-    phoneValue: "800 MHERO",
+    phoneValue: "800 MHER0",
     emailValue: "support.mhero@al-ghurair.com",
     subject: "الموضوع",
     subjectGeneral: "استفسار عام",
