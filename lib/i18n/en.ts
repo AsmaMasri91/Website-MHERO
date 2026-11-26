@@ -710,7 +710,6 @@ const en = {
     description: "Visit an MHERO by Al Ghurair showroom for a private consultation or a test drive.",
     callPrefix: "Call",
     hours: "Mon–Sat 9AM–8PM · Sun 12–8PM",
-    viewDetails: "View details",
     getDirections: "Get directions",
     locations: {
       abuDhabi: {

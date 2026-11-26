@@ -700,7 +700,6 @@ const ar: Dictionary = {
     description: "تفضل بزيارة إحدى صالات عرض MHERO من الغرير للحصول على استشارة خاصة أو تجربة قيادة.",
     callPrefix: "اتصل على",
     hours: "الاثنين–السبت 9 صباحاً–8 مساءً · الأحد 12 ظهراً–8 مساءً",
-    viewDetails: "عرض التفاصيل",
     getDirections: "احصل على الاتجاهات",
     locations: {
       abuDhabi: {

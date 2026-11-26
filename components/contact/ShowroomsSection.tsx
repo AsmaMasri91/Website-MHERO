@@ -2,10 +2,10 @@ import Image from "next/image";
 import Section from "@/components/ui/Section";
 import type { Dictionary } from "@/lib/i18n";
 
-// Map positions and search terms of the two Google Maps listings.
+// Map positions taken from the two Google Maps listings.
 const LOCATIONS = [
-  { id: "abuDhabi", query: "MHERO by Al Ghurair Showroom - Abu Dhabi", coords: "24.4917471,54.357316" },
-  { id: "dubai", query: "MHERO Showroom by Al Ghurair Dubai", coords: "25.2570309,55.3329931" },
+  { id: "abuDhabi", coords: "24.4917471,54.357316" },
+  { id: "dubai", coords: "25.2570309,55.3329931" },
 ] as const;
 
 const PHONE_HREF = "tel:80064376"; // 800 MHERO
@@ -60,12 +60,7 @@ export default function ShowroomsSection({ dict }: { dict: Dictionary }) {
                 <p className="mb-auto text-xs font-medium uppercase leading-[1.6] tracking-[2px] text-mhero-steel">
                   {t.hours}
                 </p>
-                <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
-                  <MapLink
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.query)}`}
-                    label={t.viewDetails}
-                    name={name}
-                  />
+                <div className="mt-6">
                   <MapLink
                     href={`https://www.google.com/maps/dir/?api=1&destination=${location.coords}`}
                     label={t.getDirections}
