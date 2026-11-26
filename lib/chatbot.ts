@@ -103,7 +103,7 @@ export function getBotReply(rawText: string, ctx: BotContext): BotReply {
   const mentionedModel = findModel(models, t);
 
   // Price / cost
-  if (/\b(price|cost|how much|starting from)\b/.test(t) || /(سعر|كم يبلغ|كم سعر|تكلفة)/.test(rawText)) {
+  if (/\b(prices?|pricing|costs?|how much|starting from)\b/.test(t) || /(سعر|أسعار|كم يبلغ|كم سعر|تكلفة)/.test(rawText)) {
     if (mentionedModel) {
       return {
         text: modelSummary(mentionedModel, locale),
@@ -124,7 +124,7 @@ export function getBotReply(rawText: string, ctx: BotContext): BotReply {
   }
 
   // Specs: power / speed / range / battery / torque
-  if (/\b(power|horsepower|hp|torque|top speed|0-100|acceleration)\b/.test(t) || /(قوة|حصان|عزم|سرعة)/.test(rawText)) {
+  if (/\b(power|horsepower|hp|torque|top speed|0-100|acceleration|specs?|specifications?)\b/.test(t) || /(قوة|حصان|عزم|سرعة|مواصفات)/.test(rawText)) {
     const model = mentionedModel ?? models[0];
     const power = findSpecValue(model, /power/i);
     const speed = findSpecValue(model, /top speed/i);
@@ -186,7 +186,7 @@ export function getBotReply(rawText: string, ctx: BotContext): BotReply {
   }
 
   // Offers / promotions
-  if (/\b(offer|promo|promotion|discount|deal)\b/.test(t) || /(عرض|عروض|خصم)/.test(rawText)) {
+  if (/\b(offers?|promos?|promotions?|discounts?|deals?)\b/.test(t) || /(?<!م)(عرض|عروض|خصم)/.test(rawText)) {
     if (offers.length === 0) {
       return {
         text: isAr ? "لا توجد عروض نشطة حاليًا، تابعنا لمعرفة الجديد." : "No active offers right now — check back soon.",
@@ -228,8 +228,8 @@ export function getBotReply(rawText: string, ctx: BotContext): BotReply {
   if (/\b(contact|phone|number|location|address|showroom|where)\b/.test(t) || /(تواصل|هاتف|عنوان|موقع|معرض)/.test(rawText)) {
     return {
       text: isAr
-        ? "يمكنك التواصل معنا على 600540045 أو زيارة معرضنا على شارع الشيخ زايد، دبي. لمزيد من التفاصيل تفضل بزيارة صفحة اتصل بنا."
-        : "You can reach us at 600 540045 or visit our showroom on Sheikh Zayed Road, Dubai. See the Contact Us page for full details.",
+        ? "يمكنك التواصل معنا على 800 MHERO أو زيارة صالتي العرض في ديرة بدبي والدانة بأبوظبي. تجد العناوين والاتجاهات في صفحة اتصل بنا."
+        : "You can reach us on 800 MHERO or visit our showrooms in Deira, Dubai and Al Danah, Abu Dhabi. The Contact Us page has addresses and directions.",
       quickReplies: defaultQuick,
     };
   }

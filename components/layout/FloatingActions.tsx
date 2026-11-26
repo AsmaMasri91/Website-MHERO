@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useLocale } from "@/components/i18n/LocaleProvider";
-import RegisterInterestForm from "@/components/forms/RegisterInterestForm";
+import { getModels, getOffers } from "@/lib/i18n/data";
+import { getBotReply } from "@/lib/chatbot";
 
 const WHATSAPP_NUMBER = "971600540045";
 
@@ -23,6 +25,22 @@ function WhatsAppIcon() {
   );
 }
 
+function ChatIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
+      <path
+        d="M4 12a8 8 0 1114.2 5.1L19 20l-3.1-.9A8 8 0 014 12z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <circle cx="9" cy="12" r="1" fill="currentColor" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" />
+      <circle cx="15" cy="12" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
 function MailIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
@@ -32,90 +50,208 @@ function MailIcon() {
   );
 }
 
-function RegisterInterestDialog({ onClose }: { onClose: () => void }) {
-  const { dict } = useLocale();
-  const t = dict.registerInterest;
-  const ref = useRef<HTMLDialogElement>(null);
-  const titleId = useId();
+interface ChatMessage {
+  from: "bot" | "user";
+  text: string;
+}
 
-  // showModal() gives focus trapping, Escape to close and an inert page behind.
+function BotAvatar() {
+  return (
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-mhero-black text-[10px] font-bold text-white">
+      M
+    </span>
+  );
+}
+
+function ChatWidget({ onClose }: { onClose: () => void }) {
+  const { locale, dict } = useLocale();
+  const models = getModels(locale);
+  const offers = getOffers(locale);
+  const faqs = dict.faqs.items;
+
+  const greeting =
+    locale === "ar"
+      ? "مرحبًا! أنا مساعد MHERO الذكي. اسألني عن الموديلات، الأسعار، العروض، أو حجز تجربة قيادة."
+      : "Hi! I'm the MHERO assistant. Ask me about models, pricing, offers, or booking a test drive.";
+
+  const [messages, setMessages] = useState<ChatMessage[]>([{ from: "bot", text: greeting }]);
+  const [quickReplies, setQuickReplies] = useState<string[]>(
+    locale === "ar"
+      ? ["أسعار MHERO I", "العروض الحالية", "احجز تجربة قيادة", "قارن الموديلات"]
+      : ["MHERO I pricing", "Current offers", "Book a test drive", "Compare models"]
+  );
+  const [input, setInput] = useState("");
+  const [typing, setTyping] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const dialog = ref.current;
-    if (dialog && !dialog.open) dialog.showModal();
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = overflow;
-    };
-  }, []);
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, typing]);
+
+  const sendText = (text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    setMessages((prev) => [...prev, { from: "user", text: trimmed }]);
+    setInput("");
+    setQuickReplies([]);
+    setTyping(true);
+
+    const reply = getBotReply(trimmed, { locale, models, offers, faqs });
+    const delay = Math.min(1800, 500 + reply.text.length * 8);
+
+    setTimeout(() => {
+      setTyping(false);
+      setMessages((prev) => [...prev, { from: "bot", text: reply.text }]);
+      setQuickReplies(reply.quickReplies);
+    }, delay);
+  };
 
   return (
-    <dialog
-      ref={ref}
-      aria-labelledby={titleId}
-      onClose={onClose}
-      // Only a click on the backdrop targets the dialog element itself.
-      onClick={(e) => e.target === e.currentTarget && ref.current?.close()}
-      className="m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto bg-white p-0 text-mhero-black shadow-2xl backdrop:bg-black/70"
-    >
-      <div className="flex min-h-[32rem] flex-col gap-6 p-6 sm:p-10">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <h2 id={titleId} className="text-2xl font-bold tracking-tight sm:text-3xl">
-              {t.title}
-            </h2>
-            <p className="text-sm text-mhero-steel">{t.description}</p>
+    <div className="flex h-[28rem] max-h-[calc(100dvh-20rem)] min-h-[18rem] w-80 flex-col overflow-hidden border border-mhero-fog bg-white shadow-2xl sm:w-96">
+      <div className="flex items-center justify-between bg-mhero-black px-4 py-3 text-white">
+        <div className="flex items-center gap-2">
+          <BotAvatar />
+          <div>
+            <p className="text-sm font-semibold leading-tight">{dict.chatbot.title}</p>
+            <p className="flex items-center gap-1.5 text-[11px] leading-tight text-white/50">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#25D366]" />
+              {locale === "ar" ? "متصل الآن" : "Online now"}
+            </p>
           </div>
-          <button
-            type="button"
-            onClick={() => ref.current?.close()}
-            aria-label={t.close}
-            className="flex h-9 w-9 shrink-0 items-center justify-center border border-mhero-fog text-mhero-black hover:border-mhero-black"
-          >
-            ✕
-          </button>
         </div>
-        <RegisterInterestForm />
+        <button
+          onClick={onClose}
+          aria-label={dict.chatbot.close}
+          className="flex h-7 w-7 items-center justify-center text-white/70 hover:text-white"
+        >
+          ✕
+        </button>
       </div>
-    </dialog>
+
+      <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
+        {messages.map((m, i) => (
+          <div
+            key={i}
+            className={`flex items-end gap-2 ${m.from === "user" ? "flex-row-reverse" : ""}`}
+          >
+            {m.from === "bot" && <BotAvatar />}
+            <div
+              className={`max-w-[80%] whitespace-pre-line px-3 py-2 text-sm ${
+                m.from === "bot"
+                  ? "rounded-2xl rounded-bl-sm bg-mhero-fog/60 text-mhero-black"
+                  : "rounded-2xl rounded-br-sm bg-mhero-black text-white"
+              }`}
+            >
+              {m.text}
+            </div>
+          </div>
+        ))}
+        {typing && (
+          <div className="flex items-end gap-2">
+            <BotAvatar />
+            <div className="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-mhero-fog/60 px-3 py-2.5">
+              <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-mhero-steel [animation-delay:-0.3s]" />
+              <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-mhero-steel [animation-delay:-0.15s]" />
+              <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-mhero-steel" />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {quickReplies.length > 0 && !typing && (
+        <div className="flex flex-wrap gap-2 border-t border-mhero-fog px-4 pt-3">
+          {quickReplies.map((q) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => sendText(q)}
+              className="rounded-full border border-mhero-fog px-3 py-1.5 text-xs font-medium text-mhero-black transition-colors hover:border-mhero-black"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendText(input);
+        }}
+        className="flex items-center gap-2 p-3"
+      >
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={dict.chatbot.placeholder}
+          className="input-field-light flex-1"
+        />
+        <button
+          type="submit"
+          aria-label={dict.chatbot.send}
+          className="flex h-11 w-11 shrink-0 items-center justify-center bg-mhero-black text-white hover:bg-mhero-charcoal"
+        >
+          <span className="inline-block rtl:rotate-180">→</span>
+        </button>
+      </form>
+    </div>
   );
 }
 
 export default function FloatingActions() {
   const { dict } = useLocale();
-  const [formOpen, setFormOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
   return (
-    <>
-      <div className="fixed bottom-6 end-6 z-40 flex flex-col items-end gap-3">
-        <button
-          type="button"
-          onClick={() => setFormOpen(true)}
-          aria-label={dict.registerInterest.title}
-          aria-haspopup="dialog"
-          className="group relative flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-mhero-black text-white shadow-lg transition-transform hover:scale-105"
-        >
-          <MailIcon />
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute end-full me-3 whitespace-nowrap bg-mhero-black px-3 py-2 text-xs font-semibold opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-          >
-            {dict.registerInterest.title}
-          </span>
-        </button>
+    <div className="fixed bottom-6 end-6 z-40 flex flex-col items-end gap-3">
+      {chatOpen && (
+        <div className="mb-1">
+          <ChatWidget onClose={() => setChatOpen(false)} />
+        </div>
+      )}
 
-        <a
-          href={`https://wa.me/${WHATSAPP_NUMBER}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={dict.chatbot.whatsapp}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105"
+      <Link
+        href="/contact#contact-form"
+        onClick={() => setChatOpen(false)}
+        aria-label={dict.registerInterest.title}
+        className="group relative flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-mhero-black text-white shadow-lg transition-transform hover:scale-105"
+      >
+        <MailIcon />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute end-full me-3 whitespace-nowrap bg-mhero-black px-3 py-2 text-xs font-semibold opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
         >
-          <WhatsAppIcon />
-        </a>
-      </div>
+          {dict.registerInterest.title}
+        </span>
+      </Link>
 
-      {formOpen && <RegisterInterestDialog onClose={() => setFormOpen(false)} />}
-    </>
+      <a
+        href={`https://wa.me/${WHATSAPP_NUMBER}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={dict.chatbot.whatsapp}
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105"
+      >
+        <WhatsAppIcon />
+      </a>
+
+      <button
+        type="button"
+        onClick={() => setChatOpen((v) => !v)}
+        aria-label={chatOpen ? dict.chatbot.close : dict.chatbot.open}
+        aria-expanded={chatOpen}
+        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-mhero-primary text-mhero-black shadow-lg transition-transform hover:scale-105"
+      >
+        {/* Blinking halo, stilled while the chat is open or when reduced motion is requested. */}
+        {!chatOpen && (
+          <>
+            <span className="absolute inset-0 rounded-full bg-mhero-primary animate-ping motion-reduce:hidden" aria-hidden="true" />
+            <span className="absolute -inset-1.5 rounded-full bg-mhero-primary/40 animate-pulse motion-reduce:animate-none" aria-hidden="true" />
+            <span className="absolute inset-0 rounded-full bg-mhero-primary" aria-hidden="true" />
+          </>
+        )}
+        <span className="relative">{chatOpen ? <span className="text-xl">✕</span> : <ChatIcon />}</span>
+      </button>
+    </div>
   );
 }

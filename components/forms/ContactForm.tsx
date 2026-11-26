@@ -3,12 +3,13 @@
 import { useForm } from "react-hook-form";
 import { useLocalizedResolver } from "@/lib/forms/localizedResolver";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { getModels } from "@/lib/i18n/data";
 import LightSelect from "@/components/forms/LightSelect";
 import PhoneField from "@/components/forms/PhoneField";
 import { FormField } from "@/components/forms/TestDriveForm";
+import { buildMailDraft, openMailDraft } from "@/lib/forms/mailDraft";
 
 const required = z.string().trim().min(1, "Required");
 
@@ -52,33 +53,76 @@ function StepHeading({ index, title }: { index: number; title: string }) {
   );
 }
 
+/**
+ * There is no mail backend, so submitting opens a pre-filled draft in the
+ * visitor's own email app; they press Send there.
+ */
 export default function ContactForm() {
   const { locale, dict } = useLocale();
   const models = getModels(locale);
-  const [submitted, setSubmitted] = useState(false);
+  const [draft, setDraft] = useState("");
+  const confirmationRef = useRef<HTMLDivElement>(null);
+
+  // The confirmation is much shorter than the form, so bring it into view.
+  useEffect(() => {
+    if (draft) confirmationRef.current?.scrollIntoView({ block: "center" });
+  }, [draft]);
   const resolver = useLocalizedResolver(schema);
   const {
     register,
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
-    reset,
+    formState: { errors },
   } = useForm<FormValues>({ resolver, defaultValues });
 
-  const onSubmit = async () => {
-    await new Promise((r) => setTimeout(r, 600));
-    setSubmitted(true);
-    reset();
+  const titles = [
+    { value: "mr", label: dict.forms.titleMr },
+    { value: "mrs", label: dict.forms.titleMrs },
+    { value: "ms", label: dict.forms.titleMs },
+    { value: "dr", label: dict.forms.titleDr },
+  ];
+  const locations = [
+    { value: "abu-dhabi", label: dict.contact.locationAbuDhabi },
+    { value: "dubai", label: dict.contact.locationDubai },
+  ];
+  const modelOptions = models.map((m) => ({ value: m.slug, label: m.name }));
+
+  const onSubmit = (values: FormValues) => {
+    const labelOf = (options: { value: string; label: string }[], value: string) =>
+      options.find((o) => o.value === value)?.label ?? "—";
+    const modelName = labelOf(modelOptions, values.model);
+    const href = buildMailDraft(dict.contact.emailValue, `${dict.contact.emailSubject} - ${modelName}`, [
+      [dict.forms.title, labelOf(titles, values.title)],
+      [dict.forms.firstName, values.firstName],
+      [dict.forms.lastName, values.lastName],
+      [dict.forms.emailAddress, values.email],
+      [dict.forms.phoneNumber, `${values.dialCode} ${values.phone}`],
+      [dict.contact.model, modelName],
+      [dict.contact.location, labelOf(locations, values.location)],
+      [dict.forms.message, values.message],
+    ]);
+    setDraft(href);
+    openMailDraft(href);
   };
 
-  if (submitted) {
+  if (draft) {
     return (
-      <div className="border border-mhero-fog bg-white p-10 text-center shadow-[0_20px_60px_rgba(20,20,22,0.07)]">
-        <h3 className="text-2xl font-bold text-mhero-black">{dict.forms.messageSent}</h3>
-        <p className="mt-3 text-mhero-steel">{dict.forms.messageSentThankYou}</p>
-        <button onClick={() => setSubmitted(false)} className="btn-outline mt-6">
-          {dict.forms.sendAnotherMessage}
+      <div
+        ref={confirmationRef}
+        role="status"
+        className="flex flex-col items-start gap-4 border border-mhero-fog bg-white p-6 shadow-[0_20px_60px_rgba(20,20,22,0.07)] sm:p-10"
+      >
+        <h2 className="text-2xl font-bold leading-[1.3] text-mhero-black">{dict.contact.draftTitle}</h2>
+        <p className="text-mhero-steel">{dict.contact.draftBody}</p>
+        <p className="text-sm text-mhero-steel">
+          {dict.contact.draftFallback}{" "}
+          <a href={draft} className="link-underline font-semibold text-mhero-black">
+            <bdi>{dict.contact.emailValue}</bdi>
+          </a>
+        </p>
+        <button type="button" onClick={() => setDraft("")} className="btn-outline mt-2">
+          {dict.contact.editDetails}
         </button>
       </div>
     );
@@ -107,12 +151,7 @@ export default function ContactForm() {
             <LightSelect
               {...select("title")}
               placeholder="—"
-              options={[
-                { value: "mr", label: dict.forms.titleMr },
-                { value: "mrs", label: dict.forms.titleMrs },
-                { value: "ms", label: dict.forms.titleMs },
-                { value: "dr", label: dict.forms.titleDr },
-              ]}
+              options={titles}
             />
           </FormField>
           <FormField label={dict.forms.firstName} required error={errors.firstName?.message}>
@@ -144,17 +183,14 @@ export default function ContactForm() {
             <LightSelect
               {...select("model")}
               placeholder={dict.contact.selectModel}
-              options={models.map((m) => ({ value: m.slug, label: m.name }))}
+              options={modelOptions}
             />
           </FormField>
           <FormField label={dict.contact.location} required error={errors.location?.message}>
             <LightSelect
               {...select("location")}
               placeholder={dict.forms.selectLocation}
-              options={[
-                { value: "abu-dhabi", label: dict.contact.locationAbuDhabi },
-                { value: "dubai", label: dict.contact.locationDubai },
-              ]}
+              options={locations}
             />
           </FormField>
         </div>
@@ -175,8 +211,8 @@ export default function ContactForm() {
             <bdi>{dict.contact.phoneValue}</bdi>
           </a>
         </p>
-        <button type="submit" disabled={isSubmitting} className="btn-primary w-full shrink-0 sm:w-auto">
-          {isSubmitting ? dict.forms.sending : dict.forms.sendMessage}
+        <button type="submit" className="btn-primary w-full shrink-0 sm:w-auto">
+          {dict.forms.sendMessage}
         </button>
       </div>
     </form>
